@@ -1,0 +1,9 @@
+@import '../node_modules/primeflex/primeflex.min.css';
+@import '../node_modules/css-percentage-circle/css/circle.css';
+
+/* @import 'prismjs/themes/prism-coy.css'; */
+@import url("AppDemo.css");
+@import url("styles/colors.css");
+@import url('styles/profileCard.css');
+@import url("styles/grid.css");
+@import url('styles/generalSearchBar.css');

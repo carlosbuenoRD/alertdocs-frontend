@@ -1,0 +1,68 @@
+.redGlow {
+    background-color: #FC6161;
+    box-shadow: 0px 6px 20px rgba(252, 97, 97, 0.3);
+}
+
+.greenGlow {
+    background-color: #0BD18A;
+    box-shadow: 0px 6px 20px rgba(11, 209, 138, 0.3);
+}
+
+.greenturkGlow {
+    background-color: #00D0DE;
+    box-shadow: 0px 0px 10px rgba(0, 208, 222, 0.3);
+}
+
+.blueGlow {
+    background-color: #0F8BFD;
+    box-shadow: 0px 0px 10px rgba(15, 139, 253, 0.3);
+}
+
+.blueturkGlow {
+    background-color: #00D0DE;
+    box-shadow: 0px 6px 20px rgba(0, 208, 222, 0.3);
+}
+
+.orangeGlow {
+    background-color: #FC6161;
+    box-shadow: 0px 0px 10px rgba(252, 97, 97, 0.3);
+}
+
+.purpleGlow {
+    background-color: #873EFE;
+    box-shadow: 0px 0px 10px rgba(135, 62, 254, 0.3);
+}
+
+.yellowGlow {
+    background-color: #EEE500;
+    box-shadow: 0px 0px 10px rgba(238, 229, 0, 0.3);
+}
+
+.pinkGlow {
+    background-color: #EC4DBC;
+    box-shadow: 0px 0px 10px rgba(236, 77, 188, 0.3);
+}
+
+.gray {
+    background-color: #545C6B;
+}
+
+.btn-red {
+    border: none;
+    background-color: #EE2A24;
+    opacity: 0.8;
+    transition: all 0.2s ease;
+}
+
+.btn-red:hover {
+    opacity: 1;
+    background-color: #EE2A24 !important;
+}
+
+.text-red {
+    color: #EE2A24 !important;
+}
+
+.bg-light {
+    background: #F5F7FB;
+}
