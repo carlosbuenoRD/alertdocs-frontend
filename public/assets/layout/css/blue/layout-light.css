@@ -1,5 +1,6 @@
 @charset "UTF-8";
-/* Add your variable customizations of layout here */ /* Utils */
+/* Add your variable customizations of layout here */
+/* Utils */
 .clearfix:after {
   content: " ";
   display: block;
@@ -170,8 +171,9 @@ p:last-child {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: transparent;
-  padding-top: 30px;
+  background-color: white;
+  padding: 16px 10px 16px 0px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 .layout-breadcrumb-container .layout-breadcrumb {
   background: transparent;
@@ -252,13 +254,13 @@ p:last-child {
 }
 .layout-topbar {
   z-index: 100;
-  border-radius: 0 0 20px 20px;
   padding: 0 10px;
   display: flex;
   flex-wrap: wrap;
   min-height: 4em;
   align-items: center;
   justify-content: space-between;
+  background-color: #003876;
 }
 .layout-topbar .layout-topbar-left {
   -webkit-box-flex: 0;
@@ -278,6 +280,7 @@ p:last-child {
   display: none;
   margin-left: 9px;
   height: 1.714rem;
+  color: #fff;
 }
 .layout-topbar .layout-topbar-left .topbar-menu-button {
   display: none;
@@ -493,9 +496,9 @@ body a, body button {
   top: 0;
   z-index: 997;
   transform: none;
-  border-radius: 0px 40px 40px 0px;
   display: flex;
   flex-direction: column;
+  background-color: #003876;
 }
 .layout-menu-wrapper .menu-logo {
   display: -ms-flexbox;
@@ -1293,11 +1296,12 @@ body a, body button {
 }
 .layout-menu-wrapper .menu-logo .menu-pin {
   background: rgba(68, 72, 109, 0.07);
-  color: #676B89;
+  color: #fff;
+  opacity: 0.8;
 }
 .layout-menu-wrapper .menu-logo .menu-pin:hover {
-  background: rgba(68, 72, 109, 0.12);
-  color: #44486D;
+  background: #EE2A24;
+  opacity: 1;
 }
 .layout-menu-wrapper .layout-inline-menu.layout-inline-menu-active .layout-inline-menu-action img {
   border-color: #003876;
@@ -1312,7 +1316,7 @@ body a, body button {
   filter: drop-shadow(0px 0px 10px rgba(15, 139, 253, 0.3));
 }
 .layout-menu-wrapper .layout-inline-menu .layout-inline-menu-action-panel .layout-inline-menu-action-item a, .layout-menu-wrapper .layout-inline-menu .layout-inline-menu-action-panel .layout-inline-menu-action-item button {
-  color: #44486D;
+  color: #fff;
 }
 .layout-menu-wrapper .layout-inline-menu .layout-inline-menu-action-panel .layout-inline-menu-action-item a:hover, .layout-menu-wrapper .layout-inline-menu .layout-inline-menu-action-panel .layout-inline-menu-action-item button:hover {
   background-color: #EE2A24;
@@ -1367,7 +1371,7 @@ body a, body button {
     color: #fff;
   }
   .layout-wrapper.layout-overlay .layout-menu-wrapper .layout-menu-container .layout-menu li.active-menuitem, .layout-wrapper.layout-sidebar .layout-menu-wrapper .layout-menu-container .layout-menu li.active-menuitem {
-    background: rgba(68, 72, 109, 0.07);
+    background: rgba(68, 72, 109, 0.4);
   }
   .layout-wrapper.layout-overlay .layout-menu-wrapper .layout-menu-container .layout-menu li.active-menuitem > a:hover, .layout-wrapper.layout-sidebar .layout-menu-wrapper .layout-menu-container .layout-menu li.active-menuitem > a:hover {
     background-color: #EE2A24;
@@ -1392,7 +1396,7 @@ body a, body button {
     color: #ffffff;
   }
   .layout-wrapper.layout-horizontal .layout-menu-wrapper {
-    background-color: transparent;
+    background-color: #003876;
   }
   .layout-wrapper.layout-horizontal .layout-menu-wrapper .layout-menu-container .layout-menu > li > a {
     color: #e6e6e6;
@@ -1403,13 +1407,13 @@ body a, body button {
   }
   .layout-wrapper.layout-horizontal .layout-menu-wrapper .layout-menu-container .layout-menu > li.active-menuitem > a {
     background-color: transparent;
-    color: #003876;
+    color: #fff;
   }
   .layout-wrapper.layout-horizontal .layout-menu-wrapper .layout-menu-container .layout-menu > li.active-menuitem > a i {
-    color: #003876;
+    color: #fff;
   }
   .layout-wrapper.layout-horizontal .layout-menu-wrapper .layout-menu-container .layout-menu > li.active-menuitem > a:hover {
-    color: #003876;
+    color: #fff;
   }
   .layout-wrapper.layout-horizontal .layout-menu-wrapper .layout-menu-container .layout-menu > li > ul {
     background: #003876;
@@ -1431,7 +1435,7 @@ body a, body button {
     color: #003876;
   }
   .layout-wrapper.layout-slim .layout-menu-wrapper {
-    background-color: transparent;
+    background-color: #003876;
   }
   .layout-wrapper.layout-slim .layout-menu-wrapper .layout-menu-container .layout-menu > li.active-menuitem > a {
     background-color: #003876;
@@ -1442,7 +1446,7 @@ body a, body button {
     color: #ffffff;
   }
   .layout-wrapper.layout-slim .layout-menu-wrapper .layout-menu-container .layout-menu > li > a {
-    color: #44486D;
+    color: #ffffff;
   }
   .layout-wrapper.layout-slim .layout-menu-wrapper .layout-menu-container .layout-menu > li > a:hover {
     background-color: #EE2A24;
@@ -1469,7 +1473,7 @@ body a, body button {
     color: #003876;
   }
   .layout-wrapper.layout-slim .layout-menu-wrapper .layout-menu-container .layout-menu > li > ul li a {
-    color: #44486D;
+    color: #ffffff;
   }
   .layout-wrapper.layout-slim .layout-menu-wrapper .layout-menu-container .layout-menu > li > ul li a:hover {
     background-color: #EE2A24;
@@ -1507,7 +1511,7 @@ body a, body button {
     color: #fff;
   }
   .layout-menu-wrapper .layout-menu-container .layout-menu > li.active-menuitem {
-    background: rgba(68, 72, 109, 0.07);
+    background: rgba(68, 72, 109, 0.4);
   }
   .layout-menu-wrapper .layout-menu-container .layout-menu > li.active-menuitem > a {
     color: #e6e6e6;
@@ -1550,7 +1554,7 @@ body a, body button {
   align-items: center;
   cursor: pointer;
   padding: 2rem 2rem 1rem 2rem;
-  color: #44486D;
+  color: #fff;
 }
 .layout-inline-menu .layout-inline-menu-action img {
   border-radius: 22px;
@@ -1746,7 +1750,7 @@ body a, body button {
 }
 
 .layout-rightmenu-button {
-  background: linear-gradient(271.89deg, rgb(70, 82, 104), rgb(115, 130, 161));
+  background: linear-gradient(271.89deg, #465268, #7382a1);
   border-radius: 6px 0px 0px 6px;
   border-color: transparent;
   border-left: 0 none;
@@ -1770,6 +1774,7 @@ body a, body button {
   background: linear-gradient(180deg, #F6F9FC 0%, #ECECF9 100%);
   transform: translateX(100%);
   transition: transform 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
+  box-shadow: -2px 5px 5px rgba(0, 0, 0, 0.2);
 }
 .layout-rightmenu.layout-rightmenu-active {
   transform: translateX(0);
@@ -1862,6 +1867,7 @@ body a, body button {
   .layout-rightmenu-button-desktop {
     display: none;
   }
+
   .layout-rightmenu-button-mobile {
     display: inline;
   }
@@ -2273,9 +2279,11 @@ body a, body button {
   body * {
     visibility: hidden;
   }
+
   #invoice-content * {
     visibility: visible;
   }
+
   #invoice-content {
     width: 100%;
     position: absolute;
@@ -2722,8 +2730,8 @@ body a, body button {
 .landing-container .landing-wrapper-back {
   background: transparent;
   color: #F4F8FB;
-  margin-top: calc(var(--clip-padding) * -1 - 300px);
-  padding: calc(var(--clip-padding) * 4 - (var(--clip-padding) - var(--skew-padding))) 0 4em;
+  margin-top: calc((var(--clip-padding) * -1) - 300px);
+  padding: calc((var(--clip-padding) * 4) - (var(--clip-padding) - var(--skew-padding))) 0 4em;
   padding-left: 3rem;
   padding-right: 3rem;
   position: absolute;
@@ -3083,8 +3091,8 @@ body a, body button {
 
 .clip-path {
   position: relative;
-  margin-top: calc(var(--clip-padding) * -1 - 300px);
-  padding: calc(var(--clip-padding) * 4 - (var(--clip-padding) - var(--skew-padding))) 0 4em;
+  margin-top: calc((var(--clip-padding) * -1) - 300px);
+  padding: calc((var(--clip-padding) * 4) - (var(--clip-padding) - var(--skew-padding))) 0 4em;
   clip-path: polygon(0% 18%, 100% 0%, 100% 100%, 0% 100%);
   -webkit-clip-path: polygon(0% 18%, 100% 0%, 100% 100%, 0% 100%);
 }

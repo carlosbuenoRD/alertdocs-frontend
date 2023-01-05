@@ -2,11 +2,12 @@
     .menu-logo {
         .menu-pin {
             background: $menuIconBg;
-            color: $menuIconTextColor;
+            color: $white;
+            opacity: 0.8;
 
             &:hover {
-                background: $menuIconHoverBg;
-                color: $menuIconHoverTextColor;
+                background: $red;
+                opacity: 1;
             }
         }
     }
@@ -40,7 +41,7 @@
         .layout-inline-menu-action-panel {
             .layout-inline-menu-action-item {
                 a, button {
-                    color: $textColor;
+                    color: $white;
 
                     &:hover {
                         background-color: $submenuItemHoverBg;
@@ -225,7 +226,7 @@
 
         &.layout-horizontal {
             .layout-menu-wrapper {
-                background-color: transparent;
+                background-color: $menuBg;
 
                 .layout-menu-container {
                     .layout-menu {
@@ -235,21 +236,21 @@
 
                                 &:hover {
                                     background-color: $rootMenuItemHoverBg;
-                                    color: $rootMenuItemHoverTextColor;
+                                    color: $white
                                 }
                             }
 
                             &.active-menuitem {
                                 > a {
                                     background-color: transparent;
-                                    color: $activeRootMenuItemTextColor;
+                                    color: $white;
 
                                     i {
-                                        color: $primaryColor;
+                                        color: $white;
                                     }
 
                                     &:hover {
-                                        color: $primaryColor;
+                                        color: $white;
                                     }
                                 }
                             }
@@ -278,7 +279,7 @@
 
         &.layout-slim {
             .layout-menu-wrapper {
-                background-color: transparent;
+                background-color: $menuBg;
 
                 .layout-menu-container {
                     .layout-menu {
@@ -296,7 +297,7 @@
                             }
 
                             > a {
-                                color: $slimRootMenuItemIconColor;
+                                color: $primaryTextColor;
 
                                 &:hover {
                                     background-color: $rootMenuItemHoverBg;
@@ -319,7 +320,7 @@
 
                                 li {
                                     a {
-                                        color: $slimMenuItemTextColor;
+                                        color: $primaryTextColor;
 
                                         &:hover {
                                             background-color: $submenuItemHoverBg;
