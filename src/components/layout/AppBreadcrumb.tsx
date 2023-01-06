@@ -26,7 +26,7 @@ const AppBreadcrumb = (props: any) => {
 
   let items
 
-  if (location.pathname === '/') {
+  if (location.pathname === '/dashboard') {
     items = [{ label: 'Dashboard' }]
   }
   if (location.pathname === '/documentos') {
