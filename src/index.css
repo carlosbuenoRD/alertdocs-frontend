@@ -4,7 +4,8 @@
 @import 'prismjs/themes/prism-coy.css';
 @import url("AppDemo.css");
 @import url("styles/colors.css");
-@import url("styles/chat.css");
+/* @import url("styles/chat.css"); */
+@import url('styles/login.css');
 
 @import url('styles/profileCard.css');
 /* GRID */
@@ -14,6 +15,7 @@ ul {
   list-style: none;
   padding: 0;
 }
+
 
 .documents-container {
     display: grid;
@@ -237,19 +239,6 @@ ul {
   box-sizing: border-box;
 }
 
-/* .time-circle::after {
-  content: '';
-  position: absolute;
-  border: 12px solid white;
-  width: 18px;
-  height: 18px;
-  left: 50%;
-  right: 50%;
-  transform: translateX(-50%);
-  top:-5px;
-  border-radius: 50%;
-  box-sizing: border-box;
-} */
 
 .time-circle span {
   position: absolute;
