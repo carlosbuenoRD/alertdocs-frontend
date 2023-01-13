@@ -18,7 +18,7 @@ function PercentageCircle(props: Props) {
           <div className='fill'></div>
         </div>
       </div>
-      <h6 className='text-center'>{props.title}</h6>
+      {props.title && <h6 className='text-center'>{props.title}</h6>}
     </div>
   )
 }

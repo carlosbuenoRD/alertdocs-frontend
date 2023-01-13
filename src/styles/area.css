@@ -1,0 +1,14 @@
+.area_header {
+  display: flex;
+  align-items: center;
+  padding: 1.3rem;
+  background-color: white;
+  position: absolute;
+  left: -30px;
+  right: -30px;
+  top: -25px;
+}
+
+.area_body {
+  padding-top: 60px;
+}

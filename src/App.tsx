@@ -26,6 +26,7 @@ import AppConfig from './components/layout/AppConfig'
 //Pages
 import Home from './pages/Home'
 import Login from './pages/Login'
+import Area from './pages/Area'
 // import Dashboard from "./pages/Dashboard";
 // import Documents from "./pages/Documents";
 // import Flujos from "./pages/Flujos";
@@ -367,10 +368,10 @@ function App(props: any) {
           <Routes>
             <Route path='/' element={<Login />} />
             <Route path='/dashboard' element={<Home />} />
+            <Route path='/area' element={<Area />} />
             {/* <Route path="/documentos" element={<Documents />} />
             <Route path="/flujos" element={<Flujos />} />
             <Route path="/perfil" element={<MyAccount />} />
-            <Route path="/area" element={<Area />} />
             <Route path="/direcciones" element={<Direcciones />} /> */}
           </Routes>
         </div>

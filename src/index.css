@@ -9,6 +9,7 @@
 @import url('styles/percentage.css');
 
 @import url('styles/profileCard.css');
+@import url('styles/area.css');
 /* GRID */
 @import url("styles/grid.css");
 
@@ -25,6 +26,10 @@ ul {
     gap: 10px;
 }
 
+.lh-1 {
+  line-height: 1.3px;
+}
+
 /* DRAGGABLE */
 
 .draggable_item .p-speeddial-item {
@@ -35,6 +40,15 @@ ul {
     width: 25px;
     height: 25px;
     padding: 0;
+}
+
+.p-inputtext, .p-multiselect {
+  background: none;
+  border: 1px solid rgba(0, 0, 0, 0.2)
+}
+
+.p-inputtext:hover, .p-multiselect:hover {
+  border: 1px solid #003876 !important;
 }
 
 /* Drag and drop */
