@@ -4,7 +4,7 @@ export const menu = [
     icon: "pi pi-prime",
     items: [
       { label: "Dashboard", icon: "pi pi-home", to: "/dashboard" },
-      { label: "Direcciones", icon: "pi pi-star", to: "/direcciones" },
+      { label: "Areas", icon: "pi pi-star", to: "/areas" },
     ],
   },
   {

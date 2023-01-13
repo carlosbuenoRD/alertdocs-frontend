@@ -46,13 +46,20 @@ ul {
     padding: 0;
 }
 
-.p-inputtext, .p-multiselect {
+/* INPUTS */
+
+.p-inputtext, .p-multiselect, .p-dropdown {
   background: none;
-  border: 1px solid rgba(0, 0, 0, 0.2)
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
 }
 
-.p-inputtext:hover, .p-multiselect:hover {
+.p-inputtext:hover, .p-multiselect:hover ,.p-dropdown:hover {
   border: 1px solid #003876 !important;
+}
+
+.p-dropdown .p-inputtext:hover {
+  border: none !important;
 }
 
 /* Drag and drop */

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Components
 import { Calendar } from "primereact/calendar";
@@ -14,12 +15,17 @@ const cities = [
 ];
 
 function AreaHeader() {
+  const navigate = useNavigate();
+
   const [selectedCities, setSelectedCities] = useState([]);
   const [dates2, setDates2] = useState<any>("");
 
   return (
     <div className="area_header shadow-1">
-      <div className="flex align-items-center cursor-pointer mr-5">
+      <div
+        className="flex align-items-center cursor-pointer mr-5"
+        onClick={() => navigate(-1)}
+      >
         <i className="pi pi-arrow-left text-xl m-0 mr-3" />
         <h5 className="uppercase m-0">Viceministerio Tecnico Administrativo</h5>
       </div>
