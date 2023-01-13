@@ -18,7 +18,7 @@ export const menu = [
     to: "/flujos",
   },
   {
-    label: "Mis tareas",
+    label: "Mi perfil",
     icon: "pi pi-user",
     to: "/perfil",
   },

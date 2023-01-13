@@ -17,13 +17,13 @@ function AreasHeader() {
         <Dropdown
           options={["Direcciones", "Departamentos"]}
           placeholder="Categorias"
-          className="w-22rem mr-2"
+          className="w-20rem mr-2"
         />
 
         <Dropdown
           options={["Direcciones", "Departamentos"]}
           placeholder="Filtros"
-          className="w-22rem"
+          className="w-20rem"
         />
       </div>
     </div>

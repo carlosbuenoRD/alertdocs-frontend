@@ -36,6 +36,7 @@ import Area from "./pages/Area";
 // import Area from "./pages/Area";
 // import Direcciones from "./pages/Direcciones";
 import Areas from "./pages/Areas";
+import MyAccount from "./pages/MyAccount";
 
 function App(props: any) {
   const [rightMenuActive, setRightMenuActive] = useState(false);
@@ -371,9 +372,9 @@ function App(props: any) {
             <Route path="/dashboard" element={<Home />} />
             <Route path="/area/:id" element={<Area />} />
             <Route path="/areas" element={<Areas />} />
+            <Route path="/perfil" element={<MyAccount />} />
             {/* <Route path="/documentos" element={<Documents />} />
             <Route path="/flujos" element={<Flujos />} />
-            <Route path="/perfil" element={<MyAccount />} />
             <Route path="/direcciones" element={<Direcciones />} /> */}
           </Routes>
         </div>
