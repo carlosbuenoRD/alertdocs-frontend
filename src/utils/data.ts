@@ -3,7 +3,7 @@ export const menu = [
     label: "Administrador",
     icon: "pi pi-prime",
     items: [
-      { label: "Dashboard", icon: "pi pi-home", to: "/" },
+      { label: "Dashboard", icon: "pi pi-home", to: "/dashboard" },
       { label: "Direcciones", icon: "pi pi-star", to: "/direcciones" },
     ],
   },

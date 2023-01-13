@@ -27,7 +27,11 @@ ul {
 }
 
 .lh-1 {
-  line-height: 1.3px;
+  letter-spacing: 1.3px;
+}
+
+.lh-2 {
+  letter-spacing: 1.6px;
 }
 
 /* DRAGGABLE */
