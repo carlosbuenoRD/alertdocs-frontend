@@ -6,6 +6,7 @@ import Card from "@/components/shared/Card";
 import PercentageCard from "@/components/dashboard/PercentageCard";
 import PercentageCircle from "@/components/shared/PercentageCircle";
 import Powerbi from "@/components/dashboard/Powerbi";
+import DocumentCarousel from "@/components/documents/DocumentCarousel";
 
 function Dashboard() {
   return (
@@ -32,6 +33,7 @@ function Dashboard() {
       </div>
 
       {/* Documents Carousel */}
+      <DocumentCarousel />
 
       {/* POWER BI */}
       <Powerbi />

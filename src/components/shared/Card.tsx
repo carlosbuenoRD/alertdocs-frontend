@@ -8,6 +8,7 @@ function Card(props: Props) {
           ? "hover:shadow-5 transition-all transition-duration-300 cursor-pointer"
           : ""
       } ${props.className ? props.className : ""}`}
+      onClick={props.onClick}
     >
       <h6 className="uppercase text-sm">{props.title}</h6>
       <hr />
@@ -22,6 +23,7 @@ interface Props {
   hover?: boolean;
   className?: string;
   children?: any;
+  onClick?: any;
 }
 
 export default Card;

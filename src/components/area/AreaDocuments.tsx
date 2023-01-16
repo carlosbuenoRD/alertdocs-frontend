@@ -1,21 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Components
 import Card from "../shared/Card";
-import { Button } from "primereact/button";
+import WorkSpaceModal from "../workspace/WorkSpaceModal";
 
 function AreaDocuments() {
+  const [workspace, setWorkspace] = useState(false);
+
   return (
-    <Card title="Documentos" height="31rem" className="flex-1" hover>
-      <div className="mt-7 text-center flex flex-column justify-content-center">
-        <img
-          src="/assets/images/undraw_add_files_re_v09g.svg"
-          className="w-13rem mx-auto"
-          alt="Add document"
-        />
-        <h3 className="uppercase text-lg">No tienes documentos</h3>
-      </div>
-    </Card>
+    <>
+      <Card
+        title="Documentos"
+        height="31rem"
+        className="flex-1"
+        hover
+        onClick={() => setWorkspace(true)}
+      >
+        <div className="mt-7 text-center flex flex-column justify-content-center">
+          <img
+            src="/assets/images/undraw_add_files_re_v09g.svg"
+            className="w-13rem mx-auto"
+            alt="Add document"
+          />
+          <h3 className="uppercase text-lg">No tienes documentos</h3>
+        </div>
+      </Card>
+
+      <WorkSpaceModal visible={workspace} onHide={() => setWorkspace(false)} />
+    </>
   );
 }
 
