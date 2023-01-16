@@ -26,6 +26,11 @@ ul {
     gap: 10px;
 }
 
+.p-dialog {
+  position: fixed;
+  top: 10px;
+}
+
 .lh-1 {
   letter-spacing: 1.3px;
 }

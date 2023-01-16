@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Calendar } from "primereact/calendar";
 import { InputText } from "primereact/inputtext";
 import { MultiSelect } from "primereact/multiselect";
+import { Button } from "primereact/button";
 
 const cities = [
   { name: "New York", code: "NY" },
@@ -21,7 +22,7 @@ function AreaHeader() {
   const [dates2, setDates2] = useState<any>("");
 
   return (
-    <div className="area_header shadow-1">
+    <div className="area_header justify-content-between shadow-1">
       <div
         className="flex align-items-center cursor-pointer mr-5"
         onClick={() => navigate(-1)}
@@ -59,6 +60,12 @@ function AreaHeader() {
         />
         <label htmlFor="search">Filtrar por fecha</label>
       </div> */}
+      <Button
+        icon="pi pi-plus"
+        className="p-button-rounded p-button-success text-700 hover:text-white"
+        aria-label="Añadir"
+        onClick={() => console.log("p")}
+      />
     </div>
   );
 }

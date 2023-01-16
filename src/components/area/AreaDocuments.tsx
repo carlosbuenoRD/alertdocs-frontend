@@ -2,6 +2,7 @@ import React from "react";
 
 // Components
 import Card from "../shared/Card";
+import { Button } from "primereact/button";
 
 function AreaDocuments() {
   return (
