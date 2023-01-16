@@ -5,6 +5,7 @@ export const menu = [
     items: [
       { label: "Dashboard", icon: "pi pi-home", to: "/dashboard" },
       { label: "Areas", icon: "pi pi-star", to: "/areas" },
+      { label: "Procesos", icon: "pi pi-star", to: "/procesos" },
     ],
   },
   {

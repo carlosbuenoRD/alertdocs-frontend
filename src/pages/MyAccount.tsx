@@ -1,9 +1,10 @@
 import React from 'react'
+
+// Components
 import PercentageCircle from '@/components/shared/PercentageCircle'
 import { Avatar } from 'primereact/avatar'
 import Card from '@/components/shared/Card'
 import LineChart from '@/components/charts/LineChart'
-import { Tooltip } from 'primereact/tooltip'
 
 function MyAccount() {
   return (
