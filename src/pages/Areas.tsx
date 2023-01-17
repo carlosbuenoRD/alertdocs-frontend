@@ -40,12 +40,6 @@ function Areas() {
               </div>
             ))}
           </Card>
-          <Card title="Estadisticas" height="fit">
-            <PieChart />
-            <a className="text-center w-full block underline cursor-pointer text-xs mt-3">
-              Ver detalles
-            </a>
-          </Card>
         </div>
         <Card title="Todos" height="">
           <div className="grid-col-2">

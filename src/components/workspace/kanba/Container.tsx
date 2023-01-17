@@ -4,7 +4,7 @@ import Column from "./Column";
 
 function KanbaContainer(props: any) {
   return (
-    <>
+    <div className="card shadow-1">
       {props.multiple ? (
         <Accordion>
           <AccordionTab>
@@ -24,7 +24,7 @@ function KanbaContainer(props: any) {
           <Column header="Completados" items={[]} />
         </div>
       )}
-    </>
+    </div>
   );
 }
 

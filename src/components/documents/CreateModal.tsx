@@ -6,6 +6,7 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
+import FlujosTable from "../proceso/FlujoTable";
 
 function CreateModal(props: any) {
   const [transcode, setTranscode] = useState(
@@ -111,7 +112,7 @@ function CreateModal(props: any) {
           </div>
         </div>
       </div>
-      {/* <FlujosTable flujo={flujoState} /> */}
+      <FlujosTable flujo={[]} />
     </Dialog>
   );
 }

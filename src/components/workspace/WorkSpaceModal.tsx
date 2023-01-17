@@ -6,6 +6,7 @@ import { Dialog } from "primereact/dialog";
 import KanbaContainer from "./kanba/Container";
 import { InputText } from "primereact/inputtext";
 import DocumentCard from "../documents/DocumentCard";
+import SectionPicker from "./SectionPicker";
 
 function WorkSpaceModal(props: any) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -14,8 +15,8 @@ function WorkSpaceModal(props: any) {
     { label: "Tabla", icon: "pi pi-clock" },
     { label: "Comentarios", icon: "pi pi-check-circle" },
     { label: "Archivos", icon: "pi pi-file" },
-    { label: "Participantes", icon: "pi pi-file" },
-    { label: "Chat", icon: "pi pi-file" },
+    { label: "Participantes", icon: "pi pi-user" },
+    { label: "General", icon: "pi pi-cog" },
   ];
 
   return (
@@ -44,7 +45,10 @@ function WorkSpaceModal(props: any) {
           <DocumentCard />
         </div>
         <div className="card relative w-full">
-          <div className="fixed" style={{ width: "-webkit-fill-available" }}>
+          <div
+            className="fixed pr-4"
+            style={{ width: "-webkit-fill-available" }}
+          >
             <div className="pb-0 mb-1">
               <TabMenu
                 model={items}
@@ -54,9 +58,7 @@ function WorkSpaceModal(props: any) {
                 style={{ fontSize: "1.2rem" }}
               />
             </div>
-            <div className="card shadow-1">
-              <KanbaContainer />
-            </div>
+            <SectionPicker index={activeIndex} />
           </div>
         </div>
       </div>

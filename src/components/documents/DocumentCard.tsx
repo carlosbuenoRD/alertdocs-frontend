@@ -25,7 +25,7 @@ function DocumentCard(props: any) {
 
   return (
     <div
-      className={`relative col card cursor-pointer shadow-2 ${
+      className={`relative col card cursor-pointer shadow-3 ${
         props.border && "border-1 border-100"
       }`}
       onClick={props.open}
@@ -39,8 +39,8 @@ function DocumentCard(props: any) {
         </p>
       </div>
 
-      <strong>Participantes:</strong>
-      <AvatarGroup className="mb-3 mt-2 participants">
+      {/* <strong>Participantes:</strong> */}
+      {/* <AvatarGroup className="mb-3 mt-2 participants">
         {props.participants?.map((p: any, i: number) => (
           <Avatar
             key={i}
@@ -68,7 +68,7 @@ function DocumentCard(props: any) {
             <li>Clara Vicente Toreto</li>
           </ul>
         </div>
-      </AvatarGroup>
+      </AvatarGroup> */}
 
       {/* <div className="mb-4">
             <label>Descripcion:</label>

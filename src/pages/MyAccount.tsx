@@ -1,12 +1,14 @@
-import React from "react";
+import { useState } from "react";
 
 // Components
 import PercentageCircle from "@/components/shared/PercentageCircle";
 import { Avatar } from "primereact/avatar";
 import Card from "@/components/shared/Card";
 import LineChart from "@/components/charts/LineChart";
+import ActivityModal from "@/components/activity/ActivityModal";
 
 function MyAccount() {
+  const [activity, setActivity] = useState(false);
   return (
     <>
       <div className="grid-3-1">
@@ -73,7 +75,10 @@ function MyAccount() {
             <PercentageCircle value={100} size={180} />
           </Card>
           <Card title="Realizados - top 3" height="" className="flex-1">
-            <div className="w-full bg-red shadow-1 mb-2 flex align-items-center justify-content-between p-2 cursor-pointer">
+            <div
+              onClick={() => setActivity(true)}
+              className="w-full bg-red shadow-1 mb-2 flex align-items-center justify-content-between p-2 cursor-pointer"
+            >
               <p className="ready_task m-0 text-overflow-ellipsis w-10 white-space-nowrap overflow-hidden">
                 Cambiar estado de cuenta del procedimientos unilateral
               </p>
@@ -97,47 +102,12 @@ function MyAccount() {
             </a>
           </Card>
         </div>
-        {/* <div className="card shadow-1" style={{ height: "fit-content" }}>
-        <PercentageCircle value={100} size={180} />
-        <div className="time-circle">
-      <span>{result || 0}%</span>
-    </div>
-        {progress && (
-          <div className="text-center">
-            <div
-              className="card"
-              onClick={() => handleSelectActivity(progress)}
-            >
-              <h5>En proceso</h5>
-              <div className="text-3xl shadow-2 p-2 border-round-sm cursor-pointer">
-                <Countdown
-                  date={progress?.startedAt + toMilliseconds(progress?.hours)}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-        {completed.length > 0 && (
-          <div>
-            <h6 className="uppercase letter-spacing-1">Realizados</h6>
-            {completed.map((i: any) => (
-              <div
-                onClick={() => handleSelectActivity(i)}
-                className="w-full h-4rem bg-red shadow-1 mb-2 flex align-items-center justify-content-between p-3 cursor-pointer"
-              >
-                <p className="m-0">{i.description}</p>
-                <p className="bg-green-400 shadow-2 p-2 border-round-md">
-                  {getEficiencia([i])}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
-      </div> */}
       </div>
       <Card title="Ultimos 6 meses" height="">
         <LineChart />
       </Card>
+
+      <ActivityModal visible={activity} onHide={() => setActivity(false)} />
     </>
   );
 }
