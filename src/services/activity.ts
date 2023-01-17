@@ -40,11 +40,20 @@ export default function activityService() {
     return data;
   }
 
+  async function addHistory(info: any) {
+    const { data } = await axios.post(
+      `http://127.0.0.1:3000/activities/add-history`,
+      info
+    );
+    return data;
+  }
+
   return {
     getMyActivities,
     getActivitiesByDocument,
     getActivitiesByArea,
     getActivitiesByDocumentAndArea,
     changeState,
+    addHistory
   };
 }

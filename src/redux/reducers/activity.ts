@@ -9,6 +9,7 @@ const {
   getActivitiesByArea,
   getActivitiesByDocument,
   getActivitiesByDocumentAndArea,
+  addHistory
 } = activityService();
 
 const initialState: InitialState = {
@@ -79,6 +80,23 @@ export const changeActivity = createAsyncThunk(
       thunkApi.dispatch(fetchMyActivities(state.auth.user._id));
       thunkApi.dispatch(fetchDocumentActivities(state.document.document._id));
       // thunkApi.dispatch(addActivityHistory(info.state));
+    } catch (error) {
+      thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+export const addActivityHistory = createAsyncThunk(
+  "activities/add-history",
+  async (action: string, thunkApi) => {
+    try {
+      const state: any = thunkApi.getState();
+      const data = await addHistory({
+        action,
+        userId: state.auth.user._id,
+        activityId: state.activity.activity._id,
+      });
+      return data;
     } catch (error) {
       thunkApi.rejectWithValue(error);
     }
