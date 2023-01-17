@@ -3,6 +3,7 @@ import { Chart } from "primereact/chart";
 
 function PieChart() {
   const [pieOptions, setPieOptions] = useState<any>({
+    animation: false,
     plugins: {
       legend: {
         labels: {

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useAppSelector } from "@/redux/store";
+import ActivityModal from "@/components/activity/ActivityModal";
 
 // Components
 // import ActivityModal from "../activity/ActivityModal";
@@ -12,7 +14,7 @@ function Item(props: any) {
   // const dispatch = useAppDispatch();
 
   const [activityModal, setActivityModal] = useState<boolean>(false);
-  // const { user } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
   const handleOpenActivity = () => {
     // dispatch(setActivity(props));
@@ -27,13 +29,15 @@ function Item(props: any) {
       >
         <div
           className={`absolute left-50 text-center w-2rem h-2rem border-circle grid justify-content-center align-items-center ${
-            true === true ? "greenGlow text-gray " : "gray text-white "
+            user?._id === props.usersId._id
+              ? "greenGlow text-gray "
+              : "gray text-white "
           }`}
           style={{ top: -5 }}
         >
-          {1}
+          {props.step}
         </div>
-        <h6 className="m-0 mb-1 text-sm">{"Carlos Antonio Bueno Tavares"}</h6>
+        <h6 className="m-0 mb-1 text-sm">{props.usersId.name}</h6>
         <hr className="my-2" />
         <div>
           {/* <label className="mb-1 text-xs">Descripcion</label> */}
@@ -43,7 +47,7 @@ function Item(props: any) {
         </div>
       </li>
 
-      {/* {activityModal && (
+      {activityModal && (
         <ActivityModal
           visible={activityModal}
           activity={props}
@@ -52,7 +56,7 @@ function Item(props: any) {
             // dispatch(fetchDocumentActivities(props.documentId));
           }}
         />
-      )} */}
+      )}
     </>
   );
 }

@@ -7,6 +7,8 @@ import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
+import { fetchOneFlujo } from "@/redux/reducers/flujos";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 
 const cities = [
   { name: "Carlos A Bueno Tavares", code: "NY" },
@@ -17,6 +19,9 @@ const cities = [
 ];
 
 function FlujosTable(props: any) {
+  const dispatch = useAppDispatch();
+
+  const { flujo } = useAppSelector((state) => state.flujos);
   const [selectedCities, setSelectedCities] = useState([]);
 
   const panelFooterTemplate = () => {
@@ -29,10 +34,16 @@ function FlujosTable(props: any) {
     );
   };
 
+  useEffect(() => {
+    if (props.flujo) {
+      dispatch(fetchOneFlujo(props.flujo));
+    }
+  }, [props.flujo]);
+
   return (
     <div>
       <DataTable
-        value={props.flujo?.activitiesSchema || props.activities}
+        value={flujo?.activitiesSchema || props.activities}
         paginator
         className="p-datatable-gridlines"
         showGridlines

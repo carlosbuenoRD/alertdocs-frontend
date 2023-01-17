@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // Components
 import { TabMenu } from "primereact/tabmenu";
@@ -7,8 +7,15 @@ import KanbaContainer from "./kanba/Container";
 import { InputText } from "primereact/inputtext";
 import DocumentCard from "../documents/DocumentCard";
 import SectionPicker from "./SectionPicker";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { fetchDocumentsByArea } from "@/redux/reducers/documents";
+import { fetchAllDocuments } from "@/redux/reducers/documents";
+import { fetchDocumentActivities } from "@/redux/reducers/activity";
 
 function WorkSpaceModal(props: any) {
+  const dispatch = useAppDispatch();
+
+  const { documents } = useAppSelector((state) => state.document);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const items = [
@@ -18,6 +25,14 @@ function WorkSpaceModal(props: any) {
     { label: "Participantes", icon: "pi pi-user" },
     { label: "General", icon: "pi pi-cog" },
   ];
+
+  useEffect(() => {
+    dispatch(fetchAllDocuments());
+  }, []);
+
+  const handleSelectDocument = (document: any) => {
+    dispatch(fetchDocumentActivities(document._id));
+  };
 
   return (
     <Dialog
@@ -39,10 +54,11 @@ function WorkSpaceModal(props: any) {
 
           <hr />
 
-          <DocumentCard />
-          <DocumentCard />
-          <DocumentCard />
-          <DocumentCard />
+          {documents.map((i) => (
+            <div key={i._id} onClick={() => handleSelectDocument(i)}>
+              <DocumentCard />
+            </div>
+          ))}
         </div>
         <div className="card relative w-full">
           <div

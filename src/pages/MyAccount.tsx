@@ -110,7 +110,9 @@ function MyAccount() {
         <LineChart />
       </Card>
 
-      <ActivityModal visible={activity} onHide={() => setActivity(false)} />
+      {activity && (
+        <ActivityModal visible={activity} onHide={() => setActivity(false)} />
+      )}
     </>
   );
 }

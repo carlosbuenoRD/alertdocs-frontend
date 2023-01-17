@@ -6,8 +6,10 @@ import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import CreateModal from "./CreateModal";
 
-function ProcessHeader() {
+function ProcessHeader({ searchKit }: any) {
   const [createModal, setCreateModal] = useState(false);
+
+  const { search, setSearch } = searchKit;
 
   return (
     <>
@@ -15,7 +17,12 @@ function ProcessHeader() {
         <div className="flex align-items-center cursor-pointer mr-5 px-4">
           <span className="p-input-icon-left p-float-label mr-2">
             <i className="pi pi-search" />
-            <InputText id="search" className="w-28rem" />
+            <InputText
+              id="search"
+              className="w-28rem"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
             <label htmlFor="search">Buscar...</label>
           </span>
 
@@ -40,7 +47,12 @@ function ProcessHeader() {
           onClick={() => setCreateModal(true)}
         />
       </div>
-      <CreateModal visible={createModal} onHide={() => setCreateModal(false)} />
+      {createModal && (
+        <CreateModal
+          visible={createModal}
+          onHide={() => setCreateModal(false)}
+        />
+      )}
     </>
   );
 }

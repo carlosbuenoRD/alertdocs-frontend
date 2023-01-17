@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 // Components
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
@@ -7,9 +7,21 @@ import { Dropdown } from "primereact/dropdown";
 import { MultiSelect } from "primereact/multiselect";
 import { InputNumber } from "primereact/inputnumber";
 import { Button } from "primereact/button";
+import { toastConfig } from "@/utils/data";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { createFlujo } from "@/redux/reducers/flujos";
+import { getAreas } from "./../../redux/reducers/area";
+import { getUsersByArea } from "@/redux/reducers/users";
 import DetailTable from "./DetailTable";
 
 function CreateModal(props: any) {
+  const dispatch = useAppDispatch();
+
+  const { areas, users } = useAppSelector((state) => ({
+    ...state.area,
+    ...state.user,
+  }));
+
   const [days, setDays] = useState<any>(1);
   const [hours, setHours] = useState<any>(0);
   const [step, setStep] = useState<any>(1);
@@ -21,6 +33,55 @@ function CreateModal(props: any) {
   const [activitieDescription, setActivitieDescription] = useState("");
   const [activities, setActivities] = useState<any[]>([]);
 
+  const addActivitie = () => {
+    if (area && user && activitieDescription && days) {
+      setActivities((prev: any[]) => {
+        return [
+          ...prev,
+          {
+            step,
+            areaId: area,
+            usersId: user.map((u: any) => ({ _id: u._id, name: u.name })),
+            description: activitieDescription,
+            hours: hours / 60,
+          },
+        ];
+      });
+      setStep(step + 1);
+      clearInputs();
+    } else {
+      toast.warn("Llena todos los campos", toastConfig);
+    }
+  };
+
+  const handleAddFlujo = async () => {
+    if (!activities) {
+      return toast.warn("Necesitas tener actividades!", toastConfig);
+    } else if (!description) {
+      return toast.warn("Llena toda la informacion!", toastConfig);
+    }
+
+    dispatch(
+      createFlujo({
+        description,
+        days,
+        activitiesSchema: activities.map((i: any) => ({
+          ...i,
+          usersId: i.usersId.map((u: any) => u._id),
+        })),
+      })
+    );
+    props.onHide();
+  };
+
+  const clearInputs = () => {
+    setArea("");
+    setUser("");
+    setActivitieDescription("");
+    setHours(1);
+    setEndFlujo(false);
+  };
+
   const footer = (
     <div>
       <Button
@@ -29,13 +90,19 @@ function CreateModal(props: any) {
         icon="pi pi-times"
         onClick={props.onHide}
       />
-      <Button
-        label="Guardar"
-        icon="pi pi-check"
-        onClick={() => console.log("ok")}
-      />
+      <Button label="Guardar" icon="pi pi-check" onClick={handleAddFlujo} />
     </div>
   );
+
+  useEffect(() => {
+    dispatch(getAreas());
+  }, []);
+
+  useEffect(() => {
+    if (area) {
+      dispatch(getUsersByArea(area));
+    }
+  }, [area]);
 
   return (
     <Dialog
@@ -60,7 +127,7 @@ function CreateModal(props: any) {
           <div className="field col-6">
             <label htmlFor="email2">Dueño del proceso</label>
             <Dropdown
-              options={[]}
+              options={areas || []}
               optionLabel="descripcion"
               optionValue="descripcion"
               value={owner}
@@ -77,7 +144,7 @@ function CreateModal(props: any) {
           <div className="field col">
             <label htmlFor="email2">Area</label>
             <Dropdown
-              options={[]}
+              options={areas || []}
               optionLabel="descripcion"
               optionValue="descripcion"
               value={area}
@@ -89,7 +156,7 @@ function CreateModal(props: any) {
             <label htmlFor="email2">Empleado responsable</label>
             <MultiSelect
               value={user}
-              options={[]}
+              options={users || []}
               onChange={(e: any) => setUser(e.target.value)}
               optionLabel="name"
               display="chip"
@@ -98,14 +165,6 @@ function CreateModal(props: any) {
               className="multiselect-custom w-full"
               // panelFooterTemplate={panelFooterTemplate}
             />
-            {/* <Dropdown
-              options={users?.users}
-              filter
-              optionLabel="name"
-              value={user}
-              optionValue="id"
-              onChange={(e: any) => setUser(e.target.value)}
-            /> */}
           </div>
           <div className="field col">
             <label htmlFor="name2">Descripcion de actividad</label>
@@ -139,11 +198,11 @@ function CreateModal(props: any) {
             />
           </div>
           <div className="field col-2 mt-4">
-            <Button label="Agregar" onClick={() => console.log("p")} />
+            <Button label="Agregar" onClick={() => addActivitie()} />
           </div>
         </div>
       </div>
-      <DetailTable />
+      <DetailTable activities={activities} />
     </Dialog>
   );
 }

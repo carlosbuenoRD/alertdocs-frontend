@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Components
 import { AutoComplete } from "primereact/autocomplete";
@@ -7,8 +7,14 @@ import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import FlujosTable from "../proceso/FlujoTable";
+import { useAppSelector, useAppDispatch } from "@/redux/store";
+import { fetchAllFlujos } from "@/redux/reducers/flujos";
+import { createdocument } from "@/redux/reducers/documents";
 
 function CreateModal(props: any) {
+  const dispatch = useAppDispatch();
+  const { flujos, flujo: flujoState } = useAppSelector((state) => state.flujos);
+
   const [transcode, setTranscode] = useState(
     `MEPYD-${new Date().getFullYear()}-`
   );
@@ -24,6 +30,22 @@ function CreateModal(props: any) {
     props.onHide();
   };
 
+  const handleCreateDocument = async () => {
+    dispatch(
+      createdocument({
+        transcode,
+        libramiento,
+        participants,
+        description,
+        flujoId: flujoState._id,
+        activities: flujoState.activitiesSchema,
+        areas,
+      })
+    );
+    clearInputs();
+    onHide();
+  };
+
   const footer = (
     <div>
       <Button
@@ -35,7 +57,7 @@ function CreateModal(props: any) {
       <Button
         label="Guardar"
         icon="pi pi-check"
-        // onClick={handleCre       ateDocument}
+        onClick={handleCreateDocument}
       />
     </div>
   );
@@ -47,6 +69,10 @@ function CreateModal(props: any) {
     setParticipants("");
     setTranscode("");
   };
+
+  useEffect(() => {
+    dispatch(fetchAllFlujos());
+  }, []);
 
   return (
     <Dialog
@@ -105,14 +131,14 @@ function CreateModal(props: any) {
               filter
               value={flujo}
               onChange={(e: any) => setFlujo(e.target.value)}
-              options={[]}
+              options={flujos}
               optionLabel="description"
               optionValue="_id"
             />
           </div>
         </div>
       </div>
-      <FlujosTable flujo={[]} />
+      <FlujosTable flujo={flujo} />
     </Dialog>
   );
 }

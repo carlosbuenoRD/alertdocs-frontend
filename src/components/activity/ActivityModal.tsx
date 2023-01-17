@@ -9,31 +9,27 @@ import DevolucionSection from "./DevolucionSection";
 import ActivityHeader from "./ActivityHeader";
 import HistorySection from "./HistorySection";
 import SectionPicker from "./SectionPicker";
+import { useAppSelector } from "./../../redux/store";
 
 function ActivityModal(props: any) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const { activity } = useAppSelector((state) => state.activity);
 
-  let activity: any = {
-    description: "Ok",
-    state: "completed",
-    startedAt: Date.now(),
-    hours: 3,
-    usersId: {
-      id: 1,
-      name: "Carlos Antonio Bueno Tavares",
-    },
-    step: 2,
-  };
+  console.log(props);
 
   return (
     <Dialog
-      header={`#${activity.step} ---  ${activity.usersId.name} ---  ${activity.description}`}
+      header={`#${props.activity?.step} ---  ${props.activity?.usersId?.name} ---  ${props.activity?.description}`}
       headerStyle={{ fontSize: "4rem" }}
       visible={props.visible}
       onHide={props.onHide}
       style={{ width: "70vw" }}
     >
-      <ActivityHeader active={activeIndex} setActive={setActiveIndex} />
+      <ActivityHeader
+        active={activeIndex}
+        setActive={setActiveIndex}
+        activity={props.activity}
+      />
 
       <SectionPicker active={activeIndex} />
     </Dialog>

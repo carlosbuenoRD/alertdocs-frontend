@@ -5,7 +5,7 @@ import Item from "./Item";
 
 function Column(props: any) {
   return (
-    <div className="col-3 card">
+    <div className="col-3 card shadow-1">
       <h6 className="border-bottom-1 text-center pb-2 mb-2 uppercase">
         {props.header}
       </h6>
