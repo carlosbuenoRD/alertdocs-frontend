@@ -1,3 +1,5 @@
+import { ToastOptions } from "react-toastify";
+
 export const menu = [
   {
     label: "Administrador",
@@ -81,4 +83,13 @@ export const barData = {
       data: [9, 12, 2, 4, 20, 1, 16],
     },
   ],
+};
+
+export const toastConfig: ToastOptions = {
+  position: "top-right",
+  autoClose: 2000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  theme: "light",
 };

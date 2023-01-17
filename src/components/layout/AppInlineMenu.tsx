@@ -1,11 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import { classNames } from "primereact/utils";
-// import { useAppDispatch } from "@/app/store";
-// import { removeAuth } from "@/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/store";
+import { removeAuth } from "@/redux/reducers/auth";
+import { useAppSelector } from "@/redux/store";
 
 const AppInlineMenu = (props: any) => {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.auth);
 
   const isSlim = () => {
     return props.menuMode === "slim";
@@ -21,6 +25,11 @@ const AppInlineMenu = (props: any) => {
 
   const isMobile = () => {
     return window.innerWidth <= 991;
+  };
+
+  const handleLogOut = () => {
+    dispatch(removeAuth(""));
+    navigate("/");
   };
 
   return (
@@ -40,7 +49,7 @@ const AppInlineMenu = (props: any) => {
               alt="avatar"
               style={{ width: "44px", height: "44px", objectFit: "fill" }}
             />
-            <span className="layout-inline-menu-text">Gene Russell</span>
+            <span className="layout-inline-menu-text">{user?.name}</span>
             <i className="layout-inline-menu-icon pi pi-angle-down"></i>
           </button>
           <CSSTransition
@@ -51,10 +60,7 @@ const AppInlineMenu = (props: any) => {
           >
             <ul className="layout-inline-menu-action-panel">
               <li className="layout-inline-menu-action-item">
-                <button
-                  className="p-link"
-                  // onClick={() => dispatch(removeAuth(""))}
-                >
+                <button className="p-link" onClick={handleLogOut}>
                   <i className="pi pi-power-off pi-fw"></i>
                   <span>Logout</span>
                 </button>

@@ -1,14 +1,17 @@
 import { useState } from "react";
 
 // Components
-import PercentageCircle from "@/components/shared/PercentageCircle";
 import { Avatar } from "primereact/avatar";
+import PercentageCircle from "@/components/shared/PercentageCircle";
 import Card from "@/components/shared/Card";
 import LineChart from "@/components/charts/LineChart";
 import ActivityModal from "@/components/activity/ActivityModal";
+import { useAppSelector } from "@/redux/store";
 
 function MyAccount() {
   const [activity, setActivity] = useState(false);
+
+  const { user } = useAppSelector((state) => state.auth);
   return (
     <>
       <div className="grid-3-1">
@@ -21,7 +24,7 @@ function MyAccount() {
                 shape="circle"
                 className="w-8rem h-8rem shadow-2"
               />
-              <h4 className="mt-3 uppercase">Carlos Antonio Bueno Tavares</h4>
+              <h4 className="mt-3 uppercase">{user?.name}</h4>
             </div>
 
             <div className="w-full px-4 pt-1 ">
