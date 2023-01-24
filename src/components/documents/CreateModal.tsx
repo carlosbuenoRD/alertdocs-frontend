@@ -10,6 +10,7 @@ import FlujosTable from "../proceso/FlujoTable";
 import { useAppSelector, useAppDispatch } from "@/redux/store";
 import { fetchAllFlujos } from "@/redux/reducers/flujos";
 import { createdocument } from "@/redux/reducers/documents";
+import { setDepartments } from "@/redux/reducers/area";
 
 function CreateModal(props: any) {
   const dispatch = useAppDispatch();
@@ -19,16 +20,43 @@ function CreateModal(props: any) {
     `MEPYD-${new Date().getFullYear()}-`
   );
   const [libramiento, setLibramiento] = useState("");
-  const [participants, setParticipants] = useState<any>([]);
-  const [areas, setAreas] = useState<any>([]);
   const [description, setDescription] = useState("");
   const [filteredCountries, setFilteredCountries] = useState<any>(null);
   const [flujo, setFlujo] = useState<any>("");
+
+  const [participants, setParticipants] = useState<any>([]);
+  const [areas, setAreas] = useState<any>([]);
+  const [direcciones, setDirecciones] = useState<any>([]);
+  const [departments, setDepartments] = useState<any>([]);
 
   const onHide = () => {
     clearInputs();
     props.onHide();
   };
+
+  useEffect(() => {
+    if (flujoState) {
+      setParticipants([]);
+      setAreas([]);
+
+      let areas = new Set();
+      let participants = new Set();
+      let direcciones = new Set();
+      let departments = new Set();
+
+      flujoState.activitiesSchema?.map((p: any) => {
+        participants.add(p.usersId[0]._id);
+        areas.add(p.areaId);
+        if (p.direccionId) direcciones.add(p.direccionId);
+        if (p.departmentId) departments.add(p.departmentId);
+      }) || [];
+
+      setParticipants(Array.from(participants));
+      setAreas(Array.from(areas));
+      setDirecciones(Array.from(direcciones));
+      setDepartments(Array.from(departments));
+    }
+  }, [flujoState]);
 
   const handleCreateDocument = async () => {
     dispatch(
@@ -40,6 +68,8 @@ function CreateModal(props: any) {
         flujoId: flujoState._id,
         activities: flujoState.activitiesSchema,
         areas,
+        direcciones,
+        departments,
       })
     );
     clearInputs();

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default function activityService() {
-  async function getMyActivities(id: any) {
+  async function getActivitiesByUser(id: any) {
     const { data } = await axios.get(
       `http://127.0.0.1:3000/api/activities/myactivity/${id}`
     );
@@ -18,6 +18,20 @@ export default function activityService() {
   async function getActivitiesByArea(id: any) {
     const { data } = await axios.get(
       `http://127.0.0.1:3000/api/activities/area/${id}`
+    );
+    return data;
+  }
+
+  async function getActivitiesByDireccion(id: any) {
+    const { data } = await axios.get(
+      `http://127.0.0.1:3000/api/activities/direccion/${id}`
+    );
+    return data;
+  }
+
+  async function getActivitiesByDepartment(id: any) {
+    const { data } = await axios.get(
+      `http://127.0.0.1:3000/api/activities/department/${id}`
     );
     return data;
   }
@@ -49,11 +63,13 @@ export default function activityService() {
   }
 
   return {
-    getMyActivities,
+    getActivitiesByUser,
     getActivitiesByDocument,
     getActivitiesByArea,
+    getActivitiesByDireccion,
+    getActivitiesByDepartment,
     getActivitiesByDocumentAndArea,
     changeState,
-    addHistory
+    addHistory,
   };
 }

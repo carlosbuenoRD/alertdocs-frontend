@@ -10,17 +10,27 @@ import { Button } from "primereact/button";
 import { toastConfig } from "@/utils/data";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { createFlujo } from "@/redux/reducers/flujos";
-import { getAreas } from "./../../redux/reducers/area";
-import { getUsersByArea } from "@/redux/reducers/users";
+import {
+  getAreas,
+  getDirecciones,
+  getDepartments,
+} from "@/redux/reducers/area";
+import {
+  getUsersByArea,
+  getUsersByDireccion,
+  getUsersByDepartment,
+} from "@/redux/reducers/users";
 import DetailTable from "./DetailTable";
 
 function CreateModal(props: any) {
   const dispatch = useAppDispatch();
 
-  const { areas, users } = useAppSelector((state) => ({
-    ...state.area,
-    ...state.user,
-  }));
+  const { areas, users, direcciones, departments } = useAppSelector(
+    (state) => ({
+      ...state.area,
+      ...state.user,
+    })
+  );
 
   const [days, setDays] = useState<any>(1);
   const [hours, setHours] = useState<any>(0);
@@ -29,6 +39,8 @@ function CreateModal(props: any) {
   const [endFlujo, setEndFlujo] = useState<boolean>(false);
   const [description, setDescription] = useState("");
   const [area, setArea] = useState("");
+  const [department, setDepartment] = useState("");
+  const [direccion, setDireccion] = useState("");
   const [user, setUser] = useState<any>([]);
   const [activitieDescription, setActivitieDescription] = useState("");
   const [activities, setActivities] = useState<any[]>([]);
@@ -41,6 +53,8 @@ function CreateModal(props: any) {
           {
             step,
             areaId: area,
+            departmentId: department,
+            direccionId: direccion,
             usersId: user.map((u: any) => ({ _id: u._id, name: u.name })),
             description: activitieDescription,
             hours: hours / 60,
@@ -76,6 +90,8 @@ function CreateModal(props: any) {
 
   const clearInputs = () => {
     setArea("");
+    setDireccion("");
+    setDepartment("");
     setUser("");
     setActivitieDescription("");
     setHours(1);
@@ -101,8 +117,25 @@ function CreateModal(props: any) {
   useEffect(() => {
     if (area) {
       dispatch(getUsersByArea(area));
+      dispatch(getDirecciones(area));
+      setDireccion("");
+      setDepartment("");
     }
   }, [area]);
+
+  useEffect(() => {
+    if (direccion) {
+      dispatch(getUsersByDireccion(direccion));
+      dispatch(getDepartments(direccion));
+      setDepartment("");
+    }
+  }, [direccion]);
+
+  useEffect(() => {
+    if (department) {
+      dispatch(getUsersByDepartment(department));
+    }
+  }, [department]);
 
   return (
     <Dialog
@@ -128,8 +161,8 @@ function CreateModal(props: any) {
             <label htmlFor="email2">Dueño del proceso</label>
             <Dropdown
               options={areas || []}
-              optionLabel="descripcion"
-              optionValue="descripcion"
+              optionLabel="name"
+              optionValue="_id"
               value={owner}
               onChange={(e: any) => setOwner(e.target.value)}
               filter
@@ -145,13 +178,37 @@ function CreateModal(props: any) {
             <label htmlFor="email2">Area</label>
             <Dropdown
               options={areas || []}
-              optionLabel="descripcion"
-              optionValue="descripcion"
+              optionLabel="name"
+              optionValue="_id"
               value={area}
               onChange={(e: any) => setArea(e.target.value)}
               filter
             />
           </div>
+          <div className="field col">
+            <label htmlFor="email2">Direcciones</label>
+            <Dropdown
+              options={direcciones || []}
+              optionLabel="name"
+              optionValue="_id"
+              value={direccion}
+              onChange={(e: any) => setDireccion(e.target.value)}
+              filter
+            />
+          </div>
+          <div className="field col">
+            <label htmlFor="email2">Departamentos</label>
+            <Dropdown
+              options={departments || []}
+              optionLabel="name"
+              optionValue="_id"
+              value={department}
+              onChange={(e: any) => setDepartment(e.target.value)}
+              filter
+            />
+          </div>
+        </div>
+        <div className="formgrid grid">
           <div className="field col">
             <label htmlFor="email2">Empleado responsable</label>
             <MultiSelect
@@ -193,7 +250,6 @@ function CreateModal(props: any) {
               incrementButtonIcon="pi pi-plus"
               decrementButtonIcon="pi pi-minus"
               inputClassName="w-3rem text-center"
-              max={30}
               min={1}
             />
           </div>

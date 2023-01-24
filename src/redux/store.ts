@@ -10,6 +10,9 @@ import flujosReducer from "./reducers/flujos";
 import userReducer from "./reducers/users";
 import documentsReducer from "./reducers/documents";
 import activityReducer from "./reducers/activity";
+import historyReducer from "./reducers/history";
+import filesReducer from "./reducers/files";
+import commentsReducer from "./reducers/comments";
 
 // Store
 export const store = configureStore({
@@ -20,6 +23,9 @@ export const store = configureStore({
     user: userReducer,
     document: documentsReducer,
     activity: activityReducer,
+    history: historyReducer,
+    files: filesReducer,
+    comments: commentsReducer,
   },
 });
 

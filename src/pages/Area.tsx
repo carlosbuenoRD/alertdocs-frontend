@@ -1,46 +1,37 @@
-import Reac, { useEffect } from "react";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { fetchDocumentsByArea } from "@/redux/reducers/documents";
+import {
+  getUsersByArea,
+  getUsersByDepartment,
+  getUsersByDireccion,
+} from "@/redux/reducers/users";
+import { getArea } from "@/redux/reducers/area";
 
 // Components
-import AreaHeader from "@/components/area/AreaHeader";
-import Card from "@/components/shared/Card";
-import PercentageCircle from "@/components/shared/PercentageCircle";
-import LineChart from "@/components/charts/LineChart";
-import AreaDocuments from "@/components/area/AreaDocuments";
-import AreaEficiencia from "@/components/area/AreaEficiencia";
-import AreaUsers from "@/components/area/AreaUsers";
-import AreaDevolucion from "@/components/area/AreaDevolucion";
-import { useAppDispatch } from "@/redux/store";
-import { fetchAllDocuments } from "@/redux/reducers/documents";
-import { getUsersByArea } from "@/redux/reducers/users";
+import General from "@/components/area/General";
 
 function Area() {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+
+  const { area } = useAppSelector((state) => state.area);
+  const areaId = location.pathname.split("/")[2];
+  const section = location.pathname.split("/")[1];
 
   useEffect(() => {
-    dispatch(fetchAllDocuments());
-    dispatch(getUsersByArea("Viceministerio Técnico Administrativo"));
-  }, []);
+    dispatch(getArea(areaId));
+    dispatch(fetchDocumentsByArea(areaId));
+
+    dispatch(getUsersByArea(areaId));
+  }, [section, areaId, location.pathname]);
 
   return (
-    <div className="relative">
-      <AreaHeader />
-      <div className="area_body grid-col-2">
-        <div className="flex flex-column">
-          <AreaDocuments />
-          <AreaDevolucion />
-        </div>
-
-        <div>
-          <AreaEficiencia />
-          <AreaUsers />
-        </div>
-      </div>
-
-      {/* Estadisticas */}
-      <Card title="Estadisticas" height="fit" hover>
-        <LineChart />
-      </Card>
-    </div>
+    <>
+      <General eficiencia={areaId} title={area?.name} />
+    </>
   );
 }
 

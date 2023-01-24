@@ -10,8 +10,8 @@ function SectionPicker(props: any) {
   return (
     <div>
       {props.index === 0 && <KanbaContainer />}
-      {props.index === 1 && <CommentSection />}
-      {props.index === 2 && <FilesSection />}
+      {props.index === 1 && <CommentSection document />}
+      {props.index === 2 && <FilesSection general />}
       {props.index === 3 && <ParticipantSection />}
     </div>
   );

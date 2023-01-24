@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf/dist/esm/entry.vite";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
@@ -12,16 +12,38 @@ import { Accordion } from "primereact/accordion";
 import { AccordionTab } from "primereact/accordion";
 import { Image } from "primereact/image";
 import MyConfirmPopup from "./MyConfirmPopup";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import {
+  fetchFilesByActivities,
+  fetchFilesByDocuments,
+  removeFileAction,
+} from "@/redux/reducers/files";
 
 const files: any[] = [];
 
-function FilesSection() {
+function FilesSection(props: any) {
+  const dispatch = useAppDispatch();
+
+  const { activity } = useAppSelector((state) => state.activity);
+  const { files } = useAppSelector((state) => state.files);
+
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
   function onDocumentLoadSuccess({ numPages }: any) {
     setNumPages(numPages);
   }
+
+  useEffect(() => {
+    props.general
+      ? dispatch(fetchFilesByDocuments())
+      : dispatch(fetchFilesByActivities());
+  }, []);
+
+  const handleRemoveFile = (id: string) => {
+    dispatch(removeFileAction(id));
+  };
+
   return (
     <>
       <Accordion className="w-full">
@@ -31,12 +53,11 @@ function FilesSection() {
               <div key={i._id}>
                 {i.file.split(".")[1] === "pdf" && (
                   <div className="relative">
-                    <h6 className="mb-1 uppercase">#{i.activityId.step}</h6>
                     <div className="absolute z-5 right-0 -top-5 overflow-hidden">
                       <MyConfirmPopup
                         message="Estas seguro de borrar el archivo?"
                         iconButton="pi pi-trash"
-                        accept={() => console.log("p")}
+                        accept={() => handleRemoveFile(i._id)}
                         className="bg-pink-400 border-none w-2rem"
                       />
                     </div>

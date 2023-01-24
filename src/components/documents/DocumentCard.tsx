@@ -25,7 +25,7 @@ function DocumentCard(props: any) {
 
   return (
     <div
-      className={`relative col card cursor-pointer shadow-3 ${
+      className={`relative col card mb-0 cursor-pointer shadow-3 ${
         props.border && "border-1 border-100"
       }`}
       onClick={props.open}

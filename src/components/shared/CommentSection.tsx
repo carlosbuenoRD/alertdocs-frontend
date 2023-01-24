@@ -1,16 +1,36 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
+
+// Redux
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+
+// Components
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import {
+  fetchCommentsByActivities,
+  fetchCommentsByDocuments,
+} from "@/redux/reducers/comments";
 
-function CommentSection() {
+function CommentSection(props: any) {
+  const dispatch = useAppDispatch();
   const dt = useRef<any>(null);
+
+  const { comments } = useAppSelector((state) => state.comments);
+
+  useEffect(() => {
+    if (props.document) {
+      dispatch(fetchCommentsByDocuments());
+    } else {
+      dispatch(fetchCommentsByActivities());
+    }
+  }, []);
 
   return (
     <div className="card">
       <DataTable
         className="p-datatable-customers"
         ref={dt}
-        value={[]}
+        value={comments || []}
         dataKey="_id"
         rowHover
         rows={10}

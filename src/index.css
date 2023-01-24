@@ -4,9 +4,10 @@
 @import 'prismjs/themes/prism-coy.css';
 @import url("AppDemo.css");
 @import url("styles/colors.css");
-/* @import url("styles/chat.css"); */
+@import url("styles/chat.css");
 @import url('styles/login.css');
 @import url('styles/percentage.css');
+@import url('styles/notFound.css');
 
 @import url('styles/profileCard.css');
 @import url('styles/area.css');

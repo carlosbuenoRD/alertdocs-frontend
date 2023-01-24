@@ -21,7 +21,10 @@ function AreaDocuments() {
         {documents.length > 0 ? (
           <ul>
             {documents.map((i) => (
-              <li className="card shadow-1 flex align-items-center justify-content-between">
+              <li
+                key={i._id}
+                className="card mb-2 shadow-3 flex align-items-center justify-content-between"
+              >
                 <p>{i.description}</p>
               </li>
             ))}
@@ -38,7 +41,12 @@ function AreaDocuments() {
         )}
       </Card>
 
-      <WorkSpaceModal visible={workspace} onHide={() => setWorkspace(false)} />
+      {workspace && (
+        <WorkSpaceModal
+          visible={workspace}
+          onHide={() => setWorkspace(false)}
+        />
+      )}
     </>
   );
 }

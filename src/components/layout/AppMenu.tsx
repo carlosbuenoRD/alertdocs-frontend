@@ -1,43 +1,43 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { CSSTransition } from 'react-transition-group'
-import { classNames } from 'primereact/utils'
-import AppInlineMenu from './AppInlineMenu'
-import { Ripple } from 'primereact/ripple'
-import { Badge } from 'primereact/badge'
+import React, { useCallback, useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
+import { classNames } from "primereact/utils";
+import AppInlineMenu from "./AppInlineMenu";
+import { Ripple } from "primereact/ripple";
+import { Badge } from "primereact/badge";
 
 const AppSubmenu = (props: any) => {
-  const [activeIndex, setActiveIndex] = useState<any>(null)
+  const [activeIndex, setActiveIndex] = useState<any>(null);
 
   const onMenuItemClick = (event: any, item: any, index: any) => {
     if (item.disabled) {
-      event.preventDefault()
-      return
+      event.preventDefault();
+      return;
     }
 
     //execute command
     if (item.command) {
-      item.command({ originalEvent: event, item: item })
-      event.preventDefault()
+      item.command({ originalEvent: event, item: item });
+      event.preventDefault();
     }
 
     if (item.items) {
-      event.preventDefault()
+      event.preventDefault();
     }
 
     if (props.root) {
       props.onRootMenuItemClick({
         originalEvent: event,
-      })
+      });
     }
 
     if (item.items) {
-      setActiveIndex(index === activeIndex ? null : index)
+      setActiveIndex(index === activeIndex ? null : index);
     } else {
-      if (props.menuMode !== 'sidebar') {
-        const ink = getInk(event.currentTarget)
+      if (props.menuMode !== "sidebar") {
+        const ink = getInk(event.currentTarget);
         if (ink) {
-          removeClass(ink, 'p-ink-active')
+          removeClass(ink, "p-ink-active");
         }
       }
     }
@@ -45,106 +45,106 @@ const AppSubmenu = (props: any) => {
     props.onMenuItemClick({
       originalEvent: event,
       item: item,
-    })
-  }
+    });
+  };
 
   const onKeyDown = (event: any, item: any, index: any) => {
-    if (event.key === 'Enter') {
-      onMenuItemClick(event, item, index)
+    if (event.key === "Enter") {
+      onMenuItemClick(event, item, index);
     }
-  }
+  };
 
   const getInk = (el: any) => {
     for (let i = 0; i < el.children.length; i++) {
       if (
-        typeof el.children[i].className === 'string' &&
-        el.children[i].className.indexOf('p-ink') !== -1
+        typeof el.children[i].className === "string" &&
+        el.children[i].className.indexOf("p-ink") !== -1
       ) {
-        return el.children[i]
+        return el.children[i];
       }
     }
-    return null
-  }
+    return null;
+  };
 
   const removeClass = (element: any, className: string) => {
-    if (element.classList) element.classList.remove(className)
+    if (element.classList) element.classList.remove(className);
     else
       element.className = element.className.replace(
         new RegExp(
-          '(^|\\b)' + className.split(' ').join('|') + '(\\b|$)',
-          'gi'
+          "(^|\\b)" + className.split(" ").join("|") + "(\\b|$)",
+          "gi"
         ),
-        ' '
-      )
-  }
+        " "
+      );
+  };
 
   const onMenuItemMouseEnter = (index: any) => {
     if (props.root && props.menuActive && isHorizontalOrSlim() && !isMobile()) {
-      setActiveIndex(index)
+      setActiveIndex(index);
     }
-  }
+  };
 
   const isMobile = () => {
-    return window.innerWidth <= 991
-  }
+    return window.innerWidth <= 991;
+  };
   const isStatic = () => {
-    return props.menuMode === 'static'
-  }
+    return props.menuMode === "static";
+  };
 
   const isHorizontalOrSlim = useCallback(() => {
-    return props.menuMode === 'horizontal' || props.menuMode === 'slim'
-  }, [props.menuMode])
+    return props.menuMode === "horizontal" || props.menuMode === "slim";
+  }, [props.menuMode]);
 
   const visible = (item: any) => {
-    return typeof item.visible === 'function'
+    return typeof item.visible === "function"
       ? item.visible()
-      : item.visible !== false
-  }
+      : item.visible !== false;
+  };
 
   const getLink = (item: any, index: any) => {
-    const menuitemIconClassName = classNames('layout-menuitem-icon', item.icon)
+    const menuitemIconClassName = classNames("layout-menuitem-icon", item.icon);
     const content = (
       <>
         <i className={menuitemIconClassName}></i>
-        <span className='layout-menuitem-text'>{item.label}</span>
+        <span className="layout-menuitem-text">{item.label}</span>
         {item.items && (
-          <i className='pi pi-fw pi-chevron-down  layout-submenu-toggler'></i>
+          <i className="pi pi-fw pi-chevron-down  layout-submenu-toggler"></i>
         )}
-        {item.badge && <Badge value={item.badge} severity='success' />}
+        {item.badge && <Badge value={item.badge} severity="success" />}
 
         <Ripple />
       </>
-    )
+    );
     const commonLinkProps = {
       style: item.style,
-      className: classNames(item.className, 'p-ripple', {
-        'p-disabled': item.disabled,
+      className: classNames(item.className, "p-ripple", {
+        "p-disabled": item.disabled,
       }),
       target: item.target,
       onClick: (e: any) => onMenuItemClick(e, item, index),
       onMouseEnter: () => onMenuItemMouseEnter(index),
       onKeyDown: (e: any) => onKeyDown(e, item, index),
-    }
+    };
 
     if (item.to) {
       return (
         <NavLink to={item.to} {...commonLinkProps}>
           {content}
         </NavLink>
-      )
+      );
     } else {
       return (
         <a
           href={item.url}
-          rel='noopener noreferrer'
+          rel="noopener noreferrer"
           tabIndex={item.url ? undefined : 0}
           {...commonLinkProps}
         >
           {content}
         </a>
-      )
+      );
     }
-  }
+  };
 
   const getItems = () => {
     const transitionTimeout =
@@ -152,28 +152,28 @@ const AppSubmenu = (props: any) => {
         ? { enter: 1000, exit: 450 }
         : isHorizontalOrSlim() && !isMobile()
         ? 0
-        : { enter: 1000, exit: 450 }
+        : { enter: 1000, exit: 450 };
     return props.items.map((item: any, i: any) => {
       if (visible(item)) {
-        const active = activeIndex === i
+        const active = activeIndex === i;
         const menuitemClassName = classNames({
-          'layout-root-menuitem': props.root,
-          'active-menuitem': active && !item.disabled,
-        })
-        const link = getLink(item, i)
+          "layout-root-menuitem": props.root,
+          "active-menuitem": active && !item.disabled,
+        });
+        const link = getLink(item, i);
 
         return (
           <li
             key={item.label || i}
             className={menuitemClassName}
-            role='menuitem'
+            role="menuitem"
           >
             {props.root && isStatic() && (
-              <div className='layout-menuitem-text'>{item.label}</div>
+              <div className="layout-menuitem-text">{item.label}</div>
             )}
             {link}
             <CSSTransition
-              classNames='p-toggleable-content'
+              classNames="p-toggleable-content"
               timeout={transitionTimeout}
               in={item.items && props.root && isStatic() ? true : active}
               unmountOnExit
@@ -187,83 +187,83 @@ const AppSubmenu = (props: any) => {
               ></AppSubmenu>
             </CSSTransition>
           </li>
-        )
+        );
       }
 
-      return null
-    })
-  }
+      return null;
+    });
+  };
 
   useEffect(() => {
     if (props.resetActiveIndex && isHorizontalOrSlim()) {
-      setActiveIndex(null)
+      setActiveIndex(null);
     }
-  }, [props.resetActiveIndex, isHorizontalOrSlim])
+  }, [props.resetActiveIndex, isHorizontalOrSlim]);
 
   useEffect(() => {
     if (!props.menuActive && isHorizontalOrSlim() && !isMobile()) {
-      setActiveIndex(null)
+      setActiveIndex(null);
     }
-  }, [props.menuActive, isHorizontalOrSlim])
+  }, [props.menuActive, isHorizontalOrSlim]);
 
   if (!props.items) {
-    return null
+    return null;
   }
 
-  const items = getItems()
+  const items = getItems();
   return (
-    <ul className={props.className} role='menu'>
+    <ul className={props.className} role="menu">
       {items}
     </ul>
-  )
-}
+  );
+};
 
 const AppMenu = (props: any) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const isOverlay = () => {
-    return props.menuMode === 'overlay'
-  }
+    return props.menuMode === "overlay";
+  };
 
   const isSidebar = () => {
-    return props.menuMode === 'sidebar'
-  }
+    return props.menuMode === "sidebar";
+  };
 
   return (
     <div
-      className={classNames('layout-menu-wrapper', {
-        'layout-sidebar-active': props.sidebarActive,
+      className={classNames("layout-menu-wrapper", {
+        "layout-sidebar-active": props.sidebarActive,
       })}
       onClick={props.onMenuClick}
       onMouseOver={props.onSidebarMouseOver}
       onMouseLeave={props.onSidebarMouseLeave}
     >
-      <div className='menu-logo'>
-        <button className='logo p-link'>
+      <div className="menu-logo">
+        <button className="logo p-link">
           <img
             src={`assets/images/Logo-cupula.png`}
-            alt='logo'
-            onClick={() => navigate('/')}
+            alt="logo"
+            onClick={() => navigate("/")}
           />
         </button>
-        <button className='app-name p-link'>
-          <h2 className='m-0 ml-2 text-white uppercase text-3xl'>AlertDoc</h2>
+        <button className="app-name p-link">
+          <h2 className="m-0 ml-2 text-white uppercase text-3xl">AlertDoc</h2>
         </button>
-        <button className='menu-pin p-link' onClick={props.onToggleMenu}>
-          {isOverlay() && <span className='pi pi-times'></span>}
+        <button className="menu-pin p-link" onClick={props.onToggleMenu}>
+          {isOverlay() && <span className="pi pi-times"></span>}
           {isSidebar() && !props.sidebarStatic && props.pinActive && (
-            <span className='pi pi-unlock'></span>
+            <span className="pi pi-unlock"></span>
           )}
           {isSidebar() && props.sidebarStatic && props.pinActive && (
-            <span className='pi pi-lock'></span>
+            <span className="pi pi-lock"></span>
           )}
         </button>
       </div>
 
-      <div className='layout-menu-container'>
+      <div className="layout-menu-container">
         <AppSubmenu
           items={props.model}
-          className='layout-menu'
+          className="layout-menu"
           menuMode={props.menuMode}
           menuActive={props.menuActive}
           root
@@ -278,9 +278,10 @@ const AppMenu = (props: any) => {
         menuMode={props.menuMode}
         activeInlineProfile={props.activeInlineProfile}
         onChangeActiveInlineMenu={props.onChangeActiveInlineMenu}
+        onConfigButtonClick={props.onConfigButtonClick}
       />
     </div>
-  )
-}
+  );
+};
 
-export default AppMenu
+export default AppMenu;

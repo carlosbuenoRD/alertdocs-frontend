@@ -4,12 +4,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import activityService from "@/services/activity";
 
 const {
-  getMyActivities,
+  getActivitiesByUser,
   changeState,
   getActivitiesByArea,
   getActivitiesByDocument,
   getActivitiesByDocumentAndArea,
-  addHistory
+  addHistory,
 } = activityService();
 
 const initialState: InitialState = {
@@ -22,7 +22,7 @@ export const fetchMyActivities = createAsyncThunk(
   "activities/myActivities",
   async (id: any, thunkApi) => {
     try {
-      const data = await getMyActivities(id);
+      const data = await getActivitiesByUser(id);
       return data;
     } catch (error) {
       thunkApi.rejectWithValue(error);
@@ -78,7 +78,9 @@ export const changeActivity = createAsyncThunk(
       await changeState(info.id, info.state);
       thunkApi.dispatch(updateActivityState(info.state));
       thunkApi.dispatch(fetchMyActivities(state.auth.user._id));
-      thunkApi.dispatch(fetchDocumentActivities(state.document.document._id));
+      thunkApi.dispatch(
+        fetchDocumentActivities(state.activity.activity.documentId)
+      );
       // thunkApi.dispatch(addActivityHistory(info.state));
     } catch (error) {
       thunkApi.rejectWithValue(error);
@@ -109,6 +111,9 @@ export const activityslice = createSlice({
   reducers: {
     setActivity: (state, action) => {
       state.activity = action.payload;
+    },
+    clearActivities: (state, action) => {
+      state.activities = [];
     },
     updateActivityState: (state, action) => {
       state.activity = {
@@ -175,7 +180,8 @@ export const activityslice = createSlice({
   },
 });
 
-export const { setActivity, updateActivityState } = activityslice.actions;
+export const { setActivity, updateActivityState, clearActivities } =
+  activityslice.actions;
 
 interface InitialState {
   activities: [];

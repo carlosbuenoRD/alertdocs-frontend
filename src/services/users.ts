@@ -5,6 +5,14 @@ export default function userService() {
     return axios.get(`api/users/area/${id}`).then((res: any) => res.data);
   }
 
+  function usersByDireccion(id: string) {
+    return axios.get(`api/users/direccion/${id}`).then((res: any) => res.data);
+  }
+
+  function usersByDepartment(id: string) {
+    return axios.get(`api/users/department/${id}`).then((res: any) => res.data);
+  }
+
   function findAllUsers() {
     return axios.get(`api/users`).then((res: any) => res.data);
   }
@@ -15,6 +23,8 @@ export default function userService() {
 
   return {
     usersByArea,
+    usersByDireccion,
+    usersByDepartment,
     findAllUsers,
     handleCreateUsers,
   };

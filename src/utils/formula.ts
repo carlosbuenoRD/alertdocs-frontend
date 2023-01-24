@@ -1,3 +1,7 @@
+import activityService from "@/services/activity";
+
+const { getActivitiesByUser } = activityService();
+
 const getHours = (time: number) => {
   let seconds = Math.round(time / 1000);
   let minutes = Math.round(seconds / 60);
@@ -22,4 +26,16 @@ export const getEficiencia = (activities: any[]) => {
   });
 
   return results.reduce((acc, curr) => acc + curr, 0) / results.length;
+};
+
+export const getUserEficiencia = async (id: string) => {
+  console.log("dios");
+
+  return getEficiencia(await getUserActivities(id));
+};
+
+const getUserActivities = async (id: string) => {
+  const activities = await getActivitiesByUser(id);
+
+  return activities;
 };

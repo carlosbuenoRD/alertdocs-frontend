@@ -1,25 +1,29 @@
 import { ToastOptions } from "react-toastify";
 
-export const menu = [
+export const menuAdmin = [
   {
-    label: "Administrador",
-    icon: "pi pi-prime",
-    items: [
-      { label: "Dashboard", icon: "pi pi-home", to: "/dashboard" },
-      { label: "Areas", icon: "pi pi-star", to: "/areas" },
-      { label: "Procesos", icon: "pi pi-star", to: "/procesos" },
-    ],
+    label: "Dashboard",
+    icon: "pi pi-home",
+    to: "/dashboard",
   },
   {
-    label: "Documentos",
-    icon: "pi pi-briefcase",
-    to: "/documentos",
+    label: "Areas",
+    icon: "pi pi-star",
+    to: "/areas",
+  },
+  {
+    label: "Procesos",
+    icon: "pi pi-sitemap",
+    to: "/procesos",
   },
   {
     label: "Mantenimiento",
     icon: "pi pi-share-alt",
     to: "/flujos",
   },
+];
+
+export const menu = [
   {
     label: "Mi perfil",
     icon: "pi pi-user",
@@ -93,3 +97,19 @@ export const toastConfig: ToastOptions = {
   pauseOnHover: true,
   theme: "light",
 };
+
+export const colors = [
+  "blue",
+  "green",
+  "yellow",
+  "cyan",
+  "pink",
+  "indigo",
+  "teal",
+  "orange",
+  "bluegray",
+  "purple",
+  "blue",
+  "gray",
+  "yellow",
+];

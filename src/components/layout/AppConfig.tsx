@@ -30,13 +30,13 @@ const AppConfig = (props: any) => {
 
   return (
     <div id="layout-config">
-      <button
+      {/* <button
         id="layout-config-button"
         className="layout-config-button p-link"
         onClick={props.onConfigButtonClick}
       >
         <i className="pi pi-cog"></i>
-      </button>
+      </button> */}
       <div
         className={classNames("layout-config", {
           "layout-config-active": props.configActive,

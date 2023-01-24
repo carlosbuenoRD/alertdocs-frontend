@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+// Components
 import { Accordion } from "primereact/accordion";
 import { AccordionTab } from "primereact/accordion";
 import { Timeline } from "primereact/timeline";
 import { dateFormat } from "@/utils/dateFormat";
-
-let histories: any[] = [];
+import { useAppSelector } from "./../../redux/store";
+import { fetchHistoryByActivities } from "@/redux/reducers/history";
+import { useAppDispatch } from "@/redux/store";
 
 let handleEvents = (history: any): any[] => {
   return history?.map((h: any) => ({
@@ -17,6 +20,14 @@ let handleEvents = (history: any): any[] => {
 };
 
 function HistorySection() {
+  const dispatch = useAppDispatch();
+
+  const { histories } = useAppSelector((state) => state.history);
+  const { activity } = useAppSelector((state) => state.activity);
+
+  useEffect(() => {
+    dispatch(fetchHistoryByActivities());
+  }, []);
   return (
     <>
       {histories.length > 0 ? (
@@ -24,11 +35,11 @@ function HistorySection() {
           {histories?.map((h: any) => (
             <AccordionTab
               key={h.step}
-              //   header={
-              //     h.activityId === activity._id
-              //       ? "Historial actual"
-              //       : `Paso ${h.step}`
-              //   }
+              header={
+                h.activityId === activity._id
+                  ? "Historial actual"
+                  : `Paso ${h.step}`
+              }
             >
               <Timeline
                 className="p-0"

@@ -31,7 +31,13 @@ function KanbaContainer(props: any) {
           </AccordionTab>
         </Accordion>
       ) : (
-        <div className="grid flex-nowrap w-full place-items-center border-200 border-round-md">
+        <div
+          className="grid flex-nowrap w-full place-items-center border-200 border-round-md"
+          style={{
+            height: "450px",
+            overflow: "scroll",
+          }}
+        >
           <Column
             header="Pendientes"
             items={activities?.filter((i: any) => i.state === "pending")}

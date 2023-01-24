@@ -15,7 +15,21 @@ export default function documentService() {
 
   async function getDocumentsByArea(id: string) {
     const { data } = await axios.get(
-      `http://127.0.0.1:3000/api/documents/area/${id}}`
+      `http://127.0.0.1:3000/api/documents/area/${id}`
+    );
+    return data;
+  }
+
+  async function getDocumentsByDireccion(id: string) {
+    const { data } = await axios.get(
+      `http://127.0.0.1:3000/api/documents/direccion/${id}`
+    );
+    return data;
+  }
+
+  async function getDocumentsByDepartment(id: string) {
+    const { data } = await axios.get(
+      `http://127.0.0.1:3000/api/documents/department/${id}`
     );
     return data;
   }
@@ -33,6 +47,8 @@ export default function documentService() {
     getDocuments,
     getOneDocument,
     getDocumentsByArea,
+    getDocumentsByDireccion,
+    getDocumentsByDepartment,
     addDocument,
   };
 }

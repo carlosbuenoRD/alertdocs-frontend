@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
 // Utils
-import { menu } from "@/utils/data";
+import { menu, menuAdmin } from "@/utils/data";
 
 // Styles
 import "primereact/resources/primereact.min.css";
@@ -30,6 +30,11 @@ import Area from "./pages/Area";
 import Areas from "./pages/Areas";
 import MyAccount from "./pages/MyAccount";
 import Procesos from "./pages/Procesos";
+import Documents from "./pages/Documents";
+import Direccion from "./pages/Direccion";
+import Department from "./pages/Department";
+import { useAppSelector } from "./redux/store";
+import NotFound from "./pages/NotFound";
 
 function App(props: any) {
   const [rightMenuActive, setRightMenuActive] = useState(false);
@@ -52,8 +57,7 @@ function App(props: any) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // const { user } = useAppSelector((state) => state.auth);
-  const user = {};
+  const { user } = useAppSelector((state) => state.auth);
 
   PrimeReact.ripple = true;
 
@@ -71,7 +75,7 @@ function App(props: any) {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/");
     }
   }, [user]);
 
@@ -309,7 +313,7 @@ function App(props: any) {
         {location.pathname !== "/" && (
           <>
             <AppTopbar
-              items={menu}
+              items={user?.isAdmin ? menuAdmin : menu}
               menuMode={menuMode}
               colorScheme={props.colorScheme}
               menuActive={menuActive}
@@ -328,7 +332,7 @@ function App(props: any) {
             />
 
             <AppMenu
-              model={menu}
+              model={user?.isAdmin ? menuAdmin : menu}
               onRootMenuItemClick={onRootMenuItemClick}
               onMenuItemClick={onMenuItemClick}
               onToggleMenu={onToggleMenu}
@@ -344,6 +348,7 @@ function App(props: any) {
               activeInlineProfile={activeInlineProfile}
               onChangeActiveInlineMenu={onChangeActiveInlineMenu}
               resetActiveIndex={resetActiveIndex}
+              onConfigButtonClick={onConfigButtonClick}
             />
 
             <AppBreadcrumb
@@ -364,10 +369,14 @@ function App(props: any) {
             <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={<Home />} />
             <Route path="/area/:id" element={<Area />} />
+            <Route path="/direcciones/:id" element={<Direccion />} />
+            <Route path="/department/:id" element={<Department />} />
             <Route path="/areas" element={<Areas />} />
             <Route path="/perfil" element={<MyAccount />} />
             <Route path="/procesos" element={<Procesos />} />
-            {/* <Route path="/documentos" element={<Documents />} />
+            <Route path="/documentos" element={<Documents />} />
+            <Route path="*" element={<NotFound />} />
+            {/*
             <Route path="/flujos" element={<Flujos />} />
             <Route path="/direcciones" element={<Direcciones />} /> */}
           </Routes>

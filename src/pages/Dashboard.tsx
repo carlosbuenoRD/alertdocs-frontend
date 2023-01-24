@@ -12,9 +12,9 @@ function Dashboard() {
   return (
     <div>
       <div className="grid grid-col-3">
-        <PercentageCard color="blue" />
-        <PercentageCard color="yellow" />
-        <PercentageCard color="green" />
+        <PercentageCard title="Recursos Humano" color="blue" />
+        <PercentageCard title="Direccion financiera" color="yellow" />
+        <PercentageCard title="Control Interno" color="green" />
       </div>
 
       <div className="grid-3-1 mt-5">

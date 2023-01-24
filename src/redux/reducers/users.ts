@@ -1,7 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import userService from "@/services/users";
 
-const { usersByArea, findAllUsers, handleCreateUsers } = userService();
+const {
+  usersByArea,
+  usersByDireccion,
+  usersByDepartment,
+  findAllUsers,
+  handleCreateUsers,
+} = userService();
 
 const initialState: InitialState = {
   users: [],
@@ -10,9 +16,36 @@ const initialState: InitialState = {
 
 export const getUsersByArea = createAsyncThunk(
   "auth/getUserByArea",
-  async (id: any, thunkApi) => {
+  async (id: string, thunkApi) => {
     try {
       const data = await usersByArea(id);
+      thunkApi.dispatch(setUsers(data));
+      return data;
+    } catch (error) {
+      thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+export const getUsersByDireccion = createAsyncThunk(
+  "auth/getUserByDireccion",
+  async (id: string, thunkApi) => {
+    try {
+      const data = await usersByDireccion(id);
+      thunkApi.dispatch(setUsers(data));
+      return data;
+    } catch (error) {
+      thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+export const getUsersByDepartment = createAsyncThunk(
+  "auth/getUserByDepartment",
+  async (id: string, thunkApi) => {
+    try {
+      const data = await usersByDepartment(id);
+      thunkApi.dispatch(setUsers(data));
       return data;
     } catch (error) {
       thunkApi.rejectWithValue(error);
@@ -53,12 +86,7 @@ export const authSlice = createSlice({
       state.users = action.payload;
     },
   },
-  extraReducers: (builder) => {
-    // Fetch by area
-    builder.addCase(getUsersByArea.fulfilled, (state, action) => {
-      state.users = action.payload;
-    });
-  },
+  extraReducers: (builder) => {},
 });
 
 interface InitialState {

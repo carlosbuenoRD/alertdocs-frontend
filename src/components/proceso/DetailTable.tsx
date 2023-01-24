@@ -8,6 +8,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { MultiSelect } from "primereact/multiselect";
 import { Dropdown } from "primereact/dropdown";
+import { useAppSelector } from "@/redux/store";
 
 const cities = [
   { name: "Carlos A Bueno Tavares", code: "NY" },
@@ -19,6 +20,7 @@ const cities = [
 
 function DetailTable(props: any) {
   const [selectedCities, setSelectedCities] = useState([]);
+  const { areas } = useAppSelector((state) => state.area);
 
   const panelFooterTemplate = () => {
     const selectedItems = selectedCities;
@@ -38,12 +40,19 @@ function DetailTable(props: any) {
         className="p-datatable-gridlines"
         showGridlines
         rows={10}
-        dataKey="id"
+        dataKey="_id"
         responsiveLayout="scroll"
         emptyMessage="No customers found."
       >
         <Column header="Paso" field="step" style={{ minWidth: "2rem" }} />
-        <Column header="Area" field="areaId" style={{ minWidth: "12rem" }} />
+        <Column
+          header="Area"
+          field="areaId"
+          body={(data) => (
+            <p>{areas.find((i: any) => i._id == data.areaId)?.name}</p>
+          )}
+          style={{ minWidth: "12rem" }}
+        />
         <Column
           header="Empleado Responsable"
           field="usersId"
@@ -64,7 +73,11 @@ function DetailTable(props: any) {
           field="description"
           style={{ minWidth: "10rem" }}
         />
-        <Column header="Horas" field="hours" body={(data: any) => 15} />
+        <Column
+          header="Minutos"
+          field="hours"
+          body={(data: any) => data.hours * 60}
+        />
       </DataTable>
     </div>
   );

@@ -49,7 +49,9 @@ const AppInlineMenu = (props: any) => {
               alt="avatar"
               style={{ width: "44px", height: "44px", objectFit: "fill" }}
             />
-            <span className="layout-inline-menu-text">{user?.name}</span>
+            <span className="layout-inline-menu-text text-sm">
+              {user?.name}
+            </span>
             <i className="layout-inline-menu-icon pi pi-angle-down"></i>
           </button>
           <CSSTransition
@@ -66,13 +68,13 @@ const AppInlineMenu = (props: any) => {
                 </button>
               </li>
               <li className="layout-inline-menu-action-item">
-                <button className="p-link">
+                <button className="p-link" onClick={props.onConfigButtonClick}>
                   <i className="pi pi-cog pi-fw"></i>
                   <span>Settings</span>
                 </button>
               </li>
               <li className="layout-inline-menu-action-item">
-                <button className="p-link">
+                <button className="p-link" onClick={() => navigate("/perfil")}>
                   <i className="pi pi-user pi-fw"></i>
                   <span>Profile</span>
                 </button>

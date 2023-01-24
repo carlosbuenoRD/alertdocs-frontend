@@ -3,8 +3,14 @@ import documentService from "@/services/documents";
 import { toast } from "react-toastify";
 import { toastConfig } from "@/utils/data";
 
-const { addDocument, getDocuments, getOneDocument, getDocumentsByArea } =
-  documentService();
+const {
+  addDocument,
+  getDocuments,
+  getOneDocument,
+  getDocumentsByArea,
+  getDocumentsByDireccion,
+  getDocumentsByDepartment,
+} = documentService();
 
 const initialState: InitialState = {
   documents: [],
@@ -30,6 +36,30 @@ export const fetchDocumentsByArea = createAsyncThunk(
   async (id: any, thunkApi) => {
     try {
       const data = await getDocumentsByArea(id);
+      return data;
+    } catch (error) {
+      thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchDocumentsByDireccion = createAsyncThunk(
+  "documents/getDocumentsByArea",
+  async (id: any, thunkApi) => {
+    try {
+      const data = await getDocumentsByDireccion(id);
+      return data;
+    } catch (error) {
+      thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchDocumentsByDepartments = createAsyncThunk(
+  "documents/getDocumentsByArea",
+  async (id: any, thunkApi) => {
+    try {
+      const data = await getDocumentsByDepartment(id);
       return data;
     } catch (error) {
       thunkApi.rejectWithValue(error);
@@ -82,6 +112,12 @@ export const documentslice = createSlice({
     setDocumentsList: (state, action) => {
       state.documents = action.payload;
     },
+    setDocument: (state, action) => {
+      state.document = action.payload;
+    },
+    clearDocument: (state, action) => {
+      state.document = {};
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAllDocuments.pending, (state) => {
@@ -114,6 +150,7 @@ export const documentslice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchDocumentsByArea.fulfilled, (state, action) => {
+      console.log(action);
       state.loading = false;
       state.documents = action.payload;
     });
@@ -132,7 +169,8 @@ export const documentslice = createSlice({
   },
 });
 
-const { setDocumentsList } = documentslice.actions;
+export const { setDocumentsList, setDocument, clearDocument } =
+  documentslice.actions;
 
 interface InitialState {
   documents: any[];

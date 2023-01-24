@@ -11,19 +11,28 @@ import CreateModal from "@/components/proceso/CreateModal";
 import { useAppSelector } from "./../redux/store";
 import { useAppDispatch } from "@/redux/store";
 import { fetchAllFlujos } from "./../redux/reducers/flujos";
+import DetailModal from "@/components/proceso/DetailModal";
 
 function Procesos(props: any) {
   const dispatch = useAppDispatch();
   const { flujos } = useAppSelector((state) => state.flujos);
 
+  const [detailModal, setDetailModal] = useState(false);
+  const [detailNumber, setDetailNumber] = useState<any>("");
+
   const [search, setSearch] = useState("");
+
+  const handleDetailModal = (number: any) => {
+    setDetailModal(true);
+    setDetailNumber(number);
+  };
 
   const actionTemplate = (data: any) => (
     <div className="flex">
       <Button
         className="p-button-text"
         icon="pi pi-eye"
-        // onClick={() => handleDetailModal(data._id)}
+        onClick={() => handleDetailModal(data._id)}
       ></Button>
       {/* <DeleteDialog number={data._id} confirm={deleteFlujo} /> */}
     </div>
@@ -72,6 +81,12 @@ function Procesos(props: any) {
           <PieChart />
         </Card>
       </div>
+
+      <DetailModal
+        visible={detailModal}
+        onHide={() => setDetailModal(false)}
+        id={detailNumber}
+      />
     </div>
   );
 }

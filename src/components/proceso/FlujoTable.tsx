@@ -9,6 +9,7 @@ import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
 import { fetchOneFlujo } from "@/redux/reducers/flujos";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { getAreas } from "@/redux/reducers/area";
 
 const cities = [
   { name: "Carlos A Bueno Tavares", code: "NY" },
@@ -22,6 +23,7 @@ function FlujosTable(props: any) {
   const dispatch = useAppDispatch();
 
   const { flujo } = useAppSelector((state) => state.flujos);
+  const { areas } = useAppSelector((state) => state.area);
   const [selectedCities, setSelectedCities] = useState([]);
 
   const panelFooterTemplate = () => {
@@ -33,6 +35,10 @@ function FlujosTable(props: any) {
       </div>
     );
   };
+
+  useEffect(() => {
+    dispatch(getAreas());
+  }, []);
 
   useEffect(() => {
     if (props.flujo) {
@@ -48,12 +54,19 @@ function FlujosTable(props: any) {
         className="p-datatable-gridlines"
         showGridlines
         rows={10}
-        dataKey="id"
+        dataKey="_id"
         responsiveLayout="scroll"
         emptyMessage="No customers found."
       >
         <Column header="Paso" field="step" style={{ minWidth: "2rem" }} />
-        <Column header="Area" field="areaId" style={{ minWidth: "12rem" }} />
+        <Column
+          header="Area"
+          field="areaId"
+          style={{ minWidth: "12rem" }}
+          body={(data) => {
+            return <p>{areas.find((i: any) => i._id == data.areaId)?.name}</p>;
+          }}
+        />
         <Column
           header="Empleado Responsable"
           field="usersId"

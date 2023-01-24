@@ -25,7 +25,7 @@ function PercentageCard(props: any) {
   return (
     <div
       className="percentage_card shadow-1"
-      onClick={() => navigate("/area/1")}
+      onClick={() => !props.notClick && navigate("/area/1")}
     >
       <div
         className={`percentage_card_bar w-3rem bg-${
@@ -40,7 +40,7 @@ function PercentageCard(props: any) {
       </div>
       <div className="ml-2 my-2 w-full">
         <h6 className="mb-4 border-bottom-1 border-100 pb-2 w-full uppercase text-sm">
-          Recursos Humano
+          {props.title}
         </h6>
         {props.notInfo ? null : <PercentageCardInfo />}
       </div>
