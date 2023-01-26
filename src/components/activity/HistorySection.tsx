@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 // Components
+import { Message } from "primereact/message";
 import { Accordion } from "primereact/accordion";
 import { AccordionTab } from "primereact/accordion";
 import { Timeline } from "primereact/timeline";
@@ -54,7 +55,11 @@ function HistorySection() {
         </Accordion>
       ) : (
         // <NoResult text="La actividad no tiene historia" />
-        <p>No tienes </p>
+        <Message
+          severity="error"
+          text="La actividad no tiene historia"
+          className="w-full h-3rem bg-pink-100"
+        />
       )}
     </>
   );

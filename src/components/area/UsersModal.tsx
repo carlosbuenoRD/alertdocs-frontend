@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, memo } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 
@@ -13,25 +13,28 @@ import { Dialog } from "primereact/dialog";
 import { getResultByUser } from "@/services/result";
 import { getUserEficiencia } from "@/utils/formula";
 import { InputText } from "primereact/inputtext";
+import ProfileCard from "../shared/ProfileCard";
 
-function UsersModal(props: any) {
+const UsersModal = memo((props: any) => {
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state) => state.flujos);
   const { users } = useAppSelector((state) => state.user);
 
   const [selectedCustomers, setSelectedCustomers] = useState<any>([]);
+  const [showProfile, setShowProfile] = useState<any>(false);
+  const [selectedUser, setSelectedUser] = useState<any>("");
 
   const DisplayEficiencia = (props: any) => {
     const [eficiencia, setEficiencia] = useState<any>(0);
 
     useEffect(() => {
       getAndSetEficiencia();
-    }, []);
+    }, [props.id]);
 
-    const getAndSetEficiencia = async () => {
+    const getAndSetEficiencia = useCallback(async () => {
       let result = await getUserEficiencia(props.id);
       setEficiencia(result);
-    };
+    }, [props.id]);
 
     return <p>{Math.floor(eficiencia) || 0}</p>;
   };
@@ -87,18 +90,16 @@ function UsersModal(props: any) {
           rowHover
           selection={selectedCustomers}
           onSelectionChange={(e) => handleOnSelectUser(e)}
-          // filters={filters}
           filterDisplay="menu"
           loading={loading}
           responsiveLayout="scroll"
           emptyMessage="Usuarios no encontrados."
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          onRowClick={(data) => {
+            setSelectedUser(data.data._id);
+            setShowProfile(true);
+          }}
         >
-          <Column
-            selectionMode="multiple"
-            // selectionAriaLabel="name"
-            headerStyle={{ width: "3em" }}
-          ></Column>
           <Column
             field="name"
             header="Name"
@@ -149,8 +150,13 @@ function UsersModal(props: any) {
           />
         </DataTable>
       </Dialog>
+      <ProfileCard
+        show={showProfile}
+        onClose={() => setShowProfile(false)}
+        userId={selectedUser}
+      />
     </>
   );
-}
+});
 
 export default UsersModal;

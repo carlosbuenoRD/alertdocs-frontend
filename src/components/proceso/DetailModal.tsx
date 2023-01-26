@@ -6,12 +6,22 @@ import { Dialog } from "primereact/dialog";
 import FlujosTable from "./FlujoTable";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { fetchOneFlujo, updateFlujo } from "@/redux/reducers/flujos";
+import { Toolbar } from "primereact/toolbar";
+import { TabMenu } from "primereact/tabmenu";
+import SectionPicker from "./SectionPicker";
+
+const tabs = [
+  { label: "Flujo", icon: "pi pi-clock" },
+  { label: "Participantes", icon: "pi pi-user" },
+  { label: "Estadisticas", icon: "pi pi-check-circle" },
+];
 
 function DetailModal(props: any) {
   const dispatch = useAppDispatch();
   const { flujo, loadingFlujo } = useAppSelector((state) => state.flujos);
 
   const [edit, setEdit] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [flujoState, setFlujo] = useState({
     id: "",
     description: "",
@@ -19,8 +29,10 @@ function DetailModal(props: any) {
   });
 
   useEffect(() => {
-    dispatch(fetchOneFlujo(props.id));
-  }, []);
+    if (props.id) {
+      dispatch(fetchOneFlujo(props.id));
+    }
+  }, [props.id]);
 
   useEffect(() => {
     if (flujo) {
@@ -65,10 +77,10 @@ function DetailModal(props: any) {
           footer={footer}
           visible={props.visible}
           onHide={props.onHide}
-          style={{ width: "70vw" }}
+          style={{ width: "90vw" }}
         >
-          <div className="my-4">
-            <div className="flex justify-content-between align-items-center">
+          <div className="mt-4 mb-2 card shadow-1">
+            <div className="flex justify-content-between align-items-center mb-0">
               <h5>Descripcion</h5>
               <i
                 className="pi pi-file-edit cursor-pointer text-2xl"
@@ -76,7 +88,7 @@ function DetailModal(props: any) {
               ></i>
             </div>
             <input
-              className="font-bold border-none outline-none bg-transparent"
+              className="font-bold border-none outline-none bg-transparent w-full m-0"
               disabled={!edit}
               value={flujoState.description}
               onChange={(e) =>
@@ -87,7 +99,21 @@ function DetailModal(props: any) {
               }
             />
           </div>
-          {loadingFlujo ? "" : <FlujosTable flujo={flujo} />}
+          <div className="card shadow-1">
+            <Toolbar
+              left={
+                <TabMenu
+                  model={tabs}
+                  activeIndex={activeIndex}
+                  onTabChange={(e) => setActiveIndex(e.index)}
+                  className=""
+                  style={{ fontSize: "1rem" }}
+                />
+              }
+              className="p-2 mb-3"
+            />
+            <SectionPicker active={activeIndex} />
+          </div>
         </Dialog>
       )}
     </>

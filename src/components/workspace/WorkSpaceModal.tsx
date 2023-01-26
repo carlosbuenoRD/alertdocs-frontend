@@ -66,7 +66,7 @@ function WorkSpaceModal(props: any) {
       visible={props.visible}
       style={{ width: "80vw", padding: 0 }}
       onHide={props.onHide}
-      contentClassName="p-0 overflow-x-scroll"
+      contentClassName="p-0"
     >
       <div className="workspace gap-0">
         <div className="workspace_docs card border-right-1 border-300">
@@ -88,7 +88,7 @@ function WorkSpaceModal(props: any) {
                   : "mb-2"
               }
             >
-              <DocumentCard />
+              <DocumentCard {...i} />
             </div>
           ))}
         </div>

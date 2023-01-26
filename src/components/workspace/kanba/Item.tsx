@@ -14,8 +14,6 @@ function Item(props: any) {
   const { user } = useAppSelector((state) => state.auth);
 
   const handleOpenActivity = () => {
-    console.log(props);
-
     dispatch(setActivity(props));
     setActivityModal(true);
   };
@@ -48,10 +46,9 @@ function Item(props: any) {
 
       {activityModal && (
         <ActivityModal
+          noDocument
           visible={activityModal}
-          onHide={() => {
-            setActivityModal(false);
-          }}
+          onHide={() => setActivityModal(false)}
         />
       )}
     </>

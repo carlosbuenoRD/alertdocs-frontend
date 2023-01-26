@@ -11,6 +11,7 @@ import FilesModal from "./FilesModal";
 import ReturnActivity from "./ReturnActivity";
 import { changeActivity } from "@/redux/reducers/activity";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
+import StopWatch from "../stopWatch/StopWatch";
 
 const tabs = [
   { label: "Historial", icon: "pi pi-clock" },
@@ -126,11 +127,12 @@ function ActivityHeader(props: any) {
                 Date.now() ? (
                   <div className="flex">
                     -
-                    {/* <StopWatch
+                    <StopWatch
                       time={
-                        Date.now() - (props.activity.startedAt + toMilliseconds(1))
+                        Date.now() -
+                        (props.activity.startedAt + toMilliseconds(1))
                       }
-                    /> */}
+                    />
                   </div>
                 ) : (
                   <Countdown
@@ -147,7 +149,12 @@ function ActivityHeader(props: any) {
             <h4 className="m-0">completado</h4>
           )}
           {props.activity.state === "revision" && (
-            <h4 className="m-0">En revision</h4>
+            <h4 className="m-0">
+              <StopWatch
+                time={props.activity.endedAt - props.activity.startedAt}
+                pause
+              />
+            </h4>
           )}
           {props.activity.state === "pending" && (
             <h4 className="m-0">En espera</h4>

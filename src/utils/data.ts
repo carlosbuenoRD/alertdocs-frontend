@@ -16,11 +16,11 @@ export const menuAdmin = [
     icon: "pi pi-sitemap",
     to: "/procesos",
   },
-  {
-    label: "Mantenimiento",
-    icon: "pi pi-share-alt",
-    to: "/flujos",
-  },
+  // {
+  //   label: "Mantenimiento",
+  //   icon: "pi pi-share-alt",
+  //   to: "/flujos",
+  // },
 ];
 
 export const menu = [
@@ -28,40 +28,6 @@ export const menu = [
     label: "Mi perfil",
     icon: "pi pi-user",
     to: "/perfil",
-  },
-];
-
-export const areas = [
-  "Direccion de Tecnologia y comunicacion",
-  "Viceministerio Tecnico Administrativo",
-  "Direccion de Recursos Humanos",
-  "Direccion de Control Interno",
-];
-
-export const users = [
-  {
-    _id: "636d1ebf4c11875243a1db72",
-    username: "manuel.martinez",
-    name: "Manuel Marinez Gomez",
-    activities: [],
-    password: "123456",
-    __v: 0,
-  },
-  {
-    _id: "636d1eed4c11875243a1db74",
-    username: "marcos.moreno",
-    name: "Marcos Moreno Hernandez",
-    activities: [],
-    password: "123456",
-    __v: 0,
-  },
-  {
-    _id: "636d1f054c11875243a1db76",
-    username: "carlos.bueno",
-    name: "Carlos A. Bueno Tavares",
-    activities: [],
-    password: "123456",
-    __v: 0,
   },
 ];
 

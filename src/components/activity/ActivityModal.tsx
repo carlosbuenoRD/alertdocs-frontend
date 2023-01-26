@@ -8,6 +8,7 @@ import SectionPicker from "./SectionPicker";
 import { useAppSelector } from "@/redux/store";
 import Countdown from "react-countdown";
 import WorkSpaceModal from "../workspace/WorkSpaceModal";
+import StopWatch from "../stopWatch/StopWatch";
 
 function ActivityModal(props: any) {
   const [workSpace, setWorkSpace] = useState(false);
@@ -23,11 +24,12 @@ function ActivityModal(props: any) {
       onHide={props.onHide}
       style={{ width: "70vw" }}
       footer={
-        <div className="flex justify-content-center w-full border-top-1 border-100">
-          <button onClick={() => setWorkSpace(true)} className="p-button">
-            Ver documento
-          </button>
-          <Countdown date={activity.endedAt - activity.startedAt} />
+        <div className="flex pb-0 justify-content-center w-full border-top-1 border-100">
+          {!props.noDocument && (
+            <button onClick={() => setWorkSpace(true)} className="p-button">
+              Ver documento
+            </button>
+          )}
         </div>
       }
     >

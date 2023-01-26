@@ -32,9 +32,9 @@ function KanbaContainer(props: any) {
         </Accordion>
       ) : (
         <div
-          className="grid flex-nowrap w-full place-items-center border-200 border-round-md"
+          className="grid flex-nowrap w-full place-items-center border-200 border-round-md scroll-hidden"
           style={{
-            height: "450px",
+            height: "500px",
             overflow: "scroll",
           }}
         >

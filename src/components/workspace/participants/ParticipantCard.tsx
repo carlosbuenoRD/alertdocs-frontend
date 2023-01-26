@@ -6,10 +6,12 @@ import { AvatarGroup } from "primereact/avatargroup";
 import { ProgressBar } from "primereact/progressbar";
 
 function ParticipantCard(props: any) {
+  console.log(props);
+
   const header = () => (
     <div className="flex justify-content-center align-items-center pt-2 pb-2">
       <Avatar icon="pi pi-user" shape="circle" />
-      <h6 className="m-0 ml-3">Carlos Antonio Bueno Tavares</h6>
+      <h6 className="m-0 ml-3 text-sm">{props.user.name}</h6>
     </div>
   );
 
@@ -27,7 +29,7 @@ function ParticipantCard(props: any) {
       <div className="grid px-4 text-center">
         <div className="col">
           <p>Pendientes</p>
-          <p className="font-bold">2</p>
+          <p className="font-bold">0</p>
         </div>
         <div className="col">
           <p>Con retraso</p>

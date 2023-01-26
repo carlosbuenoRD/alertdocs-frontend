@@ -31,6 +31,7 @@ export const fetchAllFlujos = createAsyncThunk(
 export const fetchOneFlujo = createAsyncThunk(
   "flujos/getOne",
   async (id: any, thunkApi) => {
+    console.log(id, "IDIDIDID");
     try {
       const data = await getOneFlujo(id);
       return data;
@@ -131,6 +132,8 @@ interface InitialState {
     _id?: string;
     activitiesSchema?: [];
     description?: string;
+    participants?: [];
+    areas?: [];
   };
   loading: boolean;
   loadingFlujo: boolean;

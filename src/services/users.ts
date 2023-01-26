@@ -1,6 +1,10 @@
 import axios from "../utils/axios";
 
 export default function userService() {
+  function usersById(id: string) {
+    return axios.get(`api/users/${id}`).then((res: any) => res.data);
+  }
+
   function usersByArea(id: string) {
     return axios.get(`api/users/area/${id}`).then((res: any) => res.data);
   }
@@ -27,5 +31,6 @@ export default function userService() {
     usersByDepartment,
     findAllUsers,
     handleCreateUsers,
+    usersById,
   };
 }

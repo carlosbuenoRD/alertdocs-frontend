@@ -1,25 +1,35 @@
 import React, { useEffect, useState } from "react";
 
+import activitiesService from "@/services/activity";
+const { getCompletedStatus } = activitiesService();
 // Components
 import { Avatar } from "primereact/avatar";
 import { AvatarGroup } from "primereact/avatargroup";
 import { ProgressBar } from "primereact/progressbar";
-// import Steps from "./Steps";
+
+import Steps from "@/components/shared/Steps";
 // import KanbanModal from "./../kanba/KanbanModal";
 
 function DocumentCard(props: any) {
   const colors = ["red", "yellow", "green"];
 
   const [color, setColor] = useState("");
+  const [completed, setCompleted] = useState(0);
 
   useEffect(() => {
-    setColor(colors[Math.floor(Math.random() * 3)]);
-  }, []);
+    // setColor(colors[Math.floor(Math.random() * 3)]);
+    getCompleted();
+  }, [props._id]);
+
+  const getCompleted = async () => {
+    const result = await getCompletedStatus(props._id);
+    setCompleted((result.done / result.total) * 100);
+  };
 
   const header = () => (
     <div className="flex justify-content-between align-items-center pt-2 pb-4">
       <h6 className="mb-0 mr-3">{props.transcode || "MEPYD-INT-2022-00740"}</h6>
-      {/* <Steps color={color} /> */}
+      <Steps color={"green"} />
     </div>
   );
 
@@ -79,8 +89,8 @@ function DocumentCard(props: any) {
 
       {!props.notProgress && (
         <ProgressBar
-          value={Math.floor(Math.random() * 99)}
-          className={"h-1rem absolute bottom-0 left-0 w-full"}
+          value={Math.floor(completed)}
+          className={"h-1rem absolute bottom-0 left-0 w-full text-xs"}
         />
       )}
       {/* {kanba && <KanbanModal visible={kanba} onHide={onHideKanba} />} */}

@@ -6,9 +6,9 @@ export default function flujoService() {
     return data;
   }
 
-  async function getFlujosByArea() {
+  async function getFlujosByArea(id: string) {
     const { data } = await axios.get(
-      "http://127.0.0.1:3000/api/flujos/area/id"
+      `http://127.0.0.1:3000/api/flujos/area/${id}`
     );
     return data;
   }

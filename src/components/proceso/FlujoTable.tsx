@@ -11,14 +11,6 @@ import { fetchOneFlujo } from "@/redux/reducers/flujos";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { getAreas } from "@/redux/reducers/area";
 
-const cities = [
-  { name: "Carlos A Bueno Tavares", code: "NY" },
-  { name: "Marcos manuel Mejia cepeda", code: "RM" },
-  { name: "London", code: "LDN" },
-  { name: "Istanbul", code: "IST" },
-  { name: "Paris", code: "PRS" },
-];
-
 function FlujosTable(props: any) {
   const dispatch = useAppDispatch();
 
@@ -88,9 +80,9 @@ function FlujosTable(props: any) {
           style={{ minWidth: "10rem" }}
         />
         <Column
-          header="Horas"
+          header="Minutos"
           field="hours"
-          body={(data) => data.hours.toFixed(2)}
+          body={(data) => data.hours * 60}
         />
       </DataTable>
     </div>

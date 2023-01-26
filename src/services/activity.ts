@@ -54,6 +54,13 @@ export default function activityService() {
     return data;
   }
 
+  async function getCompletedStatus(id: any) {
+    const { data } = await axios.get(
+      `http://127.0.0.1:3000/api/activities/completed/document/${id}`
+    );
+    return data;
+  }
+
   async function addHistory(info: any) {
     const { data } = await axios.post(
       `http://127.0.0.1:3000/activities/add-history`,
@@ -71,5 +78,6 @@ export default function activityService() {
     getActivitiesByDocumentAndArea,
     changeState,
     addHistory,
+    getCompletedStatus,
   };
 }

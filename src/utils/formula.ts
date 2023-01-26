@@ -29,8 +29,6 @@ export const getEficiencia = (activities: any[]) => {
 };
 
 export const getUserEficiencia = async (id: string) => {
-  console.log("dios");
-
   return getEficiencia(await getUserActivities(id));
 };
 

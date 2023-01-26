@@ -8,10 +8,10 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import CreateModal from "@/components/proceso/CreateModal";
-import { useAppSelector } from "./../redux/store";
-import { useAppDispatch } from "@/redux/store";
-import { fetchAllFlujos } from "./../redux/reducers/flujos";
+import { useAppSelector, useAppDispatch } from "@/redux/store";
+import { fetchAllFlujos, deleteFlujo } from "@/redux/reducers/flujos";
 import DetailModal from "@/components/proceso/DetailModal";
+import MyConfirmPopup from "@/components/shared/MyConfirmPopup";
 
 function Procesos(props: any) {
   const dispatch = useAppDispatch();
@@ -23,20 +23,27 @@ function Procesos(props: any) {
   const [search, setSearch] = useState("");
 
   const handleDetailModal = (number: any) => {
-    setDetailModal(true);
     setDetailNumber(number);
+    setDetailModal(true);
   };
 
-  const actionTemplate = (data: any) => (
-    <div className="flex">
-      <Button
-        className="p-button-text"
-        icon="pi pi-eye"
-        onClick={() => handleDetailModal(data._id)}
-      ></Button>
-      {/* <DeleteDialog number={data._id} confirm={deleteFlujo} /> */}
-    </div>
-  );
+  const actionTemplate = (data: any) => {
+    return (
+      <div className="flex">
+        <Button
+          className="p-button-text text-blue-400"
+          icon="pi pi-eye"
+          onClick={() => handleDetailModal(data._id)}
+        ></Button>
+        <MyConfirmPopup
+          message="Estas seguro de eliminar el flujo?"
+          iconButton="pi pi-trash text-pink-400"
+          className="p-button-text"
+          accept={() => dispatch(deleteFlujo(data._id))}
+        />
+      </div>
+    );
+  };
 
   useEffect(() => {
     dispatch(fetchAllFlujos());
@@ -58,7 +65,7 @@ function Procesos(props: any) {
               className="p-datatable-gridlines h-full"
               showGridlines
               rows={6}
-              dataKey="id"
+              dataKey="_id"
               responsiveLayout="scroll"
               emptyMessage="No customers found."
             >

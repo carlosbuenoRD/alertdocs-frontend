@@ -150,7 +150,6 @@ export const documentslice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchDocumentsByArea.fulfilled, (state, action) => {
-      console.log(action);
       state.loading = false;
       state.documents = action.payload;
     });

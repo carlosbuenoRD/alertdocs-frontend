@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 
 // Components
 import Card from "../shared/Card";
@@ -8,15 +8,22 @@ import AreaEficiencia from "./AreaEficiencia";
 import AreaHeader from "./AreaHeader";
 import AreaUsers from "./AreaUsers";
 import LineChart from "../charts/LineChart";
+import EstadisticasModal from "./EstadisticasModal";
+import DevolucionesModal from "./AreaDevolucionesModal";
 
 function General(props: any) {
+  const [estadisticas, setEstadisticas] = useState(false);
+  const [devoluciones, setDevoluciones] = useState(false);
+
   return (
     <div className="relative">
       <AreaHeader title={props.title} />
       <div className="area_body grid-col-2">
         <div className="flex flex-column">
           <AreaDocuments />
-          <AreaDevolucion />
+          <div onClick={() => setDevoluciones(true)}>
+            <AreaDevolucion />
+          </div>
         </div>
 
         <div>
@@ -26,9 +33,23 @@ function General(props: any) {
       </div>
 
       {/* Estadisticas */}
-      <Card title="Estadisticas" height="fit" hover>
+      <Card
+        title="Estadisticas"
+        height="fit"
+        hover
+        onClick={() => setEstadisticas(true)}
+      >
         <LineChart />
       </Card>
+
+      <EstadisticasModal
+        visible={estadisticas}
+        onHide={() => setEstadisticas(false)}
+      />
+      <DevolucionesModal
+        visible={devoluciones}
+        onHide={() => setDevoluciones(false)}
+      />
     </div>
   );
 }

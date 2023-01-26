@@ -32,11 +32,9 @@ function CreateModal(props: any) {
     })
   );
 
-  const [days, setDays] = useState<any>(1);
   const [hours, setHours] = useState<any>(0);
   const [step, setStep] = useState<any>(1);
   const [owner, setOwner] = useState<boolean>(false);
-  const [endFlujo, setEndFlujo] = useState<boolean>(false);
   const [description, setDescription] = useState("");
   const [area, setArea] = useState("");
   const [department, setDepartment] = useState("");
@@ -45,8 +43,24 @@ function CreateModal(props: any) {
   const [activitieDescription, setActivitieDescription] = useState("");
   const [activities, setActivities] = useState<any[]>([]);
 
+  const [participants, setParticipants] = useState<any>([]);
+  const [activitiesAreas, setActivitiesAreas] = useState<any>([]);
+
+  useEffect(() => {
+    let areasSet = new Set();
+    let participantsSet = new Set();
+
+    activities?.map((p: any) => {
+      p.usersId.map((i: any) => participantsSet.add(i._id));
+      areasSet.add(p.areaId);
+    });
+
+    setParticipants(Array.from(participantsSet));
+    setActivitiesAreas(Array.from(areasSet));
+  }, [activities]);
+
   const addActivitie = () => {
-    if (area && user && activitieDescription && days) {
+    if (area && user && activitieDescription) {
       setActivities((prev: any[]) => {
         return [
           ...prev,
@@ -75,14 +89,31 @@ function CreateModal(props: any) {
       return toast.warn("Llena toda la informacion!", toastConfig);
     }
 
-    dispatch(
-      createFlujo({
+    // console.log(Array.from(participantsSet));
+    // console.log(Array.from(areasSet));
+
+    console.log(
+      {
         description,
-        days,
         activitiesSchema: activities.map((i: any) => ({
           ...i,
           usersId: i.usersId.map((u: any) => u._id),
         })),
+        participants,
+        areas: activitiesAreas,
+      },
+      "dsaaaaaaaaaaa"
+    );
+
+    dispatch(
+      createFlujo({
+        description,
+        activitiesSchema: activities.map((i: any) => ({
+          ...i,
+          usersId: i.usersId.map((u: any) => u._id),
+        })),
+        participants,
+        areas: activitiesAreas,
       })
     );
     props.onHide();
@@ -95,7 +126,6 @@ function CreateModal(props: any) {
     setUser("");
     setActivitieDescription("");
     setHours(1);
-    setEndFlujo(false);
   };
 
   const footer = (
