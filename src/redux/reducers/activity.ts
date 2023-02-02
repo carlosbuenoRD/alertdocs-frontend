@@ -4,6 +4,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import activityService from "@/services/activity";
 
 const {
+  getActivityById,
   getActivitiesByUser,
   changeState,
   getActivitiesByArea,
@@ -23,6 +24,18 @@ export const fetchMyActivities = createAsyncThunk(
   async (id: any, thunkApi) => {
     try {
       const data = await getActivitiesByUser(id);
+      return data;
+    } catch (error) {
+      thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchActivityById = createAsyncThunk(
+  "activities/byId",
+  async (id: any, thunkApi) => {
+    try {
+      const data = await getActivityById(id);
       return data;
     } catch (error) {
       thunkApi.rejectWithValue(error);
@@ -124,6 +137,18 @@ export const activityslice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // BY Id
+    builder.addCase(fetchActivityById.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchActivityById.fulfilled, (state, action) => {
+      state.loading = false;
+      state.activity = action.payload;
+    });
+    builder.addCase(fetchActivityById.rejected, (state, action) => {
+      state.loading = false;
+    });
+
     // BY USER
     builder.addCase(fetchMyActivities.pending, (state) => {
       state.loading = true;

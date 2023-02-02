@@ -4,6 +4,10 @@
   display: none;
 }
 
+.p-accordion-header-text {
+  width: 100%;
+}
+
 .layout-dashboard {
   /* Responsive */
 }

@@ -9,6 +9,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { MultiSelect, MultiSelectProps } from "primereact/multiselect";
 import { Calendar, CalendarProps } from "primereact/calendar";
 import Chat from "../Chat";
+import CreateModal from "../documents/CreateModal";
 
 const cities = [
   { name: "New York", code: "NY" },
@@ -22,6 +23,7 @@ const AppBreadcrumb = (props: any) => {
   const [search, setSearch] = useState("");
   const [selectedCities, setSelectedCities] = useState([]);
   const [dates2, setDates2] = useState<any>("");
+  const [createModal, setCreateModal] = useState<boolean>(false);
 
   const [chat, setChat] = useState<any>(false);
 
@@ -84,6 +86,11 @@ const AppBreadcrumb = (props: any) => {
           }`}
         />
       </div>
+
+      <button className="p-button" onClick={() => setCreateModal(true)}>
+        <i className="pi pi-plus mr-2" />
+        documento
+      </button>
 
       {/* SEARCH */}
       <div className="layout-breadcrumb-right-items">
@@ -189,6 +196,7 @@ const AppBreadcrumb = (props: any) => {
       </div>
 
       <Chat open={chat} onClose={() => setChat(false)} />
+      <CreateModal visible={createModal} onHide={() => setCreateModal(false)} />
     </div>
   );
 };

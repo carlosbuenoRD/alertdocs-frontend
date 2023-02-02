@@ -3,24 +3,24 @@ import React, { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 
 // Components
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
-import { InputTextarea } from "primereact/inputtextarea";
 import { MultiSelect } from "primereact/multiselect";
 import { AddRemoveUser } from "@/redux/reducers/users";
-import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import { getResultByUser } from "@/services/result";
 import { getUserEficiencia } from "@/utils/formula";
 import { InputText } from "primereact/inputtext";
 import { Accordion } from "primereact/accordion";
 import { AccordionTab } from "primereact/accordion";
-import { Checkbox } from "primereact/checkbox";
 import Card from "../shared/Card";
+import { formatTime } from "@/utils/dateFormat";
+import StopWatch from "../stopWatch/StopWatch";
+import {
+  AccordionDevolucionBody,
+  AccordionDevolucionHeader,
+} from "../shared/AccordionDevolucion";
 
 function AreaDevolucionesModal(props: any) {
   const dispatch = useAppDispatch();
-  const { loading } = useAppSelector((state) => state.flujos);
+  const { devoluciones } = useAppSelector((state) => state.devolucion);
   const { users } = useAppSelector((state) => state.user);
 
   const [selectedCustomers, setSelectedCustomers] = useState<any>([]);
@@ -39,6 +39,8 @@ function AreaDevolucionesModal(props: any) {
 
     return <p>{Math.floor(eficiencia) || 0}</p>;
   };
+
+  console.log(devoluciones);
 
   const renderHeader = () => {
     return (
@@ -82,36 +84,15 @@ function AreaDevolucionesModal(props: any) {
 
         <div className="grid-3-1">
           <Accordion className="card">
-            {Array.from(Array(10)).map((i) => (
+            {devoluciones.map((i: any) => (
               <AccordionTab
-                key={i}
-                className=" mb-1"
-                header="Hector Torres Mejia ----- 27/10/2022 | 11:32am"
+                key={i._id}
+                header={<AccordionDevolucionHeader {...i} />}
+                headerClassName={`w-full ${
+                  i.endedAt ? "bg-green-100" : "bg-pink-100"
+                }`}
               >
-                <p>
-                  Faltaron requisitos de informacion para la continuacion del
-                  documento
-                </p>
-                <div>
-                  <div className="col-12">
-                    <Checkbox inputId="cb1" value="New York"></Checkbox>
-                    <label htmlFor="cb1" className="p-checkbox-label ml-2">
-                      Agregar fecha de finalizacion
-                    </label>
-                  </div>
-                  <div className="col-12">
-                    <Checkbox inputId="cb2" value="San Francisco"></Checkbox>
-                    <label htmlFor="cb2" className="p-checkbox-label ml-2">
-                      Agregar cupones de ventas
-                    </label>
-                  </div>
-                  <div className="col-12">
-                    <Checkbox inputId="cb3" value="Los Angeles"></Checkbox>
-                    <label htmlFor="cb3" className="p-checkbox-label ml-2">
-                      Firma de representante faltante
-                    </label>
-                  </div>
-                </div>
+                <AccordionDevolucionBody {...i} />
               </AccordionTab>
             ))}
           </Accordion>
@@ -119,7 +100,10 @@ function AreaDevolucionesModal(props: any) {
           <div>
             <Card title="Tiempo de devoluciones" height="">
               <h1 className="text-6xl lh-2 font-bold text-orange-300 text-center">
-                2:25:12
+                <StopWatch
+                  time={devoluciones ? formatTime(devoluciones) : 0}
+                  pause
+                />
               </h1>
             </Card>
             <Card title="Deficit en devoluciones" height="">

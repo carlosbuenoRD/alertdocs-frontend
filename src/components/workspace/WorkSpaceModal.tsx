@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // Components
 import { TabMenu } from "primereact/tabmenu";
@@ -46,16 +46,22 @@ function WorkSpaceModal(props: any) {
     if (section === "departments")
       dispatch(fetchDocumentsByDepartments(areaId));
 
-    return () => {
-      dispatch(clearActivities(""));
-      dispatch(clearDocument(""));
-    };
+    // return () => {
+    // dispatch(clearActivities(""));
+    // dispatch(clearDocument(""));
+    // };
   }, []);
 
   const handleSelectDocument = (document: any) => {
     dispatch(setDocument(document));
     dispatch(fetchDocumentActivities(document._id));
     setActiveIndex(0);
+  };
+
+  const handleOnHide = () => {
+    dispatch(clearActivities(""));
+    dispatch(clearDocument(""));
+    props.onHide();
   };
 
   return (
@@ -65,7 +71,7 @@ function WorkSpaceModal(props: any) {
       maximized
       visible={props.visible}
       style={{ width: "80vw", padding: 0 }}
-      onHide={props.onHide}
+      onHide={handleOnHide}
       contentClassName="p-0"
     >
       <div className="workspace gap-0">

@@ -132,15 +132,7 @@ function CreateModal(props: any) {
               aria-label="Countries"
             />
           </div>
-          <div className="field col">
-            <label htmlFor="name2">Numero de libramiento</label>
-            <InputText
-              id="name2"
-              type="text"
-              value={libramiento}
-              onChange={(e) => setLibramiento(e.target.value)}
-            />
-          </div>
+
           <div className="field col">
             <label htmlFor="email2">Descripcion*</label>
             <InputText

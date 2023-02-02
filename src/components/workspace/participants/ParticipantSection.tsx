@@ -9,9 +9,9 @@ function ParticipantSection() {
 
   return (
     <div
-      className="grid-col-3 scroll-hidden"
+      className="grid-col-3 scroll-hidden p-2"
       style={{
-        height: "500px",
+        maxHeight: "500px",
         overflow: "scroll",
       }}
     >

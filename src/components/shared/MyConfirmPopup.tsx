@@ -20,6 +20,7 @@ const MyConfirmPopup = (props: Props) => {
         icon={props.iconButton}
         label={props.labelButton}
         className={props.className}
+        tooltip={props.tooltip}
       ></Button>
 
       <ConfirmPopup />
@@ -34,6 +35,7 @@ interface Props {
   icon?: string;
   accept: Function;
   className?: string;
+  tooltip?: string;
 }
 
 export default MyConfirmPopup;

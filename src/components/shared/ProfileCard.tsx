@@ -16,8 +16,6 @@ function ProfileCard(props: any) {
   const [isBrowser, setIsBrowser] = useState(false);
   const [user, setUser] = useState<any>();
 
-  console.log(user);
-
   useEffect(() => {
     setIsBrowser(true);
     getUser();
@@ -34,7 +32,7 @@ function ProfileCard(props: any) {
   };
 
   const modalContent: ReactNode = props.show ? (
-    <div style={{ zIndex: 1200, position: "relative" }}>
+    <div style={{ zIndex: 10000, position: "relative" }}>
       <div id="wave1"></div>
       <div className="profileCard_container">
         <main

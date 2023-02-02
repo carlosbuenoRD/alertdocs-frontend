@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import Timer from "./Timer";
 
 function StopWatch(props: any) {
-  const [time, setTime] = useState(props.time);
+  const [time, setTime] = useState(0);
+
+  React.useEffect(() => {
+    setTime(props.time);
+  }, [props.time]);
 
   React.useEffect(() => {
     if (!props.pause) {

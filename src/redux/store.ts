@@ -13,6 +13,7 @@ import activityReducer from "./reducers/activity";
 import historyReducer from "./reducers/history";
 import filesReducer from "./reducers/files";
 import commentsReducer from "./reducers/comments";
+import devolucionReducer from "./reducers/devolucion";
 
 // Store
 export const store = configureStore({
@@ -26,6 +27,7 @@ export const store = configureStore({
     history: historyReducer,
     files: filesReducer,
     comments: commentsReducer,
+    devolucion: devolucionReducer,
   },
 });
 

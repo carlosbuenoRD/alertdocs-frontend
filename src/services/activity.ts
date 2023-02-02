@@ -1,38 +1,34 @@
 import axios from "axios";
+import { API_URL } from "@/utils/constants";
 
 export default function activityService() {
   async function getActivitiesByUser(id: any) {
-    const { data } = await axios.get(
-      `http://127.0.0.1:3000/api/activities/myactivity/${id}`
-    );
+    const { data } = await axios.get(`${API_URL}/activities/myactivity/${id}`);
+    return data;
+  }
+
+  async function getActivityById(id: any) {
+    const { data } = await axios.get(`${API_URL}/activities/${id}`);
     return data;
   }
 
   async function getActivitiesByDocument(id: any) {
-    const { data } = await axios.get(
-      `http://127.0.0.1:3000/api/activities/document/${id}`
-    );
+    const { data } = await axios.get(`${API_URL}/activities/document/${id}`);
     return data;
   }
 
   async function getActivitiesByArea(id: any) {
-    const { data } = await axios.get(
-      `http://127.0.0.1:3000/api/activities/area/${id}`
-    );
+    const { data } = await axios.get(`${API_URL}/activities/area/${id}`);
     return data;
   }
 
   async function getActivitiesByDireccion(id: any) {
-    const { data } = await axios.get(
-      `http://127.0.0.1:3000/api/activities/direccion/${id}`
-    );
+    const { data } = await axios.get(`${API_URL}/activities/direccion/${id}`);
     return data;
   }
 
   async function getActivitiesByDepartment(id: any) {
-    const { data } = await axios.get(
-      `http://127.0.0.1:3000/api/activities/department/${id}`
-    );
+    const { data } = await axios.get(`${API_URL}/activities/department/${id}`);
     return data;
   }
 
@@ -41,14 +37,14 @@ export default function activityService() {
     document: string
   ) {
     const { data } = await axios.get(
-      `http://127.0.0.1:3000/api/activities/${area}/${document}`
+      `${API_URL}/activities/${area}/${document}`
     );
     return data;
   }
 
   async function changeState(id: any, state: string) {
     const { data } = await axios.patch(
-      `http://127.0.0.1:3000/api/activities/changestate/${id}`,
+      `${API_URL}/activities/changestate/${id}`,
       state
     );
     return data;
@@ -56,7 +52,14 @@ export default function activityService() {
 
   async function getCompletedStatus(id: any) {
     const { data } = await axios.get(
-      `http://127.0.0.1:3000/api/activities/completed/document/${id}`
+      `${API_URL}/activities/completed/document/${id}`
+    );
+    return data;
+  }
+
+  async function getCompletedByArea(id: any) {
+    const { data } = await axios.get(
+      `${API_URL}/activities/completed/area/${id}`
     );
     return data;
   }
@@ -70,6 +73,7 @@ export default function activityService() {
   }
 
   return {
+    getActivityById,
     getActivitiesByUser,
     getActivitiesByDocument,
     getActivitiesByArea,
@@ -79,5 +83,6 @@ export default function activityService() {
     changeState,
     addHistory,
     getCompletedStatus,
+    getCompletedByArea,
   };
 }

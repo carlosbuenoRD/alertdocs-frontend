@@ -15,7 +15,7 @@ export default function Timer(props: any) {
 
   return (
     <div className="text-3xl">
-      <span className="digits">{padTo2Digits(hours)}:</span>
+      <span className="digits">{padTo2Digits(hours === -1 ? 0 : hours)}:</span>
       <span className="digits">{padTo2Digits(minutes)}:</span>
       <span className="digits">{padTo2Digits(seconds)}</span>
       {/* <span className="digits mili-sec">

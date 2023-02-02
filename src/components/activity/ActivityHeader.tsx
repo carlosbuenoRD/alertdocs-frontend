@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 // Components
-import Countdown from "react-countdown";
 import { Toolbar } from "primereact/toolbar";
 import { Button } from "primereact/button";
 import { TabMenu } from "primereact/tabmenu";
@@ -11,7 +10,7 @@ import FilesModal from "./FilesModal";
 import ReturnActivity from "./ReturnActivity";
 import { changeActivity } from "@/redux/reducers/activity";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import StopWatch from "../stopWatch/StopWatch";
+import ActivityTimer from "./ActivityTimer";
 
 const tabs = [
   { label: "Historial", icon: "pi pi-clock" },
@@ -23,8 +22,6 @@ const tabs = [
 function ActivityHeader(props: any) {
   const dispatch = useAppDispatch();
 
-  const { user } = useAppSelector((state) => state.auth);
-
   const [commentModal, setCommentModal] = useState(false);
   const [fileModal, setFileModal] = useState(false);
   const [returnActivity, setReturnActivity] = useState(false);
@@ -32,8 +29,6 @@ function ActivityHeader(props: any) {
   const onHideComment = () => setCommentModal(false);
   const onHideFile = () => setFileModal(false);
   const onHideReturn = () => setReturnActivity(false);
-
-  const toMilliseconds = (hrs: number) => hrs * 60 * 60 * 1000;
 
   const handleStartActivity = () => {
     dispatch(
@@ -56,14 +51,7 @@ function ActivityHeader(props: any) {
         tooltip="Subir archivo"
         onClick={() => setFileModal(true)}
       />
-      {props.activity.usersId._id === user?._id && (
-        <Button
-          icon="pi pi-sign-out"
-          className="p-button-danger"
-          tooltip="Devolver documento"
-          onClick={() => setReturnActivity(true)}
-        />
-      )}
+
       <TabMenu
         model={tabs}
         activeIndex={props.active}
@@ -76,9 +64,18 @@ function ActivityHeader(props: any) {
 
   const right = () => (
     <>
+      {props.activity.usersId._id && (
+        <Button
+          icon="pi pi-sign-out"
+          className="p-button-danger mx-2"
+          tooltip="Devolver documento"
+          onClick={() => setReturnActivity(true)}
+        />
+      )}
       {props.activity.state === "progress" && (
         <MyConfirmPopup
           message="Estas seguro de terminar la actividad?"
+          tooltip="Terminar tarea"
           iconButton="pi pi-send"
           className="p-button-danger"
           accept={() =>
@@ -93,6 +90,7 @@ function ActivityHeader(props: any) {
       )}
       {props.activity.step === 1 && props.activity.state === "pending" && (
         <MyConfirmPopup
+          tooltip="Empezar tarea"
           message="Estas seguro de empezar la actividad?"
           iconButton="pi pi-play"
           accept={handleStartActivity}
@@ -109,57 +107,16 @@ function ActivityHeader(props: any) {
         // right={user?._id === props.activity.userId ? right : ""}
         className="p-2"
       />
-      <div className="greenGlow m-0 mt-2 mb-3 border-round-md p-2 grid w-full">
-        <div className="col-5 m-auto">
+      <div className="greenGlow m-0 mt-2 mb-3 border-round-md p-2 grid-col-3 w-full">
+        <div className="col-5 w-full">
           <p className="m-0 mb-2 font-bold">Descripcion:</p>
           <label>{props.activity.description}</label>
         </div>
-        <div className="col-4">
+        <div className="col-4 w-full">
           <p className="m-0 mb-2 font-bold">Tiempo estimado:</p>
           <label>{Math.floor(props.activity.hours * 60)} Minutos</label>
         </div>
-        <div className="col-3 m-0 align-self-center text-center">
-          {props.activity.state === "progress" && (
-            <>
-              <div className="text-4xl m-0">
-                {props.activity.startedAt +
-                  toMilliseconds(props.activity.hours) <=
-                Date.now() ? (
-                  <div className="flex">
-                    -
-                    <StopWatch
-                      time={
-                        Date.now() -
-                        (props.activity.startedAt + toMilliseconds(1))
-                      }
-                    />
-                  </div>
-                ) : (
-                  <Countdown
-                    date={
-                      props.activity.startedAt +
-                      toMilliseconds(props.activity.hours)
-                    }
-                  />
-                )}
-              </div>
-            </>
-          )}
-          {props.activity.state === "completed" && (
-            <h4 className="m-0">completado</h4>
-          )}
-          {props.activity.state === "revision" && (
-            <h4 className="m-0">
-              <StopWatch
-                time={props.activity.endedAt - props.activity.startedAt}
-                pause
-              />
-            </h4>
-          )}
-          {props.activity.state === "pending" && (
-            <h4 className="m-0">En espera</h4>
-          )}
-        </div>
+        <ActivityTimer activity={props.activity} />
       </div>
 
       <CommentModal visible={commentModal} onHide={onHideComment} />
