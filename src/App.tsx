@@ -373,6 +373,7 @@ function App(props: any) {
             <Route path="/department/:id" element={<Department />} />
             <Route path="/areas" element={<Areas />} />
             <Route path="/perfil" element={<MyAccount />} />
+            <Route path="/perfil/:id" element={<MyAccount />} />
             <Route path="/procesos" element={<Procesos />} />
             <Route path="/documentos" element={<Documents />} />
             <Route path="*" element={<NotFound />} />

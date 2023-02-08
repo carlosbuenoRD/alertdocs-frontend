@@ -72,6 +72,7 @@ function DetailTable(props: any) {
           header="Descripcion"
           field="description"
           style={{ minWidth: "10rem" }}
+          editor
         />
         <Column
           header="Minutos"

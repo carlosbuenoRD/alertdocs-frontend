@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 
 import {
   getResultByArea,
@@ -9,7 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { getUserEficiencia } from "@/utils/formula";
 
-function PercentageCircle(props: Props) {
+const PercentageCircle = memo(function PercentageCircle(props: Props) {
   const navigate = useNavigate();
   const [result, setResult] = useState<any>(0);
 
@@ -21,6 +21,8 @@ function PercentageCircle(props: Props) {
   const getByUser = async () =>
     setResult(await getUserEficiencia(props.user || ""));
 
+  console.log(props);
+
   useEffect(() => {
     if (props.area && props.section) {
       if (props.section === "area") getByArea();
@@ -28,7 +30,7 @@ function PercentageCircle(props: Props) {
       if (props.section === "department") getByDepartment();
     }
     props.user && getByUser();
-  }, [props.section, props.area]);
+  }, [props.section, props.area, props.user]);
 
   return (
     <div className="grid-center">
@@ -38,7 +40,9 @@ function PercentageCircle(props: Props) {
         } cursor-pointer m-0`}
         style={{ fontSize: props.size ? `${props.size}px` : "220px" }}
         onClick={() =>
-          !props.user && navigate(`/${props.section || "area"}/${props.area}`)
+          !props.user &&
+          !props.notClick &&
+          navigate(`/${props.section || "area"}/${props.area}`)
         }
       >
         <span>{Math.round(result) || 0}%</span>
@@ -50,7 +54,7 @@ function PercentageCircle(props: Props) {
       {props.title && <h6 className="text-center">{props.title}</h6>}
     </div>
   );
-}
+});
 
 interface Props {
   title?: string;
@@ -59,6 +63,7 @@ interface Props {
   area?: string;
   user?: string;
   section?: string;
+  notClick?: boolean;
 }
 
 export default PercentageCircle;

@@ -41,10 +41,13 @@ const UsersModal = memo((props: any) => {
 
   const renderHeader = () => {
     return (
-      <div className="flex justify-content-between align-items-center">
-        <h5 className="m-0">Usuarios</h5>
+      <div className="flex justify-content-between align-items-center my-1">
         <div className="flex align-items-center">
-          <div className="p-float-label mr-3">
+          <span className="p-input-icon-left mr-3">
+            <i className="pi pi-search" />
+            <InputText value="" placeholder="Keyword Search" />
+          </span>
+          <div className="p-float-label">
             <MultiSelect
               display="chip"
               optionLabel="name"
@@ -55,10 +58,6 @@ const UsersModal = memo((props: any) => {
             />
             <label htmlFor="search">Filtro de Departamentos</label>
           </div>
-          <span className="p-input-icon-left">
-            <i className="pi pi-search" />
-            <InputText value="" placeholder="Keyword Search" />
-          </span>
         </div>
       </div>
     );
@@ -78,77 +77,81 @@ const UsersModal = memo((props: any) => {
         style={{ width: "80vw", padding: 0 }}
         onHide={props.onHide}
       >
-        <DataTable
-          value={users}
-          paginator
-          className="p-datatable-customers"
-          header={header}
-          rows={10}
-          paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-          rowsPerPageOptions={[10, 25, 50]}
-          dataKey="id"
-          rowHover
-          selection={selectedCustomers}
-          onSelectionChange={(e) => handleOnSelectUser(e)}
-          filterDisplay="menu"
-          loading={loading}
-          responsiveLayout="scroll"
-          emptyMessage="Usuarios no encontrados."
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-          onRowClick={(data) => {
-            setSelectedUser(data.data._id);
-            setShowProfile(true);
-          }}
-        >
-          <Column
-            field="name"
-            header="Name"
-            sortable
-            filter
-            filterPlaceholder="Search by name"
-            style={{ minWidth: "14rem" }}
-          />
-          <Column
-            field="_id"
-            header="Eficiencia"
-            sortable
-            className="text-left"
-            filterField="users.name"
-            style={{ minWidth: "14rem" }}
-            filter
-            filterPlaceholder="Search by country"
-            body={(data: any) => <DisplayEficiencia id={data._id} />}
-          />
-          <Column
-            field="cargo"
-            header="Cargo"
-            sortable
-            filterField="date"
-            dataType="date"
-            style={{ minWidth: "8rem" }}
-            filter
-          />
-          <Column
-            field="isAdmin"
-            header="administrador"
-            sortable
-            filterMenuStyle={{ width: "14rem" }}
-            style={{ minWidth: "10rem" }}
-            filter
-            body={(data) => (
-              <div
-                className={`w-2rem h-2rem border-round-md ${
-                  data.isAdmin === true ? "bg-green-400" : "bg-pink-400"
-                }`}
-              ></div>
-            )}
-          />
-          <Column
-            headerStyle={{ width: "4rem", textAlign: "center" }}
-            bodyStyle={{ textAlign: "center", overflow: "visible" }}
-            body={() => <Button type="button" icon="pi pi-cog"></Button>}
-          />
-        </DataTable>
+        <div className="card shadow-1 pt-0 mt-3">
+          <DataTable
+            value={users}
+            paginator
+            className="p-datatable-customers"
+            header={header}
+            rows={10}
+            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+            rowsPerPageOptions={[10, 25, 50]}
+            dataKey="id"
+            rowHover
+            selectionMode="single"
+            dragSelection
+            selection={selectedCustomers}
+            onSelectionChange={(e) => handleOnSelectUser(e)}
+            filterDisplay="menu"
+            loading={loading}
+            responsiveLayout="scroll"
+            emptyMessage="Usuarios no encontrados."
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            onRowClick={(data) => {
+              setSelectedUser(data.data._id);
+              setShowProfile(true);
+            }}
+          >
+            <Column
+              field="name"
+              header="Name"
+              sortable
+              filter
+              filterPlaceholder="Search by name"
+              style={{ minWidth: "14rem" }}
+            />
+            <Column
+              field="_id"
+              header="Eficiencia"
+              sortable
+              className="text-left"
+              filterField="users.name"
+              style={{ minWidth: "14rem" }}
+              filter
+              filterPlaceholder="Search by country"
+              body={(data: any) => <DisplayEficiencia id={data._id} />}
+            />
+            <Column
+              field="cargo"
+              header="Cargo"
+              sortable
+              filterField="date"
+              dataType="date"
+              style={{ minWidth: "8rem" }}
+              filter
+            />
+            <Column
+              field="isAdmin"
+              header="administrador"
+              sortable
+              filterMenuStyle={{ width: "14rem" }}
+              style={{ minWidth: "10rem" }}
+              filter
+              body={(data) => (
+                <div
+                  className={`w-2rem h-2rem border-round-md ${
+                    data.isAdmin === true ? "bg-green-400" : "bg-pink-400"
+                  }`}
+                ></div>
+              )}
+            />
+            <Column
+              headerStyle={{ width: "4rem", textAlign: "center" }}
+              bodyStyle={{ textAlign: "center", overflow: "visible" }}
+              body={() => <Button type="button" icon="pi pi-cog"></Button>}
+            />
+          </DataTable>
+        </div>
       </Dialog>
       <ProfileCard
         show={showProfile}

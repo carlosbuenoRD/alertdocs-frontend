@@ -22,20 +22,22 @@ ul {
 
 /* SCROLL BAR */
 *::-webkit-scrollbar {
-  background-color: #fff;
+  background-color: transparent;
   width: 16px;
 }
 
 /* background of the scrollbar except button or resizer */
 *::-webkit-scrollbar-track {
-  background-color: #fff;
+  background: transparent;
+  -webkit-box-shadow: none;
 }
 
 /* scrollbar itself */
 *::-webkit-scrollbar-thumb {
-  background-color: #babac0;
+  background-color: rgba(238,81,79, 0.7);
   border-radius: 16px;
   border: 5px solid #fff;
+  -webkit-box-shadow: inset 0 0 6px;
 }
 
 /* set button(top and bottom of the scrollbar) */

@@ -4,7 +4,7 @@ import { classNames } from "primereact/utils";
 const AppRightPanel = (props: any) => {
   return (
     <div
-      className={classNames("layout-rightmenu", {
+      className={classNames("layout-rightmenu scroll-hidden", {
         "layout-rightmenu-active": props.rightMenuActive,
       })}
       onClick={props.onRightMenuClick}
@@ -18,7 +18,7 @@ const AppRightPanel = (props: any) => {
       <div className="user-detail-wrapper">
         <div className="user-detail-content">
           <img
-            src="assets/images/mypic.png"
+            src="/assets/images/mypic.png"
             alt="atlantis"
             className="user-image border-circle"
             style={{ objectFit: "fill" }}

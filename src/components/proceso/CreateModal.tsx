@@ -21,6 +21,8 @@ import {
   getUsersByDepartment,
 } from "@/redux/reducers/users";
 import DetailTable from "./DetailTable";
+import SectionStep from "../shared/SectionStep";
+import Card from "@/components/shared/Card";
 
 function CreateModal(props: any) {
   const dispatch = useAppDispatch();
@@ -89,22 +91,6 @@ function CreateModal(props: any) {
       return toast.warn("Llena toda la informacion!", toastConfig);
     }
 
-    // console.log(Array.from(participantsSet));
-    // console.log(Array.from(areasSet));
-
-    console.log(
-      {
-        description,
-        activitiesSchema: activities.map((i: any) => ({
-          ...i,
-          usersId: i.usersId.map((u: any) => u._id),
-        })),
-        participants,
-        areas: activitiesAreas,
-      },
-      "dsaaaaaaaaaaa"
-    );
-
     dispatch(
       createFlujo({
         description,
@@ -129,14 +115,19 @@ function CreateModal(props: any) {
   };
 
   const footer = (
-    <div>
+    <div className="flex w-full">
       <Button
-        className="btn-red"
+        className="btn-red mr-1 w-14rem"
         label="Cerrar"
         icon="pi pi-times"
         onClick={props.onHide}
       />
-      <Button label="Guardar" icon="pi pi-check" onClick={handleAddFlujo} />
+      <Button
+        className="flex-1"
+        label="Guardar"
+        icon="pi pi-check"
+        onClick={handleAddFlujo}
+      />
     </div>
   );
 
@@ -176,119 +167,125 @@ function CreateModal(props: any) {
       style={{ width: "70vw" }}
     >
       {/* <Toast ref={toast} /> */}
-      <h5 className="mt-4">General</h5>
-      <div className="p-fluid">
-        <div className="formgrid grid">
-          <div className="field col-6">
-            <label htmlFor="name2">Descripcion de flujo</label>
-            <InputText
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              aria-label="Countries"
-            />
-          </div>
-          <div className="field col-6">
-            <label htmlFor="email2">Dueño del proceso</label>
-            <Dropdown
-              options={areas || []}
-              optionLabel="name"
-              optionValue="_id"
-              value={owner}
-              onChange={(e: any) => setOwner(e.target.value)}
-              filter
-            />
-          </div>
-        </div>
-        <hr />
-      </div>
-      <h5>Actividad</h5>
-      <div className="p-fluid">
-        <div className="formgrid grid">
-          <div className="field col">
-            <label htmlFor="email2">Area</label>
-            <Dropdown
-              options={areas || []}
-              optionLabel="name"
-              optionValue="_id"
-              value={area}
-              onChange={(e: any) => setArea(e.target.value)}
-              filter
-            />
-          </div>
-          <div className="field col">
-            <label htmlFor="email2">Direcciones</label>
-            <Dropdown
-              options={direcciones || []}
-              optionLabel="name"
-              optionValue="_id"
-              value={direccion}
-              onChange={(e: any) => setDireccion(e.target.value)}
-              filter
-            />
-          </div>
-          <div className="field col">
-            <label htmlFor="email2">Departamentos</label>
-            <Dropdown
-              options={departments || []}
-              optionLabel="name"
-              optionValue="_id"
-              value={department}
-              onChange={(e: any) => setDepartment(e.target.value)}
-              filter
-            />
+      <Card title="General" height="" className="relative mt-4">
+        <SectionStep number={1} />
+        <div className="p-fluid">
+          <div className="formgrid grid">
+            <div className="field col-6">
+              <label htmlFor="name2">Descripcion de flujo</label>
+              <InputText
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                aria-label="Countries"
+              />
+            </div>
+            <div className="field col-6">
+              <label htmlFor="email2">Dueño del proceso</label>
+              <Dropdown
+                options={areas || []}
+                optionLabel="name"
+                optionValue="_id"
+                value={owner}
+                onChange={(e: any) => setOwner(e.target.value)}
+                filter
+              />
+            </div>
           </div>
         </div>
-        <div className="formgrid grid">
-          <div className="field col">
-            <label htmlFor="email2">Empleado responsable</label>
-            <MultiSelect
-              value={user}
-              options={users || []}
-              onChange={(e: any) => setUser(e.target.value)}
-              optionLabel="name"
-              display="chip"
-              placeholder={"Seleccione un usuario"}
-              filter
-              className="multiselect-custom w-full"
-              // panelFooterTemplate={panelFooterTemplate}
-            />
+      </Card>
+      <Card title={"Actividad"} height="" className="relative">
+        <SectionStep number={2} />
+        <div className="p-fluid">
+          <div className="formgrid grid">
+            <div className="field col">
+              <label htmlFor="email2">Area</label>
+              <Dropdown
+                options={areas || []}
+                optionLabel="name"
+                optionValue="_id"
+                value={area}
+                onChange={(e: any) => setArea(e.target.value)}
+                filter
+              />
+            </div>
+            <div className="field col">
+              <label htmlFor="email2">Direcciones</label>
+              <Dropdown
+                options={direcciones || []}
+                optionLabel="name"
+                optionValue="_id"
+                value={direccion}
+                onChange={(e: any) => setDireccion(e.target.value)}
+                filter
+              />
+            </div>
+            <div className="field col">
+              <label htmlFor="email2">Departamentos</label>
+              <Dropdown
+                options={departments || []}
+                optionLabel="name"
+                optionValue="_id"
+                value={department}
+                onChange={(e: any) => setDepartment(e.target.value)}
+                filter
+              />
+            </div>
           </div>
-          <div className="field col">
-            <label htmlFor="name2">Descripcion de actividad</label>
-            <InputText
-              value={activitieDescription}
-              onChange={(e) => setActivitieDescription(e.target.value)}
-              aria-label="Countries"
-            />
+          <div className="formgrid grid">
+            <div className="field col">
+              <label htmlFor="email2">Empleado responsable</label>
+              <MultiSelect
+                value={user}
+                options={users || []}
+                onChange={(e: any) => setUser(e.target.value)}
+                optionLabel="name"
+                display="chip"
+                placeholder={"Seleccione un usuario"}
+                filter
+                className="multiselect-custom w-full"
+                // panelFooterTemplate={panelFooterTemplate}
+              />
+            </div>
+            <div className="field col">
+              <label htmlFor="name2">Descripcion de actividad</label>
+              <InputText
+                value={activitieDescription}
+                onChange={(e) => setActivitieDescription(e.target.value)}
+                aria-label="Countries"
+              />
+            </div>
+          </div>
+          <div className="grid">
+            <div className="field col">
+              <label htmlFor="vertical" style={{ display: "block" }}>
+                Horas laborales
+              </label>
+              <InputNumber
+                inputId="vertical"
+                value={hours}
+                onValueChange={(e) => setHours(Number(e.value))}
+                mode="decimal"
+                showButtons
+                buttonLayout="horizontal"
+                style={{ width: "5rem", textAlign: "center" }}
+                decrementButtonClassName="p-button-secondary"
+                incrementButtonClassName="p-button-secondary"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+                inputClassName="w-3rem text-center"
+                min={1}
+              />
+            </div>
+            <div className="field col-2 mt-4">
+              <Button label="Agregar" onClick={() => addActivitie()} />
+            </div>
           </div>
         </div>
-        <div className="grid">
-          <div className="field col">
-            <label htmlFor="vertical" style={{ display: "block" }}>
-              Horas laborales
-            </label>
-            <InputNumber
-              inputId="vertical"
-              value={hours}
-              onValueChange={(e) => setHours(Number(e.value))}
-              mode="decimal"
-              showButtons
-              buttonLayout="horizontal"
-              style={{ width: "5rem", textAlign: "center" }}
-              decrementButtonClassName="p-button-secondary"
-              incrementButtonClassName="p-button-secondary"
-              incrementButtonIcon="pi pi-plus"
-              decrementButtonIcon="pi pi-minus"
-              inputClassName="w-3rem text-center"
-              min={1}
-            />
-          </div>
-          <div className="field col-2 mt-4">
-            <Button label="Agregar" onClick={() => addActivitie()} />
-          </div>
-        </div>
-      </div>
-      <DetailTable activities={activities} />
+      </Card>
+      <Card title="Revision" height="" className="relative">
+        <SectionStep number={3} />
+        <DetailTable activities={activities} />
+      </Card>
     </Dialog>
   );
 }

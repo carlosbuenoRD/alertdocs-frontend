@@ -6,6 +6,8 @@ const {
   getActivitiesByDireccion,
   getActivitiesByDepartment,
   getActivitiesByUser,
+  getActivitiesByUserAndFlujo,
+  getActivitiesByAreaAndFlujo,
 } = activityService();
 
 export const getResultByArea = async (id: any): Promise<number> => {
@@ -41,6 +43,24 @@ export const getResultByDepartment = async (id: any): Promise<number> => {
 export const getResultByUser = async (id: any) => {
   try {
     const activities = await getActivitiesByUser(id);
+    return getEficiencia(activities);
+  } catch (error: any) {
+    console.log(error.message);
+  }
+};
+
+export const getResultByUserAndFlujo = async (flujo: any, user: any) => {
+  try {
+    const activities = await getActivitiesByUserAndFlujo(flujo, user);
+    return getEficiencia(activities);
+  } catch (error: any) {
+    console.log(error.message);
+  }
+};
+
+export const getResultByAreaAndFlujo = async (flujo: any, area: any) => {
+  try {
+    const activities = await getActivitiesByAreaAndFlujo(flujo, area);
     return getEficiencia(activities);
   } catch (error: any) {
     console.log(error.message);

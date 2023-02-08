@@ -11,6 +11,8 @@ import { useAppSelector, useAppDispatch } from "@/redux/store";
 import { fetchAllFlujos } from "@/redux/reducers/flujos";
 import { createdocument } from "@/redux/reducers/documents";
 import { setDepartments } from "@/redux/reducers/area";
+import SectionStep from "../shared/SectionStep";
+import Card from "../shared/Card";
 
 function CreateModal(props: any) {
   const dispatch = useAppDispatch();
@@ -77,14 +79,15 @@ function CreateModal(props: any) {
   };
 
   const footer = (
-    <div>
+    <div className="flex w-full">
       <Button
-        className="btn-red"
+        className="btn-red mr-1 w-14rem"
         label="Cerrar"
         icon="pi pi-times"
         onClick={onHide}
       />
       <Button
+        className="flex-1"
         label="Guardar"
         icon="pi pi-check"
         onClick={handleCreateDocument}
@@ -106,17 +109,17 @@ function CreateModal(props: any) {
 
   return (
     <Dialog
-      header="Agregar Documento"
+      header="Agregar documento"
       headerStyle={{ fontSize: "4rem" }}
       footer={footer}
       visible={props.visible}
       onHide={onHide}
       style={{ width: "70vw" }}
     >
-      <div className="p-fluid mt-4">
-        <div className="formgrid grid">
-          <div className="field col">
-            <label htmlFor="name2">Codigo documento transdoc</label>
+      <div className="p-fluid mt-4  relative">
+        <div className="grid-col-2">
+          <Card title="Codigo transdoc" height="" className="relative">
+            <SectionStep number="1" />
             <AutoComplete
               suggestions={filteredCountries}
               field="name"
@@ -131,24 +134,23 @@ function CreateModal(props: any) {
               }
               aria-label="Countries"
             />
-          </div>
+          </Card>
 
-          <div className="field col">
-            <label htmlFor="email2">Descripcion*</label>
+          <Card title="Descripcion" height="" className="relative">
+            <SectionStep number="2" />
             <InputText
               id="email2"
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-          </div>
+          </Card>
         </div>
-        <hr />
       </div>
-      <div className="p-fluid">
+      <Card title="Seleccione el flujo" height="" className="relative p-fluid">
+        <SectionStep number="3" />
         <div className="formgrid grid">
           <div className="field col">
-            <label htmlFor="email2">Flujos de procesos*</label>
             <Dropdown
               filter
               value={flujo}
@@ -159,8 +161,10 @@ function CreateModal(props: any) {
             />
           </div>
         </div>
-      </div>
-      <FlujosTable flujo={flujo} />
+      </Card>
+      <Card height="" title="Proceso seleccionado">
+        <FlujosTable flujo={flujo} />
+      </Card>
     </Dialog>
   );
 }

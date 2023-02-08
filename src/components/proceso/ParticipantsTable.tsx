@@ -8,23 +8,25 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { getUserEficiencia } from "@/utils/formula";
+import { getResultByUserAndFlujo } from "@/services/result";
 import ProfileCard from "../shared/ProfileCard";
 
 function ParticipantsTable(props: any) {
   const { flujo } = useAppSelector((state) => state.flujos);
+  const { user } = useAppSelector((state) => state.auth);
 
   const [showProfile, setShowProfile] = useState<any>(false);
   const [selectedUser, setSelectedUser] = useState<any>("");
 
   const DisplayEficiencia = (props: any) => {
     const [eficiencia, setEficiencia] = useState<any>(0);
-
+    console.log(props);
     useEffect(() => {
       getAndSetEficiencia();
     }, []);
 
     const getAndSetEficiencia = async () => {
-      let result = await getUserEficiencia(props.id);
+      let result = await getResultByUserAndFlujo(flujo._id, props.user);
       setEficiencia(result);
     };
 
@@ -64,7 +66,7 @@ function ParticipantsTable(props: any) {
         />
         <Column
           header="Eficiencia"
-          body={(data) => <DisplayEficiencia id={data._id} />}
+          body={(data) => <DisplayEficiencia user={data._id} />}
         />
       </DataTable>
 

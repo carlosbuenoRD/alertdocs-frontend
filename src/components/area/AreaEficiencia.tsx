@@ -38,6 +38,7 @@ function AreaEficiencia(props: any) {
           color="green"
           area={props.area}
           section={section}
+          notClick
         />
         <div className="card bg-green-100 shadow-1 flex-1 grid-col-3 mt-4 mb-0">
           <div className="text-center">

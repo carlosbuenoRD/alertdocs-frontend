@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { Chart } from "primereact/chart";
 
-function PieChart() {
+const PieChart = memo(function PieChart() {
   const [pieOptions, setPieOptions] = useState<any>({
     animation: false,
     plugins: {
@@ -38,6 +38,6 @@ function PieChart() {
       />
     </div>
   );
-}
+});
 
 export default PieChart;

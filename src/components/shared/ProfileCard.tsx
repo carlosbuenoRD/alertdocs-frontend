@@ -32,7 +32,7 @@ function ProfileCard(props: any) {
   };
 
   const modalContent: ReactNode = props.show ? (
-    <div style={{ zIndex: 10000, position: "relative" }}>
+    <div style={{ zIndex: 100000, position: "relative" }}>
       <div id="wave1"></div>
       <div className="profileCard_container">
         <main
@@ -46,7 +46,7 @@ function ProfileCard(props: any) {
             X
           </div>
           <div id="profile">
-            <img src="../assets/images/mypic.png" alt="Photo" />
+            <img src="/assets/images/mypic.png" alt="Photo" />
             <div id="info">
               <h6 className="">{user.name}</h6>
               {/**/}
@@ -80,7 +80,7 @@ function ProfileCard(props: any) {
             <Button
               icon="pi pi-eye"
               className="p-button-rounded w-3rem h-3rem"
-              onClick={() => navigate("/perfil")}
+              onClick={() => navigate(`/perfil/${props.userId}`)}
             />
             <Button
               icon="pi pi-thumbs-down-fill"

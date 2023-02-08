@@ -49,9 +49,10 @@ function FilesSection(props: any) {
       <Accordion className="w-full">
         <AccordionTab header="Archivos">
           <div className="grid-col-4">
-            {files.map((i: any) => (
-              <div key={i._id}>
-                {i.file.split(".")[1] === "pdf" && (
+            {files
+              .filter((i) => i.file.split(".")[1] === "pdf" && i)
+              .map((i: any) => (
+                <div key={i._id}>
                   <div className="relative">
                     <div className="absolute z-5 right-0 -top-5 overflow-hidden">
                       <MyConfirmPopup
@@ -82,9 +83,8 @@ function FilesSection(props: any) {
                       </p>
                     </a>
                   </div>
-                )}
-              </div>
-            ))}
+                </div>
+              ))}
           </div>
         </AccordionTab>
         <AccordionTab header="Imagenes">

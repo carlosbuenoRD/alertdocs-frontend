@@ -21,25 +21,33 @@ function ActivityModal(props: any) {
       header={`#${activity?.step} ---  ${activity?.usersId?.name} ---  ${activity?.description}`}
       headerStyle={{ fontSize: "4rem" }}
       visible={props.visible}
+      contentClassName="pb-3"
       onHide={props.onHide}
       style={{ width: "70vw" }}
       footer={
-        <div className="flex pb-0 justify-content-center w-full border-top-1 border-100">
-          {!props.noDocument && (
-            <button onClick={() => setWorkSpace(true)} className="p-button">
+        !props.noDocument ? (
+          <div className="flex justify-content-center w-full border-top-1 border-100">
+            <button
+              onClick={() => setWorkSpace(true)}
+              className="p-button w-full flex justify-content-center"
+            >
               Ver documento
             </button>
-          )}
-        </div>
+          </div>
+        ) : null
       }
     >
-      <ActivityHeader
-        active={activeIndex}
-        setActive={setActiveIndex}
-        activity={activity}
-      />
+      <div className="card shadow-1 mb-2">
+        <ActivityHeader
+          active={activeIndex}
+          setActive={setActiveIndex}
+          activity={activity}
+        />
+      </div>
 
-      <SectionPicker active={activeIndex} />
+      <div className="card shadow-1 mb-0">
+        <SectionPicker active={activeIndex} />
+      </div>
       <WorkSpaceModal visible={workSpace} onHide={() => setWorkSpace(false)} />
     </Dialog>
   );

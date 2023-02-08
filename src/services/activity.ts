@@ -42,6 +42,20 @@ export default function activityService() {
     return data;
   }
 
+  async function getActivitiesByUserAndFlujo(flujo: string, user: string) {
+    const { data } = await axios.get(
+      `${API_URL}/activities/flujo/${flujo}/${user}`
+    );
+    return data;
+  }
+
+  async function getActivitiesByAreaAndFlujo(flujo: string, area: string) {
+    const { data } = await axios.get(
+      `${API_URL}/activities/area/${flujo}/${area}`
+    );
+    return data;
+  }
+
   async function changeState(id: any, state: string) {
     const { data } = await axios.patch(
       `${API_URL}/activities/changestate/${id}`,
@@ -80,6 +94,8 @@ export default function activityService() {
     getActivitiesByDireccion,
     getActivitiesByDepartment,
     getActivitiesByDocumentAndArea,
+    getActivitiesByUserAndFlujo,
+    getActivitiesByAreaAndFlujo,
     changeState,
     addHistory,
     getCompletedStatus,

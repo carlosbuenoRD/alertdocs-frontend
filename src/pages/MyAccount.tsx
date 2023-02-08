@@ -1,4 +1,13 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+// Services
+import { getEficiencia } from "@/utils/formula";
+import userService from "@/services/users";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { fetchMyActivities, setActivity } from "@/redux/reducers/activity";
+
+const { usersById } = userService();
 
 // Components
 import { Avatar } from "primereact/avatar";
@@ -6,19 +15,23 @@ import PercentageCircle from "@/components/shared/PercentageCircle";
 import Card from "@/components/shared/Card";
 import LineChart from "@/components/charts/LineChart";
 import ActivityModal from "@/components/activity/ActivityModal";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { fetchMyActivities, setActivity } from "@/redux/reducers/activity";
 import ActivityCard from "@/components/activity/ActivityCard";
 import Countdown from "react-countdown";
-import { getEficiencia } from "@/utils/formula";
+import AreaHeader from "@/components/area/AreaHeader";
+import ActivitiesModal from "@/components/profile/ActivitiesModal";
 
 function MyAccount() {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+
+  const { user: authUser } = useAppSelector((state) => state.auth);
+  const { activities } = useAppSelector((state) => state.activity);
+
+  const visitId = location.pathname.split("/")[2];
 
   const [activityModal, setActivityModal] = useState(false);
-
-  const { user } = useAppSelector((state) => state.auth);
-  const { activities } = useAppSelector((state) => state.activity);
+  const [activitiesModal, setActivitiesModal] = useState(false);
+  const [visitUser, setVisitUser] = useState(null);
 
   let pending = activities?.filter((i: any) => i.state === "pending");
   let progress: any = activities?.filter((i: any) => i.state === "progress")[0];
@@ -27,8 +40,21 @@ function MyAccount() {
     .slice(0, 3);
 
   useEffect(() => {
-    dispatch(fetchMyActivities(user?._id));
-  }, []);
+    dispatch(fetchMyActivities(visitId ? visitId : authUser?._id));
+  }, [visitId]);
+
+  useEffect(() => {
+    if (visitId) {
+      getUser();
+    }
+  }, [visitId]);
+
+  const user = visitId ? visitUser : authUser;
+
+  const getUser = async () => {
+    const user = await usersById(visitId);
+    setVisitUser(user);
+  };
 
   const handleSelectActivity = (activity: any) => {
     dispatch(setActivity(activity));
@@ -38,23 +64,32 @@ function MyAccount() {
   const toMilliseconds = (hrs: number) => hrs * 60 * 60 * 1000;
 
   return (
-    <>
-      <div className="grid-3-1">
+    <div className={`relative`}>
+      {visitId && <AreaHeader title="Visita de perfil" />}
+      <div className={`grid-3-1 ${visitId && "pt-6"}`}>
         <div className="flex flex-column w-full">
           {/* Header */}
-          <Card title="Estadisitcas" height="">
+          <Card title="" height="" className="flex">
             <div className="flex flex-column justify-content-center align-items-center w-full">
               <Avatar
-                image="assets/images/mypic.png"
+                image="/assets/images/mypic.png"
                 shape="circle"
                 className="w-8rem h-8rem shadow-2"
               />
-              <h4 className="mt-3 uppercase">{user?.name}</h4>
+              <h4 className="mt-3 uppercase text-center">{user?.name}</h4>
+              <div className="flex">
+                <h6 className="m-0 uppercase text-sm text-center text-500">
+                  Dirección de Recursos Humanos --
+                </h6>
+                <h6 className="m-0 uppercase text-sm text-center text-500">
+                  - Auxiliar de Recursos Humanos
+                </h6>
+              </div>
             </div>
 
-            <div className="w-full px-4 pt-1 ">
+            <div className="w-fit">
               {/* Estadisticas */}
-              <ul className="shadow-1 card mb-0 grid-col-3 px-2 text-center">
+              <ul className="border-1 m-0 border-50 card flex flex-column p-4 text-center">
                 <li className="flex flex-column m-0">
                   <h4 className="mb-1">
                     {
@@ -64,7 +99,7 @@ function MyAccount() {
                   </h4>
                   <h6 className="uppercase text-sm m-0 mt-2">Completados</h6>
                 </li>
-                <li className="w-full border-x-1 border-200 flex flex-column m-0">
+                <li className="w-full my-2 p-3 flex flex-column m-0 border-y-1 border-100">
                   <h4 className="mb-1">{0}</h4>
                   <h6 className="uppercase text-sm m-0 mt-2">Retrasados</h6>
                 </li>
@@ -139,7 +174,10 @@ function MyAccount() {
               </div>
             )}
 
-            <a className="text-center w-full block underline cursor-pointer text-xs">
+            <a
+              onClick={() => setActivitiesModal(true)}
+              className="text-center w-full block underline cursor-pointer text-xs"
+            >
               Ver todos
             </a>
           </Card>
@@ -155,7 +193,14 @@ function MyAccount() {
           onHide={() => setActivityModal(false)}
         />
       )}
-    </>
+
+      {activitiesModal && (
+        <ActivitiesModal
+          visible={activitiesModal}
+          onHide={() => setActivitiesModal(false)}
+        />
+      )}
+    </div>
   );
 }
 

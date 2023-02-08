@@ -45,7 +45,7 @@ const AppInlineMenu = (props: any) => {
             onClick={props.onChangeActiveInlineMenu}
           >
             <img
-              src="assets/images/mypic.png"
+              src="/assets/images/mypic.png"
               alt="avatar"
               style={{ width: "44px", height: "44px", objectFit: "fill" }}
             />

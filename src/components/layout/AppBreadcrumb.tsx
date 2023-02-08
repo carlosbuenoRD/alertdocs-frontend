@@ -43,8 +43,8 @@ const AppBreadcrumb = (props: any) => {
   if (location.pathname === "/kanba") {
     items = [{ label: "Kanban" }];
   }
-  if (location.pathname === "/perfil") {
-    items = [{ label: "Mi perfil" }];
+  if (location.pathname.includes("/perfil")) {
+    items = [{ label: "Perfil" }];
   }
 
   if (location.pathname === "/procesos") {

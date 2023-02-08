@@ -44,7 +44,7 @@ function AreaDevolucionesModal(props: any) {
 
   const renderHeader = () => {
     return (
-      <div className="card flex justify-content-between align-items-center my-2">
+      <div className="card flex justify-content-between align-items-center my-2 shadow-1">
         <div className="flex align-items-center">
           <span className="p-input-icon-left">
             <i className="pi pi-search" />
@@ -83,7 +83,7 @@ function AreaDevolucionesModal(props: any) {
         {header}
 
         <div className="grid-3-1">
-          <Accordion className="card">
+          <Accordion className="card shadow-1">
             {devoluciones.map((i: any) => (
               <AccordionTab
                 key={i._id}
