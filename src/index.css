@@ -262,7 +262,7 @@ ul {
 
 .worst_users ul li {
   border-bottom: 1px solid;
-  border-color: var(--surface-100);
+  border-color: var(--surface-50);
   margin-bottom: 12px;
   padding-bottom: 8px
 }

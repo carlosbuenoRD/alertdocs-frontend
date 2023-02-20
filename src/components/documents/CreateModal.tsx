@@ -18,9 +18,7 @@ function CreateModal(props: any) {
   const dispatch = useAppDispatch();
   const { flujos, flujo: flujoState } = useAppSelector((state) => state.flujos);
 
-  const [transcode, setTranscode] = useState(
-    `MEPYD-${new Date().getFullYear()}-`
-  );
+  const [transcode, setTranscode] = useState("");
   const [libramiento, setLibramiento] = useState("");
   const [description, setDescription] = useState("");
   const [filteredCountries, setFilteredCountries] = useState<any>(null);
@@ -35,6 +33,11 @@ function CreateModal(props: any) {
     clearInputs();
     props.onHide();
   };
+
+  useEffect(() => {
+    dispatch(fetchAllFlujos());
+    setTranscode(`MEPYD-${new Date().getFullYear()}-`);
+  }, []);
 
   useEffect(() => {
     if (flujoState) {
@@ -102,10 +105,6 @@ function CreateModal(props: any) {
     setParticipants("");
     setTranscode("");
   };
-
-  useEffect(() => {
-    dispatch(fetchAllFlujos());
-  }, []);
 
   return (
     <Dialog

@@ -1,9 +1,11 @@
 import React, { useState, memo } from "react";
 import { Chart } from "primereact/chart";
 
-const PieChart = memo(function PieChart() {
+const PieChart = memo(function PieChart(props: any) {
   const [pieOptions, setPieOptions] = useState<any>({
-    animation: false,
+    maintainAspectRatio: false,
+    aspectRatio: props.aspectRatio || 1.12,
+    animation: true,
     plugins: {
       legend: {
         labels: {
@@ -14,15 +16,14 @@ const PieChart = memo(function PieChart() {
   });
 
   const pieData = {
-    labels: ["A", "B", "C", "D"],
+    labels: ["A tiempo", "Rayando", "Retrasado"],
     datasets: [
       {
-        data: [540, 325, 702, 421],
+        data: [540, 325, 702],
         backgroundColor: [
           "rgb(54, 162, 235)",
           "rgb(255, 99, 132)",
           "rgb(255, 205, 86)",
-          "rgb(75, 192, 192)",
         ],
       },
     ],

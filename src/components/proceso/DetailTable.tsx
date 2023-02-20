@@ -21,6 +21,7 @@ const cities = [
 function DetailTable(props: any) {
   const [selectedCities, setSelectedCities] = useState([]);
   const { areas } = useAppSelector((state) => state.area);
+  const { flujo } = useAppSelector((state) => state.flujos);
 
   const panelFooterTemplate = () => {
     const selectedItems = selectedCities;
@@ -35,7 +36,7 @@ function DetailTable(props: any) {
   return (
     <div>
       <DataTable
-        value={props.flujo?.activitiesSchema || props.activities || []}
+        value={flujo?.activitiesSchema || props.activities}
         paginator
         className="p-datatable-gridlines"
         showGridlines

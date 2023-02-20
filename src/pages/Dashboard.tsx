@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+// Models
+import { Report } from "@/models/reports.model";
 
 // Components
 import LineChart from "@/components/charts/LineChart";
@@ -7,8 +11,27 @@ import PercentageCard from "@/components/dashboard/PercentageCard";
 import PercentageCircle from "@/components/shared/PercentageCircle";
 import Powerbi from "@/components/dashboard/Powerbi";
 import DocumentCarousel from "@/components/documents/DocumentCarousel";
+import { getReportOfTheMonth } from "@/services/reports.service";
 
 function Dashboard() {
+  const navigate = useNavigate();
+
+  const [areaOfTheMonth, setAreaOfTheMonth] = useState<Report | any>({});
+
+  useEffect(() => {
+    handleGetAreaOfTheMonth();
+  }, []);
+
+  const handleGetAreaOfTheMonth = async () => {
+    try {
+      const report = await getReportOfTheMonth();
+      setAreaOfTheMonth(report);
+      console.log(areaOfTheMonth);
+    } catch (error) {
+      console.log(error, "HandleGetAreaOfTheMonth");
+    }
+  };
+
   return (
     <div>
       <div className="grid grid-col-3">
@@ -24,9 +47,17 @@ function Dashboard() {
         <Card title="Area del mes" height="">
           <PercentageCircle
             size={180}
-            title="Viceministerio de economia y planificacion"
+            title={areaOfTheMonth?.areaId?.name || "LOADING"}
+            value={
+              areaOfTheMonth.activitiesEficiencia /
+              areaOfTheMonth.activities?.length
+            }
+            area={areaOfTheMonth?.areaId?._id}
           />
-          <a className="text-center w-full block underline cursor-pointer text-xs">
+          <a
+            className="text-center w-full block underline cursor-pointer text-xs"
+            onClick={() => navigate("/areas")}
+          >
             Ver todos
           </a>
         </Card>

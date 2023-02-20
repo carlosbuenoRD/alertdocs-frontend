@@ -57,7 +57,7 @@ function Procesos(props: any) {
     <div className="relative">
       <ProcessHeader searchKit={{ search, setSearch }} />
       <div className="pt-7 grid-3-1">
-        <Card title="Lista de procesos" height="">
+        <Card title="Lista de procesos" height="fit">
           <div>
             <DataTable
               value={currentFlujos}

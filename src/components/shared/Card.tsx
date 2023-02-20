@@ -12,7 +12,9 @@ function Card(props: Props) {
     >
       {props.title && (
         <>
-          <h6 className="uppercase text-sm">{props.title}</h6>
+          <h6 className="uppercase text-sm text-overflow-ellipsis white-space-nowrap overflow-hidden w-full">
+            {props.title}
+          </h6>
           <hr />
         </>
       )}
@@ -22,8 +24,8 @@ function Card(props: Props) {
 }
 
 interface Props {
-  title: string;
-  height: string;
+  title?: string;
+  height?: string;
   hover?: boolean;
   className?: string;
   children?: any;

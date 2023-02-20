@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Components
 import Card from "../shared/Card";
@@ -12,6 +13,8 @@ import EstadisticasModal from "./EstadisticasModal";
 import DevolucionesModal from "./AreaDevolucionesModal";
 
 function General(props: any) {
+  const navigate = useNavigate();
+
   const [estadisticas, setEstadisticas] = useState(false);
   const [devoluciones, setDevoluciones] = useState(false);
 
@@ -37,15 +40,15 @@ function General(props: any) {
         title="Estadisticas"
         height="fit"
         hover
-        onClick={() => setEstadisticas(true)}
+        onClick={() => navigate(`/reports/${props.eficiencia}?type=area`)}
       >
         <LineChart />
       </Card>
 
-      <EstadisticasModal
+      {/* <EstadisticasModal
         visible={estadisticas}
         onHide={() => setEstadisticas(false)}
-      />
+      /> */}
       <DevolucionesModal
         visible={devoluciones}
         onHide={() => setDevoluciones(false)}

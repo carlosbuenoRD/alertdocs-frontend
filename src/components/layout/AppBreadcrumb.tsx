@@ -62,6 +62,13 @@ const AppBreadcrumb = (props: any) => {
   if (location.pathname === "/areas") {
     items = [{ label: "Areas" }];
   }
+  if (location.pathname === "/reports") {
+    items = [{ label: "Reportes" }];
+  }
+
+  if (location.pathname.includes("/reports/")) {
+    items = [{ label: "Detalle de reporte" }];
+  }
 
   const isStatic = () => {
     return props.menuMode === "static";

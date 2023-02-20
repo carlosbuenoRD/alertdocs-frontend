@@ -40,8 +40,6 @@ function AreaDevolucionesModal(props: any) {
     return <p>{Math.floor(eficiencia) || 0}</p>;
   };
 
-  console.log(devoluciones);
-
   const renderHeader = () => {
     return (
       <div className="card flex justify-content-between align-items-center my-2 shadow-1">

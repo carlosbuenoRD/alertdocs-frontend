@@ -82,10 +82,10 @@ function ProfileCard(props: any) {
               className="p-button-rounded w-3rem h-3rem"
               onClick={() => navigate(`/perfil/${props.userId}`)}
             />
-            <Button
+            {/* <Button
               icon="pi pi-thumbs-down-fill"
               className="p-button-rounded p-button-danger w-3rem h-3rem"
-            />
+            /> */}
             <Button
               icon="pi pi-comment"
               className="p-button-rounded w-3rem h-3rem"

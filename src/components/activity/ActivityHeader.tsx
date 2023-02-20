@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
+// Redux
+import { changeActivity } from "@/redux/reducers/activity";
+import { useAppDispatch } from "@/redux/store";
 
 // Components
-import { Toolbar } from "primereact/toolbar";
+import MyConfirmPopup from "@/components/shared/MyConfirmPopup";
 import { Button } from "primereact/button";
 import { TabMenu } from "primereact/tabmenu";
-import MyConfirmPopup from "@/components/shared/MyConfirmPopup";
+import { Toolbar } from "primereact/toolbar";
+import ActivityTimer from "./ActivityTimer";
 import CommentModal from "./CommentModal";
 import FilesModal from "./FilesModal";
 import ReturnActivity from "./ReturnActivity";
-import { changeActivity } from "@/redux/reducers/activity";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
-import ActivityTimer from "./ActivityTimer";
 
 const tabs = [
   { label: "Historial", icon: "pi pi-clock" },

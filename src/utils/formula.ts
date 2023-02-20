@@ -36,9 +36,6 @@ export const getEficiencia = (activities: any[]) => {
     }
   });
 
-  console.log(results);
-  console.log(results.reduce((acc, curr) => acc + curr, 0) / results.length);
-
   return results.reduce((acc, curr) => acc + curr, 0) / results.length;
 };
 

@@ -21,10 +21,8 @@ const PercentageCircle = memo(function PercentageCircle(props: Props) {
   const getByUser = async () =>
     setResult(await getUserEficiencia(props.user || ""));
 
-  console.log(props);
-
   useEffect(() => {
-    if (props.area && props.section) {
+    if (!props.value && props.area && props.section) {
       if (props.section === "area") getByArea();
       if (props.section === "direcciones") getByDireccion();
       if (props.section === "department") getByDepartment();
@@ -35,9 +33,9 @@ const PercentageCircle = memo(function PercentageCircle(props: Props) {
   return (
     <div className="grid-center">
       <div
-        className={`c100 p${Math.floor(result / 2) || 0} ${
-          props.color
-        } cursor-pointer m-0`}
+        className={`c100 p${
+          Math.floor(result / 2) || Math.floor((props.value || 0) / 2) || 0
+        } ${props.color} cursor-pointer m-0`}
         style={{ fontSize: props.size ? `${props.size}px` : "220px" }}
         onClick={() =>
           !props.user &&
@@ -45,7 +43,7 @@ const PercentageCircle = memo(function PercentageCircle(props: Props) {
           navigate(`/${props.section || "area"}/${props.area}`)
         }
       >
-        <span>{Math.round(result) || 0}%</span>
+        <span>{Math.round(result) || Math.round(props.value || 0) || 0}%</span>
         <div className="slice">
           <div className="bar"></div>
           <div className="fill"></div>
@@ -64,6 +62,7 @@ interface Props {
   user?: string;
   section?: string;
   notClick?: boolean;
+  value?: number;
 }
 
 export default PercentageCircle;

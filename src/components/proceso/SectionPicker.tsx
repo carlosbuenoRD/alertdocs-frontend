@@ -7,7 +7,13 @@ import ParticipantsSection from "./ParticipantsSection";
 function SectionPicker(props: any) {
   return (
     <div>
-      {props.active === 0 && <FlujosTable />}
+      {props.active === 0 && (
+        <FlujosTable
+          edit={props.edit}
+          handleChange={props.onChangeActivity}
+          activities={props.activities}
+        />
+      )}
       {props.active === 1 && <ParticipantsSection />}
       {/* {props.active === 2 && <FilesSection />}
       {props.active === 3 && <DevolucionSection />} */}

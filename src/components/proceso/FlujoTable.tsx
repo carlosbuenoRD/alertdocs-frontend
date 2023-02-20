@@ -18,6 +18,8 @@ function FlujosTable(props: any) {
   const { areas } = useAppSelector((state) => state.area);
   const [selectedCities, setSelectedCities] = useState([]);
 
+  // let activities: any[] = props.activities || flujo?.activitiesSchema;
+
   const panelFooterTemplate = () => {
     const selectedItems = selectedCities;
     const length = selectedItems ? selectedItems.length : 0;
@@ -41,7 +43,7 @@ function FlujosTable(props: any) {
   return (
     <div>
       <DataTable
-        value={flujo?.activitiesSchema || props.activities}
+        value={props.activities || flujo?.activitiesSchema}
         paginator
         className="p-datatable-gridlines"
         showGridlines
@@ -82,7 +84,16 @@ function FlujosTable(props: any) {
         <Column
           header="Minutos"
           field="hours"
-          body={(data) => data.hours * 60}
+          body={(data) => (
+            <input
+              type={"number"}
+              min={2}
+              value={data.hours * 60}
+              disabled={!props.edit}
+              className="w-5rem font-bold border-none outline-none bg-transparent  m-0"
+              onChange={(e) => props.handleChange(e.target.value, data)}
+            />
+          )}
         />
       </DataTable>
     </div>

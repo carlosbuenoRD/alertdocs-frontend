@@ -13,7 +13,7 @@ import SectionPicker from "./SectionPicker";
 const tabs = [
   { label: "Flujo", icon: "pi pi-clock" },
   { label: "Participantes", icon: "pi pi-user" },
-  { label: "Estadisticas", icon: "pi pi-check-circle" },
+  // { label: "Estadisticas", icon: "pi pi-check-circle" },
 ];
 
 function DetailModal(props: any) {
@@ -22,7 +22,7 @@ function DetailModal(props: any) {
 
   const [edit, setEdit] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [flujoState, setFlujo] = useState({
+  const [flujoState, setFlujo] = useState<any>({
     id: "",
     description: "",
     activitiesSchema: [],
@@ -46,7 +46,15 @@ function DetailModal(props: any) {
 
   const handleUpdateFlujo = () => {
     dispatch(updateFlujo(flujoState));
-    props.onHide();
+    setEdit(false);
+  };
+
+  const handleChange = (value: string, item: any) => {
+    let copy = flujoState.activitiesSchema.map((i: any) =>
+      i.step === item.step ? { ...item, hours: Number(value) / 60 } : i
+    );
+
+    setFlujo({ ...flujoState, activitiesSchema: [...copy] });
   };
 
   const footer = (
@@ -112,7 +120,12 @@ function DetailModal(props: any) {
               }
               className="p-2 mb-3"
             />
-            <SectionPicker active={activeIndex} />
+            <SectionPicker
+              active={activeIndex}
+              edit={edit}
+              activities={flujoState.activitiesSchema}
+              onChangeActivity={handleChange}
+            />
           </div>
         </Dialog>
       )}

@@ -189,6 +189,7 @@ export const activityslice = createSlice({
     builder.addCase(fetchDocumentAndAreaActivities.pending, (state) => {
       state.loading = true;
     });
+
     builder.addCase(
       fetchDocumentAndAreaActivities.fulfilled,
       (state, action) => {

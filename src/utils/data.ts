@@ -1,5 +1,13 @@
 import { ToastOptions } from "react-toastify";
 
+interface ReportSchema {
+  activitiesTime: number;
+  activities: string[];
+  devoluciones: string[];
+  devolucionesTime: number;
+  createdAt: number;
+}
+
 export const menuAdmin = [
   {
     label: "Dashboard",
@@ -15,6 +23,11 @@ export const menuAdmin = [
     label: "Procesos",
     icon: "pi pi-sitemap",
     to: "/procesos",
+  },
+  {
+    label: "Reportes",
+    icon: "pi pi-folder",
+    to: "/reports",
   },
   // {
   //   label: "Mantenimiento",
@@ -41,13 +54,13 @@ export const barData = {
   ],
   datasets: [
     {
-      label: "Eficiencia de tiempo",
+      label: "Eficiencia",
       backgroundColor: "rgb(255, 99, 132)",
       borderColor: "rgb(255, 99, 132)",
       data: [65, 59, 80, 81, 56, 55, 40],
     },
     {
-      label: "Tiempo en devoluciones",
+      label: "Cantidad usadas",
       backgroundColor: "rgb(54, 162, 235)",
       borderColor: "rgb(54, 162, 235)",
       data: [9, 12, 2, 4, 20, 1, 16],

@@ -35,6 +35,7 @@ import Direccion from "./pages/Direccion";
 import Department from "./pages/Department";
 import { useAppSelector } from "./redux/store";
 import NotFound from "./pages/NotFound";
+import { Report, Reports } from "./pages/reports";
 
 function App(props: any) {
   const [rightMenuActive, setRightMenuActive] = useState(false);
@@ -376,6 +377,8 @@ function App(props: any) {
             <Route path="/perfil/:id" element={<MyAccount />} />
             <Route path="/procesos" element={<Procesos />} />
             <Route path="/documentos" element={<Documents />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/reports/:id" element={<Report />} />
             <Route path="*" element={<NotFound />} />
             {/*
             <Route path="/flujos" element={<Flujos />} />

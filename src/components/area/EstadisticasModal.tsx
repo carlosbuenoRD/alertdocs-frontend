@@ -4,6 +4,10 @@ import React, { useState, useEffect } from "react";
 import { Dialog } from "primereact/dialog";
 import PieChart from "../charts/PieChart";
 import BarVertical from "../charts/BarVertical";
+import Card from "@/components/shared/Card";
+import { InputText } from "primereact/inputtext";
+import { MultiSelect } from "primereact/multiselect";
+import StackedBarDemo from "../charts/StackedBar";
 
 function EstadisticasModal(props: any) {
   return (
@@ -14,16 +18,33 @@ function EstadisticasModal(props: any) {
       style={{ width: "80vw", padding: 0 }}
       onHide={props.onHide}
     >
-      <div className="card">
-        <h5>Tiempos de eficiencia</h5>
-        <hr />
-        <BarVertical />
+      <div className="card flex justify-content-between align-items-center my-2 shadow-1">
+        <div className="flex align-items-center">
+          <span className="p-input-icon-left">
+            <i className="pi pi-search" />
+            <InputText value="" placeholder="Keyword Search" />
+          </span>
+          <div className="p-float-label ml-3">
+            <MultiSelect
+              display="chip"
+              optionLabel="name"
+              // value={selectedCities}
+              // options={cities}
+              // onChange={(e) => setSelectedCities(e.value)}
+              className="w-24rem"
+            />
+            <label htmlFor="search">Filtro de procesos</label>
+          </div>
+        </div>
       </div>
 
+      <Card title="Tiempos de eficiencia" height="">
+        <StackedBarDemo />
+        {/* <BarVertical /> */}
+      </Card>
+
       <div className="grid-3-1">
-        <div className="card">
-          <h5>Deficit de rendimiento</h5>
-          <hr />
+        <Card title="Deficit de rendimiento" height="">
           <div className="worst_users">
             <ul>
               <li className="flex justify-content-between align-items-center">
@@ -70,12 +91,10 @@ function EstadisticasModal(props: any) {
               </li>
             </ul>
           </div>
-        </div>
-        <div className="card">
-          <h5>Resumen de status</h5>
-          <hr />
+        </Card>
+        <Card title="Resumen de status" height="">
           <PieChart />
-        </div>
+        </Card>
       </div>
     </Dialog>
   );

@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 
 // Components
 import { Dialog } from "primereact/dialog";
 
+import { useAppSelector } from "@/redux/store";
+import WorkSpaceModal from "../workspace/WorkSpaceModal";
 import ActivityHeader from "./ActivityHeader";
 import SectionPicker from "./SectionPicker";
-import { useAppSelector } from "@/redux/store";
-import Countdown from "react-countdown";
-import WorkSpaceModal from "../workspace/WorkSpaceModal";
-import StopWatch from "../stopWatch/StopWatch";
 
 function ActivityModal(props: any) {
   const [workSpace, setWorkSpace] = useState(false);

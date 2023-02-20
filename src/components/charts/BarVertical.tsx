@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { Chart } from "primereact/chart";
 import { barData } from "./../../utils/data";
 
-function BarVertical(props: any) {
+const BarChart = memo(function BarVertical(props: any) {
   const getLightTheme = () => {
     let basicOptions = {
       maintainAspectRatio: false,
-      aspectRatio: 0.8,
+      aspectRatio: 1,
       plugins: {
         legend: {
           labels: {
@@ -170,6 +170,6 @@ function BarVertical(props: any) {
       <Chart type="bar" data={barData} options={basicOptions} />
     </div>
   );
-}
+});
 
-export default BarVertical;
+export default BarChart;

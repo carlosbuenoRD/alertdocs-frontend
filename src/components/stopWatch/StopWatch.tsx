@@ -2,7 +2,13 @@ import React, { useState } from "react";
 // import "./StopWatch.css";
 import Timer from "./Timer";
 
-function StopWatch(props: any) {
+export interface StopWatchProps {
+  time: number;
+  pause: boolean;
+  className?: string;
+}
+
+const StopWatch: React.FC<StopWatchProps> = (props) => {
   const [time, setTime] = useState(0);
 
   React.useEffect(() => {
@@ -23,10 +29,12 @@ function StopWatch(props: any) {
   }, [props.pause]);
 
   return (
-    <div className="stop-watch">
+    <div
+      className={`stop-watch ${props.className ? props.className : "text-3xl"}`}
+    >
       <Timer time={time} />
     </div>
   );
-}
+};
 
 export default StopWatch;
