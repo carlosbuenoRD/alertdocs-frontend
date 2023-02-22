@@ -12,4 +12,5 @@ export interface Report {
   goodActivities: string[];
   badActivities: string[];
   mediumActivities: string[];
+  procesos: [{ proceso: any; qty: number }];
 }

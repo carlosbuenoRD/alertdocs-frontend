@@ -58,7 +58,7 @@ function Report() {
         </div>
         <div className="grid-3-1">
           <Card title="Procesos involucrados">
-            <ProcesosChart />
+            <ProcesosChart procesos={report.procesos} />
           </Card>
 
           <Card title="Cantidad de tipos">
@@ -71,10 +71,10 @@ function Report() {
           </Card>
         </div>
 
-        <div className="grid-1-3">
-          <Card title="Deficit de usuarios">
+        <div className="">
+          {/* <Card title="Deficit de usuarios">
             <UserDeficitTable />
-          </Card>
+          </Card> */}
           <Card title="Usuarios">
             <UserTable />
           </Card>

@@ -1,8 +1,18 @@
 import React, { useState, memo } from "react";
 import { Chart } from "primereact/chart";
-import { barData } from "@/utils/data";
 
-const ProcesosChart = memo(function BarVertical(props: any) {
+export interface ProcesosChartProps {
+  procesos: [
+    {
+      proceso: any;
+      qty: number;
+    }
+  ];
+}
+
+const ProcesosChart: React.FC<ProcesosChartProps> = memo(function BarVertical({
+  procesos,
+}) {
   const getLightTheme = () => {
     let basicOptions = {
       maintainAspectRatio: false,
@@ -39,10 +49,27 @@ const ProcesosChart = memo(function BarVertical(props: any) {
     };
   };
 
+  const barData = {
+    labels: procesos?.map((i) => i.proceso?.description),
+    datasets: [
+      // {
+      //   label: "Eficiencia",
+      //   backgroundColor: "rgb(255, 99, 132)",
+      //   borderColor: "rgb(255, 99, 132)",
+      //   data: [65, 59, 80, 81, 56, 55, 40],
+      // },
+      {
+        label: "Cantidad usadas",
+        backgroundColor: "#eab676",
+        borderColor: "#eab676",
+        data: procesos?.map((i) => i.qty),
+      },
+    ],
+  };
+
   const { basicOptions } = getLightTheme();
   return (
     <div className="card-dark">
-      <h5>{props.title}</h5>
       <Chart type="bar" data={barData} options={basicOptions} />
     </div>
   );

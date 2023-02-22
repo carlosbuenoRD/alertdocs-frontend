@@ -6,6 +6,7 @@ interface ReportSchema {
   devoluciones: string[];
   devolucionesTime: number;
   createdAt: number;
+  procesos: [{ proceso: string; qty: number }];
 }
 
 export const menuAdmin = [

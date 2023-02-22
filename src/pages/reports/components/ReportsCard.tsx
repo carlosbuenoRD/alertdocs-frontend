@@ -15,7 +15,7 @@ export interface ReportsCardInterface {
 const ReportsCard: React.FC<ReportsCardInterface> = ({ report }) => {
   const navigate = useNavigate();
 
-  let title = report.areaId.name;
+  let title = report?.areaId?.name;
 
   return (
     <Card

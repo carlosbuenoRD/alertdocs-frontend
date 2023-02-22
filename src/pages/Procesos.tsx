@@ -12,6 +12,7 @@ import { useAppSelector, useAppDispatch } from "@/redux/store";
 import { fetchAllFlujos, deleteFlujo } from "@/redux/reducers/flujos";
 import DetailModal from "@/components/proceso/DetailModal";
 import MyConfirmPopup from "@/components/shared/MyConfirmPopup";
+import LineChart from "@/components/charts/LineChart";
 
 function Procesos(props: any) {
   const dispatch = useAppDispatch();
@@ -57,7 +58,7 @@ function Procesos(props: any) {
     <div className="relative">
       <ProcessHeader searchKit={{ search, setSearch }} />
       <div className="pt-7 grid-3-1">
-        <Card title="Lista de procesos" height="fit">
+        <Card title="Lista de procesos">
           <div>
             <DataTable
               value={currentFlujos}
@@ -88,6 +89,10 @@ function Procesos(props: any) {
           <PieChart />
         </Card>
       </div>
+
+      <Card title="Ultimos 6 meses">
+        <LineChart />
+      </Card>
 
       <DetailModal
         visible={detailModal}

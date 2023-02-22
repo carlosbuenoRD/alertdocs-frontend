@@ -8,10 +8,10 @@ const UserTable: React.FC<UserTableProps> = () => {
   return (
     <DataTable
       value={[
-        { name: "Carlos Bueno", eficiencia: 98 },
-        { name: "Carlos Bueno", eficiencia: 98 },
-        { name: "Carlos Bueno", eficiencia: 98 },
-        { name: "Carlos Bueno", eficiencia: 98 },
+        { name: "Carlos Bueno", eficiencia: 98, r: 12, d: 2 },
+        { name: "Carlos Bueno", eficiencia: 98, r: 12, d: 2 },
+        { name: "Carlos Bueno", eficiencia: 98, r: 12, d: 2 },
+        { name: "Carlos Bueno", eficiencia: 98, r: 12, d: 2 },
       ]}
       paginator
       className="p-datatable-customers"
@@ -31,16 +31,25 @@ const UserTable: React.FC<UserTableProps> = () => {
       //   }}
     >
       <Column field="name" header="Name" style={{ minWidth: "14rem" }} />
-      <Column field="name" header="Recibidas" style={{ minWidth: "14rem" }} />
       <Column
-        field="name"
+        field="r"
+        header="Recibidas"
+        className="text-center"
+        alignHeader={"center"}
+        style={{ maxWidth: "5rem" }}
+      />
+      <Column
+        field="d"
         header="Devoluciones"
-        style={{ minWidth: "14rem" }}
+        className="text-center"
+        alignHeader={"center"}
+        style={{ maxWidth: "5rem" }}
       />
       <Column
         field="eficiencia"
         header="Eficiencia"
         className="text-center"
+        alignHeader={"center"}
         style={{ textAlign: "center" }}
         filterPlaceholder="Search by country"
       />

@@ -11,7 +11,7 @@ export interface CardInfoProps {
 const CardInfo: React.FC<CardInfoProps> = ({ title, time, qty }) => {
   return (
     <Card title={title} className="text-center text-600" height="full">
-      <h1 className="text-6xl mb-2">{Math.round(qty)}</h1>
+      <h1 className="text-6xl mb-2">{Math.round(qty) || 0}</h1>
       {typeof time == "number" && (
         <StopWatch time={time} pause className="text-lg text-400 font-bold" />
       )}
