@@ -1,3 +1,4 @@
+import { Activity } from "@/models";
 import { ToastOptions } from "react-toastify";
 
 interface ReportSchema {
@@ -44,6 +45,20 @@ export const menu = [
     to: "/perfil",
   },
 ];
+
+export const emptyActivity: Activity = {
+  _id: "",
+  description: "",
+  areaId: "",
+  departmentId: "",
+  direccionId: "",
+  step: 0,
+  hours: 0,
+  usersId: "",
+  documentId: "",
+  flujoId: "",
+  state: "",
+};
 
 export const barData = {
   labels: [

@@ -17,10 +17,6 @@ function ActivityTimer(props: any) {
     );
   };
 
-  console.log(getTimeWithDevolucion(props.activity), "ree");
-
-  console.log(Date.now());
-
   return (
     <div className="col-4 m-0 align-self-center text-center w-full">
       {props.activity.state === "progress" &&
@@ -83,8 +79,40 @@ function ActivityTimer(props: any) {
             </div>
           </>
         )}
-      {props.activity.state === "completed" && (
-        <h4 className="m-0">completado</h4>
+
+      {props.activity.state === "completed" &&
+        !props.activity.pauseByDevolucion &&
+        !props.activity.continueByDevolucion && (
+          <>
+            <h5 className="m-0 uppercase mb-2 text-xl">completado</h5>
+            <h6 className="m-0">
+              <StopWatch
+                time={props.activity.endedAt - props.activity.startedAt}
+                pause
+                className="text-2xl"
+              />
+            </h6>
+          </>
+        )}
+
+      {props.activity.state === "completed" &&
+        props.activity.pauseByDevolucion &&
+        props.activity.continueByDevolucion && (
+          <>
+            <h5 className="m-0 uppercase mb-2 text-xl">completado</h5>
+            <h4 className="m-0">
+              <StopWatch
+                time={
+                  props.activity.endedAt - getTimeWithDevolucion(props.activity)
+                }
+                pause
+              />
+            </h4>
+          </>
+        )}
+
+      {props.activity.state === "ready" && (
+        <h5 className="m-0">Listo para empezar!</h5>
       )}
       {props.activity.state === "revision" &&
         !props.activity.pauseByDevolucion &&

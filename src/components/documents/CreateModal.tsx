@@ -103,7 +103,7 @@ function CreateModal(props: any) {
     setFlujo("");
     setLibramiento("");
     setParticipants("");
-    setTranscode("");
+    setTranscode(`MEPYD-${new Date().getFullYear()}-`);
   };
 
   return (

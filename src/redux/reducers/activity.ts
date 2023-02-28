@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Services
 import activityService from "@/services/activity";
+import { Activity } from "@/models";
+import { emptyActivity } from "@/utils/data";
 
 const {
   getActivityById,
@@ -15,7 +17,7 @@ const {
 
 const initialState: InitialState = {
   activities: [],
-  activity: {},
+  activity: emptyActivity,
   loading: false,
 };
 
@@ -210,8 +212,8 @@ export const { setActivity, updateActivityState, clearActivities } =
   activityslice.actions;
 
 interface InitialState {
-  activities: [];
-  activity: any;
+  activities: Activity[];
+  activity: Activity;
   loading: boolean;
 }
 

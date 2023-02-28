@@ -18,10 +18,21 @@ function Item(props: any) {
     setActivityModal(true);
   };
 
+  const setColor = (state: string): string => {
+    if (state === "pending") return "bg-teal-200";
+    if (state === "ready") return "bg-green-100";
+    if (state === "progress") return "bg-indigo-100";
+    if (state === "revision") return "bg-yellow-300";
+    if (state === "completed") return "bg-green-300";
+    return "";
+  };
+
   return (
     <>
       <li
-        className="card shadow-3 cursor-pointer relative"
+        className={`card shadow-3 cursor-pointer relative ${setColor(
+          props.state
+        )}`}
         onClick={handleOpenActivity}
       >
         <div

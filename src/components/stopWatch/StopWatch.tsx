@@ -4,7 +4,7 @@ import Timer from "./Timer";
 
 export interface StopWatchProps {
   time: number;
-  pause: boolean;
+  pause?: boolean;
   className?: string;
 }
 

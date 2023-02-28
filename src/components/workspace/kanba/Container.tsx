@@ -13,7 +13,9 @@ function KanbaContainer(props: any) {
             <div className="grid flex-nowrap w-full place-items-center">
               <Column
                 header="Pendientes"
-                items={activities?.filter((i: any) => i.state === "pending")}
+                items={activities?.filter(
+                  (i: any) => i.state === "pending" || "ready"
+                )}
               />
               <Column
                 header="En Proceso"
@@ -34,13 +36,15 @@ function KanbaContainer(props: any) {
         <div
           className="grid flex-nowrap w-full place-items-center border-200 border-round-md scroll-hidden"
           style={{
-            height: "500px",
+            height: "700px",
             overflow: "scroll",
           }}
         >
           <Column
             header="Pendientes"
-            items={activities?.filter((i: any) => i.state === "pending")}
+            items={activities?.filter(
+              (i: any) => i.state === "pending" || i.state === "ready"
+            )}
           />
           <Column
             header="En Proceso"

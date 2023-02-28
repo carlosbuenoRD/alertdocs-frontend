@@ -1,7 +1,7 @@
 import { useState } from "react";
 // Redux
 import { changeActivity } from "@/redux/reducers/activity";
-import { useAppDispatch } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 
 // Components
 import MyConfirmPopup from "@/components/shared/MyConfirmPopup";
@@ -13,6 +13,9 @@ import CommentModal from "./CommentModal";
 import FilesModal from "./FilesModal";
 import ReturnActivity from "./ReturnActivity";
 
+// Models
+import { Activity } from "@/models";
+
 const tabs = [
   { label: "Historial", icon: "pi pi-clock" },
   { label: "Comentarios", icon: "pi pi-clock" },
@@ -20,8 +23,20 @@ const tabs = [
   { label: "Devoluciones", icon: "pi pi-check-circle" },
 ];
 
-function ActivityHeader(props: any) {
+export interface ActivityHeaderProps {
+  activity: Activity;
+  active: number;
+  setActive: Function;
+}
+
+const ActivityHeader: React.FC<ActivityHeaderProps> = ({
+  activity,
+  active,
+  setActive,
+}) => {
   const dispatch = useAppDispatch();
+
+  const { user } = useAppSelector((state) => state.auth);
 
   const [commentModal, setCommentModal] = useState(false);
   const [fileModal, setFileModal] = useState(false);
@@ -33,7 +48,7 @@ function ActivityHeader(props: any) {
 
   const handleStartActivity = () => {
     dispatch(
-      changeActivity({ id: props.activity._id, state: { state: "progress" } })
+      changeActivity({ id: activity._id, state: { state: "progress" } })
     );
   };
 
@@ -55,8 +70,8 @@ function ActivityHeader(props: any) {
 
       <TabMenu
         model={tabs}
-        activeIndex={props.active}
-        onTabChange={(e) => props.setActive(e.index)}
+        activeIndex={active}
+        onTabChange={(e) => setActive(e.index)}
         className="ml-3 w-fit"
         style={{ fontSize: "1rem" }}
       />
@@ -65,38 +80,42 @@ function ActivityHeader(props: any) {
 
   const right = () => (
     <>
-      {props.activity.usersId._id && (
-        <Button
-          icon="pi pi-sign-out"
-          className="p-button-danger mx-2"
-          tooltip="Devolver documento"
-          onClick={() => setReturnActivity(true)}
-        />
-      )}
-      {props.activity.state === "progress" && (
+      {activity.usersId._id === user?._id &&
+        activity.step !== 1 &&
+        (activity.state === "ready" || activity.state === "progress") && (
+          <Button
+            icon="pi pi-sign-out"
+            className="p-button-danger mx-2"
+            tooltip="Devolver documento"
+            onClick={() => setReturnActivity(true)}
+          />
+        )}
+      {activity.state === "progress" && (
         <MyConfirmPopup
           message="Estas seguro de terminar la actividad?"
           tooltip="Terminar tarea"
           iconButton="pi pi-send"
-          className="p-button-danger"
+          className="p-button-danger ml-2"
           accept={() =>
             dispatch(
               changeActivity({
-                id: props.activity._id,
+                id: activity._id,
                 state: { state: "revision" },
               })
             )
           }
         />
       )}
-      {props.activity.step === 1 && props.activity.state === "pending" && (
-        <MyConfirmPopup
-          tooltip="Empezar tarea"
-          message="Estas seguro de empezar la actividad?"
-          iconButton="pi pi-play"
-          accept={handleStartActivity}
-        />
-      )}
+      {activity.usersId._id === user?._id &&
+        !activity.startedAt &&
+        (activity.state === "ready" || activity.step === 1) && (
+          <MyConfirmPopup
+            tooltip="Empezar tarea"
+            message="Estas seguro de empezar la actividad?"
+            iconButton="pi pi-play"
+            accept={handleStartActivity}
+          />
+        )}
     </>
   );
 
@@ -105,19 +124,19 @@ function ActivityHeader(props: any) {
       <Toolbar
         left={left}
         right={right}
-        // right={user?._id === props.activity.userId ? right : ""}
+        // right={user?._id === activity.userId ? right : ""}
         className="p-2"
       />
       <div className="greenGlow m-0 mt-2 mb-3 border-round-md p-2 grid-col-3 w-full">
         <div className="col-5 w-full">
           <p className="m-0 mb-2 font-bold">Descripcion:</p>
-          <label>{props.activity.description}</label>
+          <label>{activity.description}</label>
         </div>
         <div className="col-4 w-full">
           <p className="m-0 mb-2 font-bold">Tiempo estimado:</p>
-          <label>{Math.floor(props.activity.hours * 60)} Minutos</label>
+          <label>{Math.floor(activity.hours * 60)} Minutos</label>
         </div>
-        <ActivityTimer activity={props.activity} />
+        <ActivityTimer activity={activity} />
       </div>
 
       <CommentModal visible={commentModal} onHide={onHideComment} />
@@ -125,6 +144,43 @@ function ActivityHeader(props: any) {
       <ReturnActivity visible={returnActivity} onHide={onHideReturn} />
     </>
   );
-}
+};
 
 export default ActivityHeader;
+
+// const right = () => (
+//   <>
+//     {activity.usersId._id && (
+//       <Button
+//         icon="pi pi-sign-out"
+//         className="p-button-danger mx-2"
+//         tooltip="Devolver documento"
+//         onClick={() => setReturnActivity(true)}
+//       />
+//     )}
+//     {activity.state === "progress" && (
+//       <MyConfirmPopup
+//         message="Estas seguro de terminar la actividad?"
+//         tooltip="Terminar tarea"
+//         iconButton="pi pi-send"
+//         className="p-button-danger"
+//         accept={() =>
+//           dispatch(
+//             changeActivity({
+//               id: activity._id,
+//               state: { state: "revision" },
+//             })
+//           )
+//         }
+//       />
+//     )}
+//     {props.activity.step === 1 && props.activity.state === "pending" && (
+//       <MyConfirmPopup
+//         tooltip="Empezar tarea"
+//         message="Estas seguro de empezar la actividad?"
+//         iconButton="pi pi-play"
+//         accept={handleStartActivity}
+//       />
+//     )}
+//   </>
+// );
