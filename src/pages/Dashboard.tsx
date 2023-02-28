@@ -40,7 +40,7 @@ function Dashboard() {
         <PercentageCard title="Control Interno" color="green" />
       </div>
 
-      <div className="grid-3-1 mt-5">
+      <div className="grid-3-1 mt-4">
         <Card title="Ultimos 6 meses" height="fit">
           <LineChart />
         </Card>

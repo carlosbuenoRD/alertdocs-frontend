@@ -13,6 +13,7 @@ import PercentageCard from "@/components/dashboard/PercentageCard";
 import Card from "@/components/shared/Card";
 import PercentageCircle from "@/components/shared/PercentageCircle";
 import AreasHeader from "@/components/areas/AreasHeader";
+import MepydStats from "@/components/areas/MepydStats";
 
 function Areas() {
   const dispatch = useAppDispatch();
@@ -37,7 +38,9 @@ function Areas() {
   return (
     <div className="relative">
       <AreasHeader section={section} setSection={setSection} areas={areas} />
-      <div className=" gap-3 pt-7">
+
+      <div className="gap-3 pt-7">
+        <MepydStats />
         <Card title="Todos" height="">
           <div className="grid-col-3">
             {listedAreas?.map((item: any, i) => (
