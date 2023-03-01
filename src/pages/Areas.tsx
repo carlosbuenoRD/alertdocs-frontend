@@ -9,7 +9,7 @@ import {
 } from "@/redux/reducers/area";
 
 // COMPONENTS
-import PercentageCard from "@/components/dashboard/PercentageCard";
+import PercentageCard from "@/pages/dashboard/components/PercentageCard";
 import Card from "@/components/shared/Card";
 import PercentageCircle from "@/components/shared/PercentageCircle";
 import AreasHeader from "@/components/areas/AreasHeader";

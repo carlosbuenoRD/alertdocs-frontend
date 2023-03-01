@@ -7,16 +7,26 @@ import { Report } from "@/models/reports.model";
 // Components
 import LineChart from "@/components/charts/LineChart";
 import Card from "@/components/shared/Card";
-import PercentageCard from "@/components/dashboard/PercentageCard";
+import PercentageCard from "@/pages/dashboard/components/PercentageCard";
 import PercentageCircle from "@/components/shared/PercentageCircle";
-import Powerbi from "@/components/dashboard/Powerbi";
+import { AreaSelection, Powerbi } from "./components";
 import DocumentCarousel from "@/components/documents/DocumentCarousel";
 import { getReportOfTheMonth } from "@/services/reports.service";
+import { Button } from "primereact/button";
 
 function Dashboard() {
   const navigate = useNavigate();
 
   const [areaOfTheMonth, setAreaOfTheMonth] = useState<Report | any>({});
+  const [selectModal, setSelectModal] = useState(false);
+
+  const [selectedAreas, setSelectedAreas] = useState<any[]>(
+    localStorage.getItem("dashboard_areas")
+      ? JSON.parse(localStorage.getItem("dashboard_areas") || "")
+      : []
+  );
+
+  const COLORS = ["blue", "yellow", "green"];
 
   useEffect(() => {
     handleGetAreaOfTheMonth();
@@ -26,7 +36,6 @@ function Dashboard() {
     try {
       const report = await getReportOfTheMonth();
       setAreaOfTheMonth(report);
-      console.log(areaOfTheMonth);
     } catch (error) {
       console.log(error, "HandleGetAreaOfTheMonth");
     }
@@ -34,10 +43,19 @@ function Dashboard() {
 
   return (
     <div>
-      <div className="grid grid-col-3">
-        <PercentageCard title="Recursos Humano" color="blue" />
-        <PercentageCard title="Direccion financiera" color="yellow" />
-        <PercentageCard title="Control Interno" color="green" />
+      <div className="relative">
+        <Button
+          className="border-circle absolute right-0 bg-green-400 border-none"
+          icon="pi pi-pencil"
+          aria-label="Search"
+          style={{ top: -35 }}
+          onClick={() => setSelectModal(true)}
+        />
+        <div className="grid grid-col-3 my-4">
+          {selectedAreas.map((a, i) => (
+            <PercentageCard title={a.name} color={COLORS[i]} area={a._id} />
+          ))}
+        </div>
       </div>
 
       <div className="grid-3-1 mt-4">
@@ -68,6 +86,14 @@ function Dashboard() {
 
       {/* POWER BI */}
       <Powerbi />
+
+      {/* Modal */}
+      <AreaSelection
+        visible={selectModal}
+        onHide={() => setSelectModal(false)}
+        selectedAreas={selectedAreas}
+        setSelectedAreas={setSelectedAreas}
+      />
     </div>
   );
 }

@@ -1,6 +1,11 @@
 import axios from "axios";
 import { API_URL } from "@/utils/constants";
 
+export async function getActivitiesByFlujo(id: any) {
+  const { data } = await axios.get(`${API_URL}/activities/flujo/${id}`);
+  return data;
+}
+
 export default function activityService() {
   async function getActivitiesByUser(id: any) {
     const { data } = await axios.get(`${API_URL}/activities/myactivity/${id}`);
@@ -29,6 +34,11 @@ export default function activityService() {
 
   async function getActivitiesByDepartment(id: any) {
     const { data } = await axios.get(`${API_URL}/activities/department/${id}`);
+    return data;
+  }
+
+  async function getActivitiesByFlujo(id: any) {
+    const { data } = await axios.get(`${API_URL}/activities/flujo/${id}`);
     return data;
   }
 
@@ -100,5 +110,6 @@ export default function activityService() {
     addHistory,
     getCompletedStatus,
     getCompletedByArea,
+    getActivitiesByFlujo,
   };
 }

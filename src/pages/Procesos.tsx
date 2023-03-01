@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 // Components
 import PieChart from "@/components/charts/PieChart";
@@ -13,6 +13,8 @@ import { fetchAllFlujos, deleteFlujo } from "@/redux/reducers/flujos";
 import DetailModal from "@/components/proceso/DetailModal";
 import MyConfirmPopup from "@/components/shared/MyConfirmPopup";
 import LineChart from "@/components/charts/LineChart";
+import { getActivitiesByFlujo } from "@/services/activity";
+import { getEficiencia } from "@/utils/formula";
 
 function Procesos(props: any) {
   const dispatch = useAppDispatch();
@@ -50,6 +52,21 @@ function Procesos(props: any) {
     dispatch(fetchAllFlujos());
   }, []);
 
+  const ShowEficiencia = (props: any) => {
+    const [eficiencia, setEficiencia] = useState(0);
+
+    useEffect(() => {
+      handleEficiencia();
+    }, [props]);
+
+    const handleEficiencia = useCallback(async () => {
+      let result = await getActivitiesByFlujo(props.id);
+      if (result) setEficiencia(getEficiencia(result));
+    }, [props.id]);
+
+    return <p>{Math.floor(eficiencia) || 0}</p>;
+  };
+
   const currentFlujos = search
     ? flujos.filter((i) => i.description.includes(search))
     : flujos;
@@ -75,6 +92,12 @@ function Procesos(props: any) {
                 header="Descripcion"
                 field="description"
                 style={{ minWidth: "12rem" }}
+              />
+              <Column
+                header="Eficiencia"
+                field="description"
+                body={(data) => <ShowEficiencia id={data._id} />}
+                // style={{ minWidth: "12rem" }}
               />
               <Column
                 align={"center"}
