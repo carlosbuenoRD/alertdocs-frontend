@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
 // Components
 import { AutoComplete } from "primereact/autocomplete";
@@ -9,13 +10,19 @@ import { Button } from "primereact/button";
 import FlujosTable from "../proceso/FlujoTable";
 import { useAppSelector, useAppDispatch } from "@/redux/store";
 import { fetchAllFlujos } from "@/redux/reducers/flujos";
-import { createdocument } from "@/redux/reducers/documents";
+import {
+  createdocument,
+  fetchDocumentsByArea,
+} from "@/redux/reducers/documents";
 import { setDepartments } from "@/redux/reducers/area";
 import SectionStep from "../shared/SectionStep";
 import Card from "../shared/Card";
 
 function CreateModal(props: any) {
   const dispatch = useAppDispatch();
+
+  const location = useLocation();
+
   const { flujos, flujo: flujoState } = useAppSelector((state) => state.flujos);
 
   const [transcode, setTranscode] = useState("");
@@ -77,6 +84,10 @@ function CreateModal(props: any) {
         departments,
       })
     );
+    if (location.pathname.includes("/area/")) {
+      let areaId = location.pathname.split("/")[2];
+      dispatch(fetchDocumentsByArea(areaId));
+    }
     clearInputs();
     onHide();
   };

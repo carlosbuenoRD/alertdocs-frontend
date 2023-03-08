@@ -4,6 +4,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import activityService from "@/services/activity";
 import { Activity } from "@/models";
 import { emptyActivity } from "@/utils/data";
+import { getReportActivities } from "@/services/reports.service";
 
 const {
   getActivityById,

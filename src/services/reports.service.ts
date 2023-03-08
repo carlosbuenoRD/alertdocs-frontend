@@ -31,6 +31,49 @@ export async function getOneReports(id: string): Promise<Report> {
   }
 }
 
+export async function getReportsByDate(
+  month: number,
+  year: number
+): Promise<Report> {
+  try {
+    const { data } = await axios.get<Report>(
+      `${API_URL}/reports/by/date?month=${month}&year=${year}`
+    );
+    return data;
+  } catch (error: any) {
+    console.log(error.message);
+    return error.message;
+  }
+}
+
+export async function getReportsByAreaAndDate(
+  area: string,
+  month: number,
+  year: number
+): Promise<Report> {
+  try {
+    const { data } = await axios.get<Report>(
+      `${API_URL}/reports/by/area/date?month=${month}&year=${year}&area=${area}`
+    );
+    return data;
+  } catch (error: any) {
+    console.log(error.message);
+    return error.message;
+  }
+}
+
+export async function getReportActivities(id: string) {
+  try {
+    const { data } = await axios.get<Report>(
+      `${API_URL}/reports/activities/${id}`
+    );
+    return data;
+  } catch (error: any) {
+    console.log(error.message);
+    return error.message;
+  }
+}
+
 export async function getReportByArea(id: string): Promise<Report> {
   try {
     const { data } = await axios.get<Report>(`${API_URL}/reports/area/${id}`);

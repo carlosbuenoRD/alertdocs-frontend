@@ -29,9 +29,10 @@ function HistorySection() {
   useEffect(() => {
     dispatch(fetchHistoryByActivities());
   }, []);
+
   return (
     <>
-      {histories.length > 0 ? (
+      {histories?.length > 0 ? (
         <Accordion>
           {histories?.map((h: any) => (
             <AccordionTab

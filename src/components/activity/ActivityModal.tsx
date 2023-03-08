@@ -1,18 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Components
 import { Dialog } from "primereact/dialog";
 
-import { useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import WorkSpaceModal from "../workspace/WorkSpaceModal";
 import ActivityHeader from "./ActivityHeader";
 import SectionPicker from "./SectionPicker";
+import { fetchActivityById } from "@/redux/reducers/activity";
 
 function ActivityModal(props: any) {
+  const dispatch = useAppDispatch();
   const [workSpace, setWorkSpace] = useState(false);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const { activity } = useAppSelector((state) => state.activity);
+
+  useEffect(() => {
+    dispatch(fetchActivityById(props._id));
+  }, [props._id]);
 
   return (
     <Dialog
@@ -46,7 +52,11 @@ function ActivityModal(props: any) {
       <div className="card shadow-1 mb-0">
         <SectionPicker active={activeIndex} />
       </div>
-      <WorkSpaceModal visible={workSpace} onHide={() => setWorkSpace(false)} />
+      <WorkSpaceModal
+        visible={workSpace}
+        onHide={() => setWorkSpace(false)}
+        fromActivity={activity.documentId}
+      />
     </Dialog>
   );
 }

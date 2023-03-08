@@ -93,7 +93,7 @@ function MyAccount() {
                 <li className="flex flex-column m-0">
                   <h4 className="mb-1">
                     {
-                      activities?.filter((i: any) => i.state === "revision")
+                      activities?.filter((i: any) => i.state === "completed")
                         .length
                     }
                   </h4>

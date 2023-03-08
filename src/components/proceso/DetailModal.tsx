@@ -9,6 +9,8 @@ import { fetchOneFlujo, updateFlujo } from "@/redux/reducers/flujos";
 import { Toolbar } from "primereact/toolbar";
 import { TabMenu } from "primereact/tabmenu";
 import SectionPicker from "./SectionPicker";
+import { getActivitiesByFlujo } from "@/services/activity";
+import { getEficiencia } from "@/utils/formula";
 
 const tabs = [
   { label: "Flujo", icon: "pi pi-clock" },
@@ -20,6 +22,7 @@ function DetailModal(props: any) {
   const dispatch = useAppDispatch();
   const { flujo, loadingFlujo } = useAppSelector((state) => state.flujos);
 
+  const [eficiencia, setEficiencia] = useState(0);
   const [edit, setEdit] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [flujoState, setFlujo] = useState<any>({
@@ -43,6 +46,15 @@ function DetailModal(props: any) {
       });
     }
   }, [flujo]);
+
+  useEffect(() => {
+    handleEficiencia();
+  }, [flujo._id]);
+
+  const handleEficiencia = async () => {
+    let result = await getActivitiesByFlujo(flujo._id);
+    if (result) setEficiencia(getEficiencia(result));
+  };
 
   const handleUpdateFlujo = () => {
     dispatch(updateFlujo(flujoState));
@@ -85,27 +97,33 @@ function DetailModal(props: any) {
           footer={footer}
           visible={props.visible}
           onHide={props.onHide}
-          style={{ width: "90vw" }}
+          style={{ width: "75vw" }}
         >
-          <div className="mt-4 mb-2 card shadow-1">
-            <div className="flex justify-content-between align-items-center mb-0">
-              <h5>Descripcion</h5>
-              <i
-                className="pi pi-file-edit cursor-pointer text-2xl"
-                onClick={() => setEdit(true)}
-              ></i>
+          <div className="card shadow-1 flex relative mt-4 mb-2 justify-content-between">
+            <div className="pr-8">
+              <div className="flex justify-content-between align-items-center mb-0">
+                <h5>Descripcion</h5>
+                <i
+                  className="pi pi-file-edit cursor-pointer text-2xl absolute right-0 bg-white border-circle p-1 shadow-1"
+                  style={{ top: -15 }}
+                  onClick={() => setEdit(true)}
+                ></i>
+              </div>
+              <input
+                className="font-bold border-none outline-none bg-transparent w-30rem m-0"
+                disabled={!edit}
+                value={flujoState.description}
+                onChange={(e) =>
+                  setFlujo((prev: any) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
+              />
             </div>
-            <input
-              className="font-bold border-none outline-none bg-transparent w-full m-0"
-              disabled={!edit}
-              value={flujoState.description}
-              onChange={(e) =>
-                setFlujo((prev: any) => ({
-                  ...prev,
-                  description: e.target.value,
-                }))
-              }
-            />
+            <div className="bg-green-400 p-3 h-fit border-round-lg">
+              <h3 className="m-0">{Math.floor(eficiencia) || 0}</h3>
+            </div>
           </div>
           <div className="card shadow-1">
             <Toolbar

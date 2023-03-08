@@ -6,6 +6,7 @@ import { Dropdown } from "primereact/dropdown";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { getDepartments, getDirecciones } from "@/redux/reducers/area";
 import { Calendar, CalendarProps } from "primereact/calendar";
+import { fetchReportByDate } from "@/redux/reducers/reports";
 
 const ReportsHeader: React.FC = (props: any) => {
   const dispatch = useAppDispatch();
@@ -31,12 +32,23 @@ const ReportsHeader: React.FC = (props: any) => {
     }
   }, [direccion]);
 
+  useEffect(() => {
+    if (date) {
+      dispatch(
+        fetchReportByDate({
+          month: new Date(date).getMonth(),
+          year: new Date(date).getFullYear(),
+        })
+      );
+    }
+  }, [date]);
+
   return (
     <div className="area_header shadow-1">
       <div className="flex align-items-center cursor-pointer mr-5 px-4">
         <span className="p-input-icon-left p-float-label mr-2">
           <i className="pi pi-search" />
-          <InputText id="search" className="w-12" />
+          <InputText id="search" className="w-24rem" />
           <label htmlFor="search">Buscar...</label>
         </span>
 

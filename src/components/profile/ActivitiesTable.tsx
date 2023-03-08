@@ -1,14 +1,27 @@
-import React from "react";
-import { Dialog } from "primereact/dialog";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
+import { useState } from "react";
+
+// Utils
 import { dateFormat } from "@/utils/dateFormat";
 import { getEficiencia } from "@/utils/formula";
 
+// Components
+import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
+import ActivityModal from "../activity/ActivityModal";
+
+const checkColor = (eficiencia: number) => {
+  if (eficiencia > 120) return "bg-green-400";
+  if (eficiencia < 120 && eficiencia >= 100) return "bg-yellow-400";
+  if (eficiencia < 100) return "bg-pink-400";
+};
+
 function ActivitiesTable(props: any) {
+  const [activity, setActivity] = useState<any>({});
+  const [activityModal, setActivityModal] = useState<any>(false);
+
   return (
     <>
-      <div className="card shadow-1 pt-0 mt-3">
+      <div className="card p-4 pt-3 shadow-1 pt-0 mt-3">
         <DataTable
           value={props.activities}
           paginator
@@ -18,7 +31,12 @@ function ActivitiesTable(props: any) {
           rowsPerPageOptions={[10, 25, 50]}
           dataKey="id"
           rowHover
+          onRowClick={({ data }) => {
+            setActivity(data);
+            setActivityModal(true);
+          }}
           selectionMode="single"
+          showGridlines
           dragSelection
           // selection={selectedCustomers}
           // onSelectionChange={(e) => handleOnSelectUser(e)}
@@ -47,11 +65,18 @@ function ActivitiesTable(props: any) {
             filterField="users.name"
             // style={{ minWidth: "14rem" }}
             filterPlaceholder="Search by country"
-            body={(data: any) => (
-              <h6 className="bg-green-400 shadow-2 p-2 border-round-md w-5 m-0 text-white">
-                {Math.round(getEficiencia([data]))}
-              </h6>
-            )}
+            body={(data: any) => {
+              const eficiencia = Math.round(getEficiencia([data]));
+              return (
+                <h6
+                  className={`${checkColor(
+                    eficiencia
+                  )} shadow-2 p-2 border-round-md w-5 m-0 text-white`}
+                >
+                  {eficiencia}
+                </h6>
+              );
+            }}
           />
           <Column
             field="endedAt"
@@ -75,6 +100,14 @@ function ActivitiesTable(props: any) {
             )}
           />
         </DataTable>
+
+        {activityModal && (
+          <ActivityModal
+            {...activity}
+            visible={activityModal}
+            onHide={() => setActivityModal(false)}
+          />
+        )}
       </div>
     </>
   );

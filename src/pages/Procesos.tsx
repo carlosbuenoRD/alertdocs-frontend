@@ -4,15 +4,14 @@ import React, { useState, useEffect, useCallback } from "react";
 import PieChart from "@/components/charts/PieChart";
 import ProcessHeader from "@/components/proceso/ProcessHeader";
 import Card from "@/components/shared/Card";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { Button } from "primereact/button";
-import CreateModal from "@/components/proceso/CreateModal";
-import { useAppSelector, useAppDispatch } from "@/redux/store";
-import { fetchAllFlujos, deleteFlujo } from "@/redux/reducers/flujos";
 import DetailModal from "@/components/proceso/DetailModal";
 import MyConfirmPopup from "@/components/shared/MyConfirmPopup";
 import LineChart from "@/components/charts/LineChart";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { Button } from "primereact/button";
+import { useAppSelector, useAppDispatch } from "@/redux/store";
+import { fetchAllFlujos, deleteFlujo } from "@/redux/reducers/flujos";
 import { getActivitiesByFlujo } from "@/services/activity";
 import { getEficiencia } from "@/utils/formula";
 
@@ -59,10 +58,10 @@ function Procesos(props: any) {
       handleEficiencia();
     }, [props]);
 
-    const handleEficiencia = useCallback(async () => {
+    const handleEficiencia = async () => {
       let result = await getActivitiesByFlujo(props.id);
       if (result) setEficiencia(getEficiencia(result));
-    }, [props.id]);
+    };
 
     return <p>{Math.floor(eficiencia) || 0}</p>;
   };
@@ -82,7 +81,7 @@ function Procesos(props: any) {
               paginator
               className="p-datatable-gridlines h-full"
               showGridlines
-              rows={6}
+              rows={4}
               dataKey="_id"
               responsiveLayout="scroll"
               emptyMessage="No customers found."

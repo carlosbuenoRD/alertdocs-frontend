@@ -16,8 +16,10 @@ export const fetchHistoryByActivities = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const state: any = thunkApi.getState();
-      const data = await getHistoryByActivity(state.activity.activity._id);
-      return data;
+      if (state.activity.activity._id) {
+        const data = await getHistoryByActivity(state.activity.activity._id);
+        return data;
+      }
     } catch (error) {
       thunkApi.rejectWithValue(error);
     }

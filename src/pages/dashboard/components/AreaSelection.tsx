@@ -151,7 +151,7 @@ const AreaSelection: React.FC<AreaSelectionProps> = ({
             value={listedAreas || []}
             selection={selectedAreas}
             onSelectionChange={(e) => {
-              if (selectedAreas.length == 3) return;
+              if (e.value.length > 3) return;
               setSelectedAreas(e.value);
               localStorage.setItem("dashboard_areas", JSON.stringify(e.value));
             }}

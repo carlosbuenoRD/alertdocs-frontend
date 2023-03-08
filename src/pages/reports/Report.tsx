@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { fetchOneReport, fetchReportByArea } from "@/redux/reducers/reports";
@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 import BarChart from "@/components/charts/BarVertical";
 import Card from "@/components/shared/Card";
 import {
+  ActivitiesModal,
   CardInfo,
   PieChart,
   ProcesosChart,
@@ -22,6 +23,8 @@ function Report() {
 
   const { report } = useAppSelector((state) => state.reports);
 
+  const [activitiesModal, setActivitiesModal] = useState(false);
+
   const REPORT_ID = location.pathname.split("/")[2];
   const TYPE = location.search.split("=")[1];
 
@@ -32,8 +35,6 @@ function Report() {
       dispatch(fetchOneReport(REPORT_ID));
     }
   }, [REPORT_ID, TYPE]);
-
-  console.log(report);
 
   return (
     <div className="relative">
@@ -68,6 +69,12 @@ function Report() {
               mediumActivities={report.mediumActivities?.length}
               badActivities={report.badActivities?.length}
             />
+            <a
+              className="text-center w-full block underline cursor-pointer text-xs mt-2"
+              onClick={() => setActivitiesModal(true)}
+            >
+              Ver detalles
+            </a>
           </Card>
         </div>
 
@@ -94,6 +101,13 @@ function Report() {
           </>
         ))}
       </section> */}
+
+      {activitiesModal && (
+        <ActivitiesModal
+          visible={activitiesModal}
+          onHide={() => setActivitiesModal(false)}
+        />
+      )}
     </div>
   );
 }

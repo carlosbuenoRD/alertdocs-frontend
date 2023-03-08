@@ -94,10 +94,9 @@ const AppBreadcrumb = (props: any) => {
         />
       </div>
 
-      <button className="p-button" onClick={() => setCreateModal(true)}>
-        <i className="pi pi-plus mr-2" />
-        documento
-      </button>
+      <Button tooltip="Añadir documento" onClick={() => setCreateModal(true)}>
+        <i className="pi pi-plus" />
+      </Button>
 
       {/* SEARCH */}
       <div className="layout-breadcrumb-right-items">
@@ -203,7 +202,12 @@ const AppBreadcrumb = (props: any) => {
       </div>
 
       <Chat open={chat} onClose={() => setChat(false)} />
-      <CreateModal visible={createModal} onHide={() => setCreateModal(false)} />
+      {createModal && (
+        <CreateModal
+          visible={createModal}
+          onHide={() => setCreateModal(false)}
+        />
+      )}
     </div>
   );
 };

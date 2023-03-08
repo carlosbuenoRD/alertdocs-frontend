@@ -5,6 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { getDepartments, getDirecciones } from "@/redux/reducers/area";
+import { Button } from "primereact/button";
 
 function AreasHeader(props: any) {
   const dispatch = useAppDispatch();
@@ -29,12 +30,18 @@ function AreasHeader(props: any) {
     }
   }, [direccion]);
 
+  const clearInputs = () => {
+    props.setSection("area");
+    setArea("");
+    setDireccion("");
+  };
+
   return (
     <div className="area_header shadow-1">
       <div className="flex align-items-center cursor-pointer mr-5 px-4">
         <span className="p-input-icon-left p-float-label mr-2">
           <i className="pi pi-search" />
-          <InputText id="search" className="w-12" />
+          <InputText id="search" className="w-24rem" />
           <label htmlFor="search">Buscar...</label>
         </span>
 
@@ -65,6 +72,11 @@ function AreasHeader(props: any) {
 
           <label htmlFor="search">Direcciones</label>
         </span>
+        <Button
+          icon="pi pi-refresh"
+          className="bg-orange-400 border-none"
+          onClick={clearInputs}
+        />
       </div>
     </div>
   );

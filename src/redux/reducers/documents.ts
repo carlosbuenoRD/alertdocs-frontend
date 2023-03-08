@@ -44,7 +44,7 @@ export const fetchDocumentsByArea = createAsyncThunk(
 );
 
 export const fetchDocumentsByDireccion = createAsyncThunk(
-  "documents/getDocumentsByArea",
+  "documents/getDocumentsByDireccion",
   async (id: any, thunkApi) => {
     try {
       const data = await getDocumentsByDireccion(id);
@@ -56,7 +56,7 @@ export const fetchDocumentsByDireccion = createAsyncThunk(
 );
 
 export const fetchDocumentsByDepartments = createAsyncThunk(
-  "documents/getDocumentsByArea",
+  "documents/getDocumentsByDepartments",
   async (id: any, thunkApi) => {
     try {
       const data = await getDocumentsByDepartment(id);
@@ -85,7 +85,6 @@ export const createdocument = createAsyncThunk(
     try {
       await addDocument(document);
       toast.success("Has creado un documento!", toastConfig);
-      thunkApi.dispatch(fetchAllDocuments());
     } catch (error: any) {
       toast.success(error.message, toastConfig);
       thunkApi.rejectWithValue(error);

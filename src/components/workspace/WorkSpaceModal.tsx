@@ -13,6 +13,7 @@ import {
   fetchDocumentsByArea,
   fetchDocumentsByDepartments,
   fetchDocumentsByDireccion,
+  fetchOneDocument,
   setDocument,
 } from "@/redux/reducers/documents";
 import { fetchAllDocuments } from "@/redux/reducers/documents";
@@ -40,17 +41,22 @@ function WorkSpaceModal(props: any) {
     { label: "General", icon: "pi pi-cog" },
   ];
 
+  console.log(props.fromActivity);
+
   useEffect(() => {
     if (section === "area") dispatch(fetchDocumentsByArea(areaId));
     if (section === "direcciones") dispatch(fetchDocumentsByDireccion(areaId));
     if (section === "departments")
       dispatch(fetchDocumentsByDepartments(areaId));
-
     // return () => {
     // dispatch(clearActivities(""));
     // dispatch(clearDocument(""));
     // };
   }, []);
+
+  useEffect(() => {
+    if (props.fromActivity) dispatch(fetchOneDocument(props.fromActivity));
+  }, [props.fromActivity]);
 
   const handleSelectDocument = (document: any) => {
     dispatch(setDocument(document));
