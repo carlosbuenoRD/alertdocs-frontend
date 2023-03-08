@@ -21,9 +21,7 @@ function Reports() {
       {reports.length > 0 ? (
         <section className="pt-7 grid-col-2">
           {reports?.map((report) => (
-            <>
-              <ReportsCard report={report} />
-            </>
+            <ReportsCard key={report._id} report={report} />
           ))}
         </section>
       ) : (

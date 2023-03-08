@@ -80,7 +80,7 @@ const ActivityHeader: React.FC<ActivityHeaderProps> = ({
 
   const right = () => (
     <>
-      {activity.usersId._id === user?._id &&
+      {activity.usersId?._id === user?._id &&
         activity.step !== 1 &&
         (activity.state === "ready" || activity.state === "progress") && (
           <Button
@@ -139,9 +139,14 @@ const ActivityHeader: React.FC<ActivityHeaderProps> = ({
         <ActivityTimer activity={activity} />
       </div>
 
-      <CommentModal visible={commentModal} onHide={onHideComment} />
-      <FilesModal visible={fileModal} onHide={onHideFile} />
-      <ReturnActivity visible={returnActivity} onHide={onHideReturn} />
+      {/* Modals */}
+      {commentModal && (
+        <CommentModal visible={commentModal} onHide={onHideComment} />
+      )}
+      {fileModal && <FilesModal visible={fileModal} onHide={onHideFile} />}
+      {returnActivity && (
+        <ReturnActivity visible={returnActivity} onHide={onHideReturn} />
+      )}
     </>
   );
 };

@@ -17,8 +17,10 @@ function DocumentCard(props: any) {
   const [completed, setCompleted] = useState(0);
 
   useEffect(() => {
-    // setColor(colors[Math.floor(Math.random() * 3)]);
-    getCompleted();
+    // setColor(colors[Math.floor(Math.random() * 3)];)
+    if (props._id) {
+      getCompleted();
+    }
   }, [props._id]);
 
   const getCompleted = async () => {

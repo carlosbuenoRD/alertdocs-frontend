@@ -17,7 +17,9 @@ function ActivityModal(props: any) {
   const { activity } = useAppSelector((state) => state.activity);
 
   useEffect(() => {
-    dispatch(fetchActivityById(props._id));
+    if (props._id) {
+      dispatch(fetchActivityById(props._id));
+    }
   }, [props._id]);
 
   return (
@@ -52,11 +54,13 @@ function ActivityModal(props: any) {
       <div className="card shadow-1 mb-0">
         <SectionPicker active={activeIndex} />
       </div>
-      <WorkSpaceModal
-        visible={workSpace}
-        onHide={() => setWorkSpace(false)}
-        fromActivity={activity.documentId}
-      />
+      {workSpace && (
+        <WorkSpaceModal
+          visible={workSpace}
+          onHide={() => setWorkSpace(false)}
+          fromActivity={activity.documentId}
+        />
+      )}
     </Dialog>
   );
 }

@@ -1,13 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 // Components
-import { TabMenu } from "primereact/tabmenu";
-import { Dialog } from "primereact/dialog";
-import KanbaContainer from "./kanba/Container";
-import { InputText } from "primereact/inputtext";
-import DocumentCard from "../documents/DocumentCard";
-import SectionPicker from "./SectionPicker";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
+import {
+  clearActivities,
+  fetchDocumentActivities,
+} from "@/redux/reducers/activity";
 import {
   clearDocument,
   fetchDocumentsByArea,
@@ -15,13 +12,15 @@ import {
   fetchDocumentsByDireccion,
   fetchOneDocument,
   setDocument,
+  setDocumentsList,
 } from "@/redux/reducers/documents";
-import { fetchAllDocuments } from "@/redux/reducers/documents";
-import {
-  fetchDocumentActivities,
-  clearActivities,
-} from "@/redux/reducers/activity";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+import { TabMenu } from "primereact/tabmenu";
 import { useLocation } from "react-router-dom";
+import DocumentCard from "../documents/DocumentCard";
+import SectionPicker from "./SectionPicker";
 
 function WorkSpaceModal(props: any) {
   const dispatch = useAppDispatch();
@@ -33,6 +32,8 @@ function WorkSpaceModal(props: any) {
   const { activities } = useAppSelector((state) => state.activity);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  console.log(document, "PLPLP");
+
   const items = [
     { label: "Tabla", icon: "pi pi-clock" },
     { label: "Comentarios", icon: "pi pi-check-circle" },
@@ -41,22 +42,33 @@ function WorkSpaceModal(props: any) {
     { label: "General", icon: "pi pi-cog" },
   ];
 
-  console.log(props.fromActivity);
+  // useEffect(() => {
+  //   dispatch(clearActivities(""));
+  // }, []);
 
   useEffect(() => {
-    if (section === "area") dispatch(fetchDocumentsByArea(areaId));
-    if (section === "direcciones") dispatch(fetchDocumentsByDireccion(areaId));
-    if (section === "departments")
-      dispatch(fetchDocumentsByDepartments(areaId));
-    // return () => {
-    // dispatch(clearActivities(""));
-    // dispatch(clearDocument(""));
-    // };
-  }, []);
+    if (!props.fromActivity) {
+      if (section === "area") dispatch(fetchDocumentsByArea(areaId));
+      if (section === "direcciones")
+        dispatch(fetchDocumentsByDireccion(areaId));
+      if (section === "departments")
+        dispatch(fetchDocumentsByDepartments(areaId));
+    }
+  }, [section]);
 
   useEffect(() => {
-    if (props.fromActivity) dispatch(fetchOneDocument(props.fromActivity));
+    if (props.fromActivity) {
+      dispatch(fetchOneDocument(props.fromActivity));
+      dispatch(fetchDocumentActivities(props.fromActivity));
+      console.log(document, "BEFORE LIST");
+    }
   }, [props.fromActivity]);
+
+  useEffect(() => {
+    if (props.fromActivity && document) {
+      dispatch(setDocumentsList([document]));
+    }
+  }, [document]);
 
   const handleSelectDocument = (document: any) => {
     dispatch(setDocument(document));
@@ -90,7 +102,7 @@ function WorkSpaceModal(props: any) {
 
           <hr />
 
-          {documents.map((i) => (
+          {documents?.map((i) => (
             <div
               key={i._id}
               onClick={() => handleSelectDocument(i)}
@@ -105,7 +117,7 @@ function WorkSpaceModal(props: any) {
           ))}
         </div>
         <div className="card relative w-full">
-          {activities.length > 0 ? (
+          {activities?.length > 0 ? (
             <div
               className="fixed pr-4"
               style={{ width: "-webkit-fill-available" }}

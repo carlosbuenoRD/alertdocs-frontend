@@ -72,6 +72,7 @@ export const fetchOneDocument = createAsyncThunk(
   async (id: any, thunkApi) => {
     try {
       const data = await getOneDocument(id);
+      thunkApi.dispatch(setDocument(data));
       return data;
     } catch (error) {
       thunkApi.rejectWithValue(error);

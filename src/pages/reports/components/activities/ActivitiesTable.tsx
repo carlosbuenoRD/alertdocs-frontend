@@ -77,7 +77,7 @@ function ActivitiesTable(props: any) {
             sortable
             className="text-left"
             filterField="users.name"
-            // style={{ minWidth: "14rem" }}
+            style={{ maxWidth: "4rem" }}
             filterPlaceholder="Search by country"
             body={(data: any) => {
               const eficiencia = Math.round(getEficiencia([data]));
@@ -85,7 +85,7 @@ function ActivitiesTable(props: any) {
                 <h6
                   className={`${checkColor(
                     eficiencia
-                  )} shadow-2 p-2 border-round-md w-5 m-0 text-white`}
+                  )} shadow-2 p-2 border-round-md w-12 m-0 text-white text-center`}
                 >
                   {eficiencia}
                 </h6>
@@ -98,7 +98,7 @@ function ActivitiesTable(props: any) {
             sortable
             filterField="date"
             dataType="date"
-            style={{ maxWidth: "6rem" }}
+            style={{ maxWidth: "5rem" }}
             body={(data: any) => (
               <p>{dateFormat(new Date(data.endedAt), "date")}</p>
             )}
@@ -107,7 +107,7 @@ function ActivitiesTable(props: any) {
             field="endedAt"
             header="Hora finalizada"
             sortable
-            style={{ maxWidth: "6rem" }}
+            style={{ maxWidth: "5rem" }}
             body={(data: any) => (
               <p>{dateFormat(new Date(data.endedAt), "time")}</p>
             )}

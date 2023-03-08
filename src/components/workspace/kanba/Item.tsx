@@ -13,6 +13,8 @@ function Item(props: any) {
   const [activityModal, setActivityModal] = useState<boolean>(false);
   const { user } = useAppSelector((state) => state.auth);
 
+  console.log(props, "ACTIVI PROPD");
+
   const handleOpenActivity = () => {
     dispatch(setActivity(props));
     setActivityModal(true);
