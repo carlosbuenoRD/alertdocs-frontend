@@ -8,7 +8,9 @@ export function dateFormat(date: Date, option: string) {
   }
 
   if (option === "time") {
-    return `${format.getHours()}:${format.getMinutes()}`;
+    return `${format.getHours()}:${
+      format.getMinutes() < 10 ? "0" + format.getMinutes() : format.getMinutes()
+    }`;
   }
 }
 

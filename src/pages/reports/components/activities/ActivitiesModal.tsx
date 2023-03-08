@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import ActivitiesTable from "@/components/profile/ActivitiesTable";
+import ActivitiesTable from "./ActivitiesTable";
 import { getReportActivities } from "@/services/reports.service";
 import { useAppSelector } from "@/redux/store";
 
@@ -60,7 +60,7 @@ const ActivitiesModal: React.FC<ActivitiesModalProps> = ({
     <Dialog
       header={"Detalle de actividades"}
       visible={visible}
-      style={{ width: "80vw", padding: 0 }}
+      style={{ width: "90vw", padding: 0 }}
       onHide={onHide}
       contentClassName="px-5 py-1"
     >

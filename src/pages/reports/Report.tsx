@@ -13,7 +13,6 @@ import {
   PieChart,
   ProcesosChart,
   ReportHeader,
-  UserDeficitTable,
   UserTable,
 } from "./components";
 
