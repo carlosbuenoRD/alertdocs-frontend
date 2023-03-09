@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 
 import { setDevolucionesModal } from "@/redux/reducers/devolucion";
@@ -19,9 +19,45 @@ import StopWatch from "../stopWatch/StopWatch";
 function AreaDevolucionesModal(props: any) {
   const dispatch = useAppDispatch();
 
+  const [users, setUsers] = useState<any[]>([]);
+
   const { devoluciones, devolucionesModal } = useAppSelector(
     (state) => state.devolucion
   );
+
+  useEffect(() => {
+    handleUsersDevoluciones();
+  }, []);
+
+  const handleUsersDevoluciones = () => {
+    let p: any[] = [];
+
+    let users = new Set<string>();
+
+    devolucionesModal.map((i: any) => {
+      users.add(i.userTo.name);
+    });
+
+    Array.from(users).map((item, i) => {
+      if (i === 0) {
+        p = [
+          {
+            name: item,
+            qty: devolucionesModal.filter((i: any) => i.userTo.name === item)
+              .length,
+          },
+        ];
+      } else {
+        p.push({
+          name: item,
+          qty: devolucionesModal.filter((i: any) => i.userTo.name === item)
+            .length,
+        });
+      }
+    });
+
+    setUsers(p);
+  };
 
   const renderHeader = () => {
     return (
@@ -31,7 +67,7 @@ function AreaDevolucionesModal(props: any) {
             <i className="pi pi-search" />
             <InputText value="" placeholder="Keyword Search" />
           </span>
-          <div className="p-float-label ml-3">
+          {/* <div className="p-float-label ml-3">
             <MultiSelect
               display="chip"
               optionLabel="name"
@@ -41,7 +77,7 @@ function AreaDevolucionesModal(props: any) {
               className="w-24rem"
             />
             <label htmlFor="search">Filtro de procesos</label>
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -83,50 +119,18 @@ function AreaDevolucionesModal(props: any) {
                 />
               </div>
             </Card>
-            <Card title="Deficit en devoluciones" height="">
-              <ul>
-                <li className="flex justify-content-between align-items-center">
-                  <div className="flex justify-content-between align-items-center">
-                    <span>Baldomero Ferrer</span>
-                  </div>
-                  <span>25%</span>
-                </li>
-                <li className="flex justify-content-between align-items-center my-1">
-                  <div className="flex justify-content-between align-items-center">
-                    <span>Josefa Castillo</span>
-                  </div>
-                  <span>20%</span>
-                </li>
-                <li className="flex justify-content-between align-items-center">
-                  <div className="flex justify-content-between align-items-center">
-                    <span>Abrahán González</span>
-                  </div>
-                  <span>17%</span>
-                </li>
-                <li className="flex justify-content-between align-items-center my-1">
-                  <div className="flex justify-content-between align-items-center">
-                    <span>Arcadio Muñoz</span>
-                  </div>
-                  <span>15%</span>
-                </li>
-                <li className="flex justify-content-between align-items-center">
-                  <div className="flex justify-content-between align-items-center">
-                    <span>Roberto Ortega</span>
-                  </div>
-                  <span>10%</span>
-                </li>
-                <li className="flex justify-content-between align-items-center my-1">
-                  <div className="flex justify-content-between align-items-center">
-                    <span>Almudena Fuentes</span>
-                  </div>
-                  <span>8%</span>
-                </li>
-                <li className="flex justify-content-between align-items-center">
-                  <div className="flex justify-content-between align-items-center">
-                    <span>Eduardo Reyes</span>
-                  </div>
-                  <span>5%</span>
-                </li>
+            <Card title="Usuarios con devoluciones" height="">
+              <ul className="m-0">
+                {users.map((i: any) => (
+                  <>
+                    <li className="flex justify-content-between align-items-center mb-0 py-1">
+                      <div className="flex justify-content-between align-items-center">
+                        <span>{i.name}</span>
+                      </div>
+                      <span>{i.qty}</span>
+                    </li>
+                  </>
+                ))}
               </ul>
             </Card>
           </div>

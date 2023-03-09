@@ -1,12 +1,15 @@
-import { dateFormat, formatTime } from "@/utils/dateFormat";
-import { Button } from "primereact/button";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "primereact/button";
+import { dateFormat, formatTime } from "@/utils/dateFormat";
 import ActivityModal from "../activity/ActivityModal";
 import StopWatch from "../stopWatch/StopWatch";
 import WorkSpaceModal from "../workspace/WorkSpaceModal";
 import Card from "./Card";
 
 export function AccordionDevolucionBody(props: any) {
+  const navigate = useNavigate();
+
   const [activityId, setActivityId] = useState("");
   const [documentId, setDocumentId] = useState("");
   const [activityModal, setActivityModal] = useState(false);
@@ -14,6 +17,16 @@ export function AccordionDevolucionBody(props: any) {
 
   return (
     <>
+      <Card title="Informacion de devolucion del enviante">
+        <div className="flex justify-content-between">
+          <p className="m-0">
+            <strong>Usuario:</strong> {props.userFrom.name}
+          </p>
+          <p className="m-0">
+            <strong>Actividad:</strong> {props.activityFrom.description}
+          </p>
+        </div>
+      </Card>
       <Card title="Comentario">
         <p>{props.comment}</p>
       </Card>
@@ -34,7 +47,7 @@ export function AccordionDevolucionBody(props: any) {
         <div className="flex">
           <Button
             label="Ver Documento"
-            className="w-full bg-orange-300 border-none mr-2"
+            className="w-full bg-orange-300 border-none"
             onClick={() => {
               setDocumentId(props.activityFrom.documentId);
               setWorkSpace(true);
@@ -42,11 +55,16 @@ export function AccordionDevolucionBody(props: any) {
           />
           <Button
             label="Ver Actividad"
-            className="w-full"
+            className="w-full mx-2"
             onClick={() => {
-              setActivityId(props.activityTo);
+              setActivityId(props.activityTo._id);
               setActivityModal(true);
             }}
+          />
+          <Button
+            label="Ver Usuario"
+            className="w-full"
+            onClick={() => navigate(`/perfil/${props.userTo._id}`)}
           />
         </div>
       )}
@@ -75,8 +93,8 @@ export function AccordionDevolucionHeader(props: any) {
   return (
     <div className="flex align-items-center justify-content-between w-full">
       <p className="m-0 text-sm">
-        #{props.activityFrom.step}--
-        {props.userFrom.name} ----- {dateFormat(props.createdAt, "date")} |{" "}
+        #{props.activityTo?.step}--
+        {props.userTo?.name} ----- {dateFormat(props.createdAt, "date")} |{" "}
         {dateFormat(props.createdAt, "time")}
       </p>
       <p className="" style={{ marginLeft: "auto" }}>

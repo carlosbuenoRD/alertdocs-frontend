@@ -106,7 +106,7 @@ const ActivityHeader: React.FC<ActivityHeaderProps> = ({
           }
         />
       )}
-      {activity.usersId._id === user?._id &&
+      {activity.usersId?._id === user?._id &&
         !activity.startedAt &&
         (activity.state === "ready" || activity.step === 1) && (
           <MyConfirmPopup
