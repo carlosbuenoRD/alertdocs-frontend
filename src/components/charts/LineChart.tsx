@@ -58,8 +58,6 @@ const short = {
 };
 
 const LineChart = memo(function LineChart(props: any) {
-  console.log("p");
-
   const [basicData] = useState(props.short ? short : long);
 
   const getLightTheme = () => {

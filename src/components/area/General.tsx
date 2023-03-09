@@ -49,10 +49,12 @@ function General(props: any) {
         visible={estadisticas}
         onHide={() => setEstadisticas(false)}
       /> */}
-      <DevolucionesModal
-        visible={devoluciones}
-        onHide={() => setDevoluciones(false)}
-      />
+      {devoluciones && (
+        <DevolucionesModal
+          visible={devoluciones}
+          onHide={() => setDevoluciones(false)}
+        />
+      )}
     </div>
   );
 }

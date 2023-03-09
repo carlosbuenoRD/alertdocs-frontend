@@ -16,6 +16,7 @@ const {
 
 const initialState: InitialState = {
   devoluciones: [],
+  devolucionesModal: [],
   devolucion: {},
   loading: false,
 };
@@ -73,7 +74,7 @@ export const fetchDevolucionByArea = createAsyncThunk(
     const state: any = thunkApi.getState();
     try {
       const data = await getDevolucionesByArea(id);
-      thunkApi.dispatch(setDevoluciones(data));
+      thunkApi.dispatch(setDevolucionesModal(data));
     } catch (error) {
       thunkApi.rejectWithValue(error);
     }
@@ -86,7 +87,7 @@ export const fetchDevolucionByDireccion = createAsyncThunk(
     const state: any = thunkApi.getState();
     try {
       const data = await getDevolucionesByDireccion(id);
-      thunkApi.dispatch(setDevoluciones(data));
+      thunkApi.dispatch(setDevolucionesModal(data));
     } catch (error) {
       thunkApi.rejectWithValue(error);
     }
@@ -99,7 +100,7 @@ export const fetchDevolucionByDepartment = createAsyncThunk(
     const state: any = thunkApi.getState();
     try {
       const data = await getDevolucionesByDepartment(id);
-      thunkApi.dispatch(setDevoluciones(data));
+      thunkApi.dispatch(setDevolucionesModal(data));
     } catch (error) {
       thunkApi.rejectWithValue(error);
     }
@@ -112,6 +113,9 @@ export const devolucionSlice = createSlice({
   reducers: {
     setDevoluciones: (state, action) => {
       state.devoluciones = action.payload;
+    },
+    setDevolucionesModal: (state, action) => {
+      state.devolucionesModal = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -132,10 +136,12 @@ export const devolucionSlice = createSlice({
 
 interface InitialState {
   devoluciones: any[];
+  devolucionesModal: [];
   devolucion: {};
   loading: boolean;
 }
 
-export const { setDevoluciones } = devolucionSlice.actions;
+export const { setDevoluciones, setDevolucionesModal } =
+  devolucionSlice.actions;
 
 export default devolucionSlice.reducer;

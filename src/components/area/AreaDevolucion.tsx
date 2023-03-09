@@ -21,7 +21,7 @@ function AreaDevolucion() {
   const areaId = location.pathname.split("/")[2];
   const section = location.pathname.split("/")[1];
 
-  const { devoluciones } = useAppSelector((state) => state.devolucion);
+  const { devolucionesModal } = useAppSelector((state) => state.devolucion);
 
   useEffect(() => {
     if (section === "area") dispatch(fetchDevolucionByArea(areaId));
@@ -38,12 +38,15 @@ function AreaDevolucion() {
       hover
     >
       <h1 className="text-7xl lh-2 mb-1 font-bold text-orange-300 text-center">
-        {devoluciones.length}
+        {devolucionesModal.length}
       </h1>
       <h1 className="text-6xl lh-2 mt-1 font-bold text-orange-300 text-center">
-        <h4 className="m-0">
-          <StopWatch time={devoluciones ? formatTime(devoluciones) : 0} pause />
-        </h4>
+        <div className="m-0">
+          <StopWatch
+            time={devolucionesModal ? formatTime(devolucionesModal) : 0}
+            pause
+          />
+        </div>
       </h1>
       <a className="text-center w-full block underline cursor-pointer text-xs">
         Ver detalles

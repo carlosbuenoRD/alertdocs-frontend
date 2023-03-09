@@ -25,9 +25,6 @@ function AreaEficiencia(props: any) {
 
   const getTotalCompleted = async () => {
     let result = await getCompletedByArea(areaId);
-    console.log("okk");
-    console.log(result, "rerere");
-
     setCompleted(result);
   };
   return (

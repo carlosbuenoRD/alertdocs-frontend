@@ -19,7 +19,6 @@ export function formatTime(devoluciones: any[]) {
     (acc, curr) => (acc += (curr?.endedAt || Date.now()) - curr.startedAt),
     0
   );
-  console.log(result);
 
   return result || 0;
 }

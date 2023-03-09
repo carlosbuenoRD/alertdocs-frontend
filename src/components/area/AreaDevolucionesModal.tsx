@@ -1,44 +1,27 @@
-import React, { useState, useEffect } from "react";
-
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 
+import { setDevolucionesModal } from "@/redux/reducers/devolucion";
+
 // Components
-import { MultiSelect } from "primereact/multiselect";
-import { AddRemoveUser } from "@/redux/reducers/users";
-import { Dialog } from "primereact/dialog";
-import { getUserEficiencia } from "@/utils/formula";
-import { InputText } from "primereact/inputtext";
-import { Accordion } from "primereact/accordion";
-import { AccordionTab } from "primereact/accordion";
-import Card from "../shared/Card";
 import { formatTime } from "@/utils/dateFormat";
-import StopWatch from "../stopWatch/StopWatch";
+import { Accordion, AccordionTab } from "primereact/accordion";
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+import { MultiSelect } from "primereact/multiselect";
 import {
   AccordionDevolucionBody,
   AccordionDevolucionHeader,
 } from "../shared/AccordionDevolucion";
+import Card from "../shared/Card";
+import StopWatch from "../stopWatch/StopWatch";
 
 function AreaDevolucionesModal(props: any) {
   const dispatch = useAppDispatch();
-  const { devoluciones } = useAppSelector((state) => state.devolucion);
-  const { users } = useAppSelector((state) => state.user);
 
-  const [selectedCustomers, setSelectedCustomers] = useState<any>([]);
-
-  const DisplayEficiencia = (props: any) => {
-    const [eficiencia, setEficiencia] = useState<any>(0);
-
-    useEffect(() => {
-      getAndSetEficiencia();
-    }, []);
-
-    const getAndSetEficiencia = async () => {
-      let result = await getUserEficiencia(props.id);
-      setEficiencia(result);
-    };
-
-    return <p>{Math.floor(eficiencia) || 0}</p>;
-  };
+  const { devoluciones, devolucionesModal } = useAppSelector(
+    (state) => state.devolucion
+  );
 
   const renderHeader = () => {
     return (
@@ -65,10 +48,6 @@ function AreaDevolucionesModal(props: any) {
   };
 
   const header = renderHeader();
-  const handleOnSelectUser = (e: any) => {
-    setSelectedCustomers(e.value);
-    dispatch(AddRemoveUser(e.value[e.value.length - 1]));
-  };
 
   return (
     <>
@@ -82,7 +61,7 @@ function AreaDevolucionesModal(props: any) {
 
         <div className="grid-3-1">
           <Accordion className="card shadow-1">
-            {devoluciones.map((i: any) => (
+            {devolucionesModal.map((i: any) => (
               <AccordionTab
                 key={i._id}
                 header={<AccordionDevolucionHeader {...i} />}
@@ -90,19 +69,19 @@ function AreaDevolucionesModal(props: any) {
                   i.endedAt ? "bg-green-100" : "bg-pink-100"
                 }`}
               >
-                <AccordionDevolucionBody {...i} />
+                <AccordionDevolucionBody buttons {...i} />
               </AccordionTab>
             ))}
           </Accordion>
 
           <div>
             <Card title="Tiempo de devoluciones" height="">
-              <h1 className="text-6xl lh-2 font-bold text-orange-300 text-center">
+              <div className="text-6xl lh-2 font-bold text-orange-300 text-center">
                 <StopWatch
-                  time={devoluciones ? formatTime(devoluciones) : 0}
+                  time={devolucionesModal ? formatTime(devolucionesModal) : 0}
                   pause
                 />
-              </h1>
+              </div>
             </Card>
             <Card title="Deficit en devoluciones" height="">
               <ul>
