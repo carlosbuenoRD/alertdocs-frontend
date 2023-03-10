@@ -74,6 +74,18 @@ export async function getReportActivities(id: string) {
   }
 }
 
+export async function getReportDevoluciones(id: string) {
+  try {
+    const { data } = await axios.get<Report>(
+      `${API_URL}/reports/devoluciones/${id}`
+    );
+    return data;
+  } catch (error: any) {
+    console.log(error.message);
+    return error.message;
+  }
+}
+
 export async function getReportByArea(id: string): Promise<Report> {
   try {
     const { data } = await axios.get<Report>(`${API_URL}/reports/area/${id}`);

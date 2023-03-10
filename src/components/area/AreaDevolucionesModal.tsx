@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-
-import { setDevolucionesModal } from "@/redux/reducers/devolucion";
+import { useEffect, useState } from "react";
 
 // Components
 import { formatTime } from "@/utils/dateFormat";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import { MultiSelect } from "primereact/multiselect";
 import {
   AccordionDevolucionBody,
   AccordionDevolucionHeader,
@@ -21,9 +18,7 @@ function AreaDevolucionesModal(props: any) {
 
   const [users, setUsers] = useState<any[]>([]);
 
-  const { devoluciones, devolucionesModal } = useAppSelector(
-    (state) => state.devolucion
-  );
+  const { devolucionesModal } = useAppSelector((state) => state.devolucion);
 
   useEffect(() => {
     handleUsersDevoluciones();
@@ -59,15 +54,21 @@ function AreaDevolucionesModal(props: any) {
     setUsers(p);
   };
 
-  const renderHeader = () => {
-    return (
-      <div className="card flex justify-content-between align-items-center my-2 shadow-1">
-        <div className="flex align-items-center">
-          <span className="p-input-icon-left">
-            <i className="pi pi-search" />
-            <InputText value="" placeholder="Keyword Search" />
-          </span>
-          {/* <div className="p-float-label ml-3">
+  return (
+    <>
+      <Dialog
+        header={"Devoluciones"}
+        visible={props.visible}
+        style={{ width: "80vw", padding: 0 }}
+        onHide={props.onHide}
+      >
+        <div className="card flex justify-content-between align-items-center my-2 shadow-1">
+          <div className="flex align-items-center">
+            <span className="p-input-icon-left">
+              <i className="pi pi-search" />
+              <InputText value="" placeholder="Keyword Search" />
+            </span>
+            {/* <div className="p-float-label ml-3">
             <MultiSelect
               display="chip"
               optionLabel="name"
@@ -78,22 +79,8 @@ function AreaDevolucionesModal(props: any) {
             />
             <label htmlFor="search">Filtro de procesos</label>
           </div> */}
+          </div>
         </div>
-      </div>
-    );
-  };
-
-  const header = renderHeader();
-
-  return (
-    <>
-      <Dialog
-        header={"Devoluciones"}
-        visible={props.visible}
-        style={{ width: "80vw", padding: 0 }}
-        onHide={props.onHide}
-      >
-        {header}
 
         <div className="grid-3-1">
           <Accordion className="card shadow-1">

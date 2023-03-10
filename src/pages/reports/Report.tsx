@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 // Components
 import BarChart from "@/components/charts/BarVertical";
 import Card from "@/components/shared/Card";
+import AreaDevolucionesModal from "./../../components/area/AreaDevolucionesModal";
 import {
   ActivitiesModal,
   CardInfo,
@@ -23,6 +24,7 @@ function Report() {
   const { report } = useAppSelector((state) => state.reports);
 
   const [activitiesModal, setActivitiesModal] = useState(false);
+  const [devolucionesModal, setDevolucionesModal] = useState(false);
 
   const REPORT_ID = location.pathname.split("/")[2];
   const TYPE = location.search.split("=")[1];
@@ -49,11 +51,14 @@ function Report() {
             title="Completados"
             time={report.activitiesTime}
             qty={report.activities?.length}
+            onClick={() => setActivitiesModal(true)}
           />
           <CardInfo
             title="Devoluciones"
             time={report.devolucionesTime}
             qty={report.devoluciones?.length}
+            onClick={() => setDevolucionesModal(true)}
+            devolucion
           />
         </div>
         <div className="grid-3-1">
@@ -105,6 +110,13 @@ function Report() {
         <ActivitiesModal
           visible={activitiesModal}
           onHide={() => setActivitiesModal(false)}
+        />
+      )}
+
+      {report.devoluciones.length > 0 && devolucionesModal && (
+        <AreaDevolucionesModal
+          visible={devolucionesModal}
+          onHide={() => setDevolucionesModal(false)}
         />
       )}
     </div>
