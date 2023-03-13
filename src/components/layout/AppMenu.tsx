@@ -241,7 +241,7 @@ const AppMenu = (props: any) => {
       <div className="menu-logo">
         <button className="logo p-link">
           <img
-            src={`assets/images/Logo-cupula.png`}
+            src={`/assets/images/Logo-cupula.png`}
             alt="logo"
             onClick={() => navigate("/")}
           />

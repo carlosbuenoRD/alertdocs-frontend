@@ -28,7 +28,7 @@ function Reports() {
         <div className="pt-7">
           <Card className="w-full text-center ">
             <img
-              src="assets/svg/empty_reports.svg"
+              src="/assets/svg/empty_reports.svg"
               width={300}
               className="mb-2"
             />

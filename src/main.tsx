@@ -6,7 +6,7 @@ import App from "./AppWrapper";
 
 import { store } from "./redux/store";
 
-import "./index.css";
+// import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
