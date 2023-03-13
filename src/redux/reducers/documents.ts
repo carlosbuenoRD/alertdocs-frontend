@@ -10,10 +10,14 @@ const {
   getDocumentsByArea,
   getDocumentsByDireccion,
   getDocumentsByDepartment,
+  getCompletedDocumentsByArea,
+  getCompletedDocumentsByDepartment,
+  getCompletedDocumentsByDireccion,
 } = documentService();
 
 const initialState: InitialState = {
   documents: [],
+  historyDocuments: [],
   document: {},
   loading: false,
   errors: null,
@@ -67,6 +71,45 @@ export const fetchDocumentsByDepartments = createAsyncThunk(
   }
 );
 
+export const fetchCompletedDocumentsByArea = createAsyncThunk(
+  "documents/getCompletedDocumentsByArea",
+  async (id: any, thunkApi) => {
+    try {
+      const data = await getCompletedDocumentsByArea(id);
+      thunkApi.dispatch(setHistoryDocumentsList(data));
+      return data;
+    } catch (error) {
+      thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchCompletedDocumentsByDireccion = createAsyncThunk(
+  "documents/getCompletedDocumentsByDireccion",
+  async (id: any, thunkApi) => {
+    try {
+      const data = await getCompletedDocumentsByDireccion(id);
+      thunkApi.dispatch(setHistoryDocumentsList(data));
+      return data;
+    } catch (error) {
+      thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchCompletedDocumentsByDepartments = createAsyncThunk(
+  "documents/getCompletedDocumentsByDepartments",
+  async (id: any, thunkApi) => {
+    try {
+      const data = await getCompletedDocumentsByDepartment(id);
+      thunkApi.dispatch(setHistoryDocumentsList(data));
+      return data;
+    } catch (error) {
+      thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
 export const fetchOneDocument = createAsyncThunk(
   "documents/getOne",
   async (id: any, thunkApi) => {
@@ -111,6 +154,9 @@ export const documentslice = createSlice({
   reducers: {
     setDocumentsList: (state, action) => {
       state.documents = action.payload;
+    },
+    setHistoryDocumentsList: (state, action) => {
+      state.historyDocuments = action.payload;
     },
     setDocument: (state, action) => {
       state.document = action.payload;
@@ -168,11 +214,16 @@ export const documentslice = createSlice({
   },
 });
 
-export const { setDocumentsList, setDocument, clearDocument } =
-  documentslice.actions;
+export const {
+  setDocumentsList,
+  setDocument,
+  clearDocument,
+  setHistoryDocumentsList,
+} = documentslice.actions;
 
 interface InitialState {
   documents: any[];
+  historyDocuments: any[];
   document: any;
   loading: boolean;
   errors: any;

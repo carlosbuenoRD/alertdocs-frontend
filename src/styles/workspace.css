@@ -1,9 +1,11 @@
 .workspace {
-    display: grid;
-    grid-template-columns: 350px 1fr;
+    display: flex;
     height: 100%;
+    transition: all 0.3s ease;
 }
 
-.workspace_docs {
-    
+.workspace_history {
+    display: flex;
+    height: 100%;
+    transition: all 0.3s ease;
 }

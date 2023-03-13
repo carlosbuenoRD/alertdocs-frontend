@@ -13,6 +13,27 @@ export default function documentService() {
     return data;
   }
 
+  async function getCompletedDocumentsByArea(id: string) {
+    const { data } = await axios.get(
+      `http://127.0.0.1:3000/api/documents/completed/area/${id}`
+    );
+    return data;
+  }
+
+  async function getCompletedDocumentsByDireccion(id: string) {
+    const { data } = await axios.get(
+      `http://127.0.0.1:3000/api/documents/completed/direccion/${id}`
+    );
+    return data;
+  }
+
+  async function getCompletedDocumentsByDepartment(id: string) {
+    const { data } = await axios.get(
+      `http://127.0.0.1:3000/api/documents/completed/department/${id}`
+    );
+    return data;
+  }
+
   async function getDocumentsByArea(id: string) {
     const { data } = await axios.get(
       `http://127.0.0.1:3000/api/documents/area/${id}`
@@ -49,6 +70,9 @@ export default function documentService() {
     getDocumentsByArea,
     getDocumentsByDireccion,
     getDocumentsByDepartment,
+    getCompletedDocumentsByArea,
+    getCompletedDocumentsByDireccion,
+    getCompletedDocumentsByDepartment,
     addDocument,
   };
 }

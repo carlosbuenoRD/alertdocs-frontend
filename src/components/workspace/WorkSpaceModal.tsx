@@ -7,12 +7,15 @@ import {
 } from "@/redux/reducers/activity";
 import {
   clearDocument,
+  fetchCompletedDocumentsByDepartments,
+  fetchCompletedDocumentsByDireccion,
   fetchDocumentsByArea,
   fetchDocumentsByDepartments,
   fetchDocumentsByDireccion,
   fetchOneDocument,
   setDocument,
   setDocumentsList,
+  setHistoryDocumentsList,
 } from "@/redux/reducers/documents";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { Dialog } from "primereact/dialog";
@@ -21,6 +24,9 @@ import { TabMenu } from "primereact/tabmenu";
 import { useLocation } from "react-router-dom";
 import DocumentCard from "../documents/DocumentCard";
 import SectionPicker from "./SectionPicker";
+import { Button } from "primereact/button";
+import { Calendar } from "primereact/calendar";
+import { fetchCompletedDocumentsByArea } from "./../../redux/reducers/documents";
 
 function WorkSpaceModal(props: any) {
   const dispatch = useAppDispatch();
@@ -28,11 +34,15 @@ function WorkSpaceModal(props: any) {
 
   const areaId = location.pathname.split("/")[2];
   const section = location.pathname.split("/")[1];
-  const { documents, document } = useAppSelector((state) => state.document);
-  const { activities } = useAppSelector((state) => state.activity);
-  const [activeIndex, setActiveIndex] = useState(0);
 
-  console.log(document, "PLPLP");
+  const { documents, document, historyDocuments } = useAppSelector(
+    (state) => state.document
+  );
+  const { activities } = useAppSelector((state) => state.activity);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [history, setHistory] = useState(false);
+  const [search, setSearch] = useState("");
 
   const items = [
     { label: "Tabla", icon: "pi pi-clock" },
@@ -82,6 +92,28 @@ function WorkSpaceModal(props: any) {
     props.onHide();
   };
 
+  const handleHistorySection = () => {
+    setHistory(!history);
+
+    if (!history) {
+      if (section === "area") dispatch(fetchCompletedDocumentsByArea(areaId));
+      if (section === "direcciones")
+        dispatch(fetchCompletedDocumentsByDireccion(areaId));
+      if (section === "departments")
+        dispatch(fetchCompletedDocumentsByDepartments(areaId));
+    }
+
+    if (history) dispatch(setHistoryDocumentsList([]));
+  };
+
+  let OPTIONS = history ? historyDocuments : documents;
+
+  let DOCUMENTS = search
+    ? OPTIONS.filter((i) =>
+        i.description.toLowerCase().includes(search.toLowerCase())
+      )
+    : OPTIONS;
+
   return (
     <Dialog
       header={"WorkSpace"}
@@ -92,31 +124,58 @@ function WorkSpaceModal(props: any) {
       onHide={handleOnHide}
       contentClassName="p-0"
     >
-      <div className="workspace gap-0">
-        <div className="workspace_docs card border-right-1 border-300">
-          <span className="p-input-icon-left p-float-label w-full">
-            <i className="pi pi-search" />
-            <InputText id="search" className="w-full" />
-            <label htmlFor="search">Buscar...</label>
-          </span>
+      <div className={`workspace gap-0 transition-all transition-duration-500`}>
+        <div
+          className={` ${
+            !history ? "w-28rem" : "w-12"
+          } transition-all transition-duration-500 card border-right-1 border-300`}
+        >
+          <div
+            className="flex justify-content-between
+          "
+          >
+            <span className="p-input-icon-left p-float-label w-11 mr-2">
+              <i className="pi pi-search" />
+              <InputText
+                id="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-12"
+              />
+              <label htmlFor="search">Buscar...</label>
+            </span>
+
+            {history && (
+              <Calendar className="w-4 mr-1" placeholder="Filtrar por fecha" />
+            )}
+
+            <Button
+              icon={`pi ${!history ? "pi-history" : "pi-times-circle"}`}
+              className={`${history && "bg-pink-400 border-none"} w-4rem`}
+              tooltip={history ? "Cerrar historial" : "Ver historial"}
+              onClick={handleHistorySection}
+            />
+          </div>
 
           <hr />
 
-          {documents?.map((i) => (
-            <div
-              key={i._id}
-              onClick={() => handleSelectDocument(i)}
-              className={
-                document._id === i._id
-                  ? "border-3 border-blue-400 border-round-lg mb-2"
-                  : "mb-2"
-              }
-            >
-              <DocumentCard {...i} />
-            </div>
-          ))}
+          <div className={`${history && "grid-col-2"}`}>
+            {DOCUMENTS?.map((i) => (
+              <div
+                key={i._id}
+                onClick={() => handleSelectDocument(i)}
+                className={
+                  document._id === i._id
+                    ? "border-3 border-blue-400 border-round-lg mb-2"
+                    : "mb-2"
+                }
+              >
+                <DocumentCard {...i} />
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="card relative w-full">
+        <div className="card relative w-full transition-all transition-duration-500">
           {activities?.length > 0 ? (
             <div
               className="fixed pr-4"
