@@ -5,10 +5,21 @@ const {
   getActivitiesByArea,
   getActivitiesByDireccion,
   getActivitiesByDepartment,
+  getActivitiesByDocument,
   getActivitiesByUser,
   getActivitiesByUserAndFlujo,
   getActivitiesByAreaAndFlujo,
 } = activityService();
+
+export const getResultByDocument = async (id: any): Promise<number> => {
+  try {
+    const activities = await getActivitiesByDocument(id);
+    return getEficiencia(activities);
+  } catch (error: any) {
+    console.log(error.message);
+    return error.message;
+  }
+};
 
 export const getResultByArea = async (id: any): Promise<number> => {
   try {

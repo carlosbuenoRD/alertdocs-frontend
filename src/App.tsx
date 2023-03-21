@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { useAppSelector } from "./redux/store";
 
 // Utils
 import { menu, menuAdmin } from "@/utils/data";
@@ -33,9 +34,10 @@ import Procesos from "./pages/Procesos";
 import Documents from "./pages/Documents";
 import Direccion from "./pages/Direccion";
 import Department from "./pages/Department";
-import { useAppSelector } from "./redux/store";
 import NotFound from "./pages/NotFound";
+import notifySocket from "./sockets/notify.socket";
 import { Report, Reports } from "./pages/reports";
+import { notifyMe } from "./services/Notify";
 
 function App(props: any) {
   const [rightMenuActive, setRightMenuActive] = useState(false);
@@ -79,6 +81,25 @@ function App(props: any) {
       navigate("/");
     }
   }, [user]);
+
+  useEffect(() => {
+    notifySocket.emit("setup", user?._id);
+    notifySocket.on("upcoming activity", () =>
+      notifyMe(
+        "Tu actividad es la siguiente, Preparate para cuando sea tu turno"
+      )
+    );
+    notifySocket.on("ready activity", () =>
+      notifyMe(
+        "Tu actividad esta lista para empezar, Realizala lo mas rapido posible!."
+      )
+    );
+    notifySocket.on("devolucion created", () =>
+      notifyMe(
+        "Te han devuelto una actividad, Realizala lo mas rapido posible!."
+      )
+    );
+  }, []);
 
   useEffect(() => {
     setResetActiveIndex(true);

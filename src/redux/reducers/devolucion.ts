@@ -4,6 +4,7 @@ import cookies from "js-cookie";
 import devolucionService from "@/services/devolucion";
 import { toastConfig } from "@/utils/data";
 import { fetchActivityById, fetchDocumentActivities } from "./activity";
+import { notifySocket } from "@/sockets";
 
 const {
   createDevolucion,
@@ -32,6 +33,12 @@ export const postDevolucion = createAsyncThunk(
       thunkApi.dispatch(
         fetchDocumentActivities(state.activity.activity.documentId)
       );
+
+      let userTo = state.activities.find((i: any) => i._id === info.activityTo)
+        .usersId._id;
+      console.log(userTo, "USERTO");
+
+      notifySocket.emit("notify devolucion created", "");
     } catch (error) {
       thunkApi.rejectWithValue(error);
     }

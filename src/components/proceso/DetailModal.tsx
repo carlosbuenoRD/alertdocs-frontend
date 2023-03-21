@@ -61,12 +61,32 @@ function DetailModal(props: any) {
     setEdit(false);
   };
 
-  const handleChange = (value: string, item: any) => {
+  const handleChangeHours = (value: string, item: any) => {
     let copy = flujoState.activitiesSchema.map((i: any) =>
-      i.step === item.step ? { ...item, hours: Number(value) / 60 } : i
+      i.step === item.step ? { ...i, hours: Number(value) / 60 } : i
     );
 
     setFlujo({ ...flujoState, activitiesSchema: [...copy] });
+  };
+
+  const handleChangeDescription = (value: string, item: any) => {
+    let copy = flujoState.activitiesSchema.map((i: any) =>
+      i.step === item.step ? { ...i, description: value } : i
+    );
+
+    setFlujo({ ...flujoState, activitiesSchema: [...copy] });
+  };
+
+  const handleChangeUsers = (value: string, item: any) => {
+    console.log(value);
+
+    let copy = flujoState.activitiesSchema.map((i: any) =>
+      i.step === item.step ? { ...i, usersId: value } : i
+    );
+
+    console.log(flujoState, 1);
+    setFlujo({ ...flujoState, activitiesSchema: [...copy] });
+    console.log(flujoState, 2);
   };
 
   const footer = (
@@ -96,7 +116,10 @@ function DetailModal(props: any) {
           headerStyle={{ fontSize: "4rem" }}
           footer={footer}
           visible={props.visible}
-          onHide={props.onHide}
+          onHide={() => {
+            setEdit(false);
+            props.onHide();
+          }}
           style={{ width: "75vw" }}
         >
           <div className="card shadow-1 flex relative mt-4 mb-2 justify-content-between">
@@ -142,7 +165,9 @@ function DetailModal(props: any) {
               active={activeIndex}
               edit={edit}
               activities={flujoState.activitiesSchema}
-              onChangeActivity={handleChange}
+              onChangeHours={handleChangeHours}
+              onChangeDescription={handleChangeDescription}
+              onChangeUsers={handleChangeUsers}
             />
           </div>
         </Dialog>

@@ -27,6 +27,8 @@ import SectionPicker from "./SectionPicker";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { fetchCompletedDocumentsByArea } from "./../../redux/reducers/documents";
+import kanbaSocket from "@/sockets/kanba.socket";
+import { Activity } from "@/models";
 
 function WorkSpaceModal(props: any) {
   const dispatch = useAppDispatch();
@@ -39,6 +41,7 @@ function WorkSpaceModal(props: any) {
     (state) => state.document
   );
   const { activities } = useAppSelector((state) => state.activity);
+  const { user } = useAppSelector((state) => state.auth);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [history, setHistory] = useState(false);
@@ -51,10 +54,6 @@ function WorkSpaceModal(props: any) {
     { label: "Participantes", icon: "pi pi-user" },
     { label: "General", icon: "pi pi-cog" },
   ];
-
-  // useEffect(() => {
-  //   dispatch(clearActivities(""));
-  // }, []);
 
   useEffect(() => {
     if (!props.fromActivity) {
@@ -84,6 +83,8 @@ function WorkSpaceModal(props: any) {
     dispatch(setDocument(document));
     dispatch(fetchDocumentActivities(document._id));
     setActiveIndex(0);
+
+    kanbaSocket.emit("join document", document._id);
   };
 
   const handleOnHide = () => {
@@ -160,7 +161,7 @@ function WorkSpaceModal(props: any) {
           <hr />
 
           <div className={`${history && "grid-col-2"}`}>
-            {DOCUMENTS?.map((i) => (
+            {documents?.map((i) => (
               <div
                 key={i._id}
                 onClick={() => handleSelectDocument(i)}

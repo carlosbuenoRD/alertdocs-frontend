@@ -10,7 +10,9 @@ function SectionPicker(props: any) {
       {props.active === 0 && (
         <FlujosTable
           edit={props.edit}
-          handleChange={props.onChangeActivity}
+          onChangeHours={props.onChangeHours}
+          onChangeDescription={props.onChangeDescription}
+          onChangeUsers={props.onChangeUsers}
           activities={props.activities}
         />
       )}

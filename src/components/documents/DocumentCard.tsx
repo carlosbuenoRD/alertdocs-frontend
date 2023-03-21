@@ -8,6 +8,7 @@ import { AvatarGroup } from "primereact/avatargroup";
 import { ProgressBar } from "primereact/progressbar";
 
 import Steps from "@/components/shared/Steps";
+import { getResultByDocument } from "@/services/result";
 // import KanbanModal from "./../kanba/KanbanModal";
 
 function DocumentCard(props: any) {
@@ -15,13 +16,22 @@ function DocumentCard(props: any) {
 
   const [color, setColor] = useState("");
   const [completed, setCompleted] = useState(0);
+  const [eficiencia, setEficiencia] = useState(0);
 
   useEffect(() => {
     // setColor(colors[Math.floor(Math.random() * 3)];)
     if (props._id) {
       getCompleted();
+      handleShowEficiencia();
     }
   }, [props._id]);
+
+  const handleShowEficiencia = async () => {
+    let data: any = await getResultByDocument(props._id);
+    setEficiencia(data);
+    console.log(data);
+    console.log(eficiencia);
+  };
 
   const getCompleted = async () => {
     const result = await getCompletedStatus(props._id);
@@ -43,12 +53,19 @@ function DocumentCard(props: any) {
       onClick={props.open}
     >
       {header()}
-      <div className="mb-4">
-        <strong>Descripcion:</strong>
-        <p className="mt-2 text-sm">
-          {props.description ||
-            "NOMINA ADICIONAL DIFERENCIAL REGALIA INTERINATO 2021"}
-        </p>
+      <div className="flex justify-content-between mb-4">
+        <div className="">
+          <strong>Descripcion:</strong>
+          <p className="mt-2 text-sm">
+            {props.description ||
+              "NOMINA ADICIONAL DIFERENCIAL REGALIA INTERINATO 2021"}
+          </p>
+        </div>
+        {props.endedAt && (
+          <div className="bg-green-600 text-white grid-center w-3rem h-3rem border-round-lg">
+            {Math.floor(eficiencia)}
+          </div>
+        )}
       </div>
 
       {/* <strong>Participantes:</strong> */}

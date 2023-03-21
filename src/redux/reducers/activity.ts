@@ -1,10 +1,10 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // Services
-import activityService from "@/services/activity";
 import { Activity } from "@/models";
+import activityService from "@/services/activity";
+import { kanbaSocket, notifySocket } from "@/sockets";
 import { emptyActivity } from "@/utils/data";
-import { getReportActivities } from "@/services/reports.service";
 
 const {
   getActivityById,
@@ -137,6 +137,26 @@ export const activityslice = createSlice({
         state: action.payload.state,
         startedAt: Date.now(),
       };
+
+      let nextUserInActivity =
+        state.activities.findIndex((i) => i._id === state.activity._id) + 1;
+
+      kanbaSocket.emit("change activity", state.activity);
+      if (state.activities[nextUserInActivity]) {
+        if (action.payload.state === "progress") {
+          notifySocket.emit(
+            "notify upcoming activity",
+            state.activities[nextUserInActivity].usersId._id
+          );
+        }
+
+        if (action.payload.state === "revision") {
+          notifySocket.emit(
+            "notify ready activity",
+            state.activities[nextUserInActivity].usersId._id
+          );
+        }
+      }
     },
   },
   extraReducers: (builder) => {

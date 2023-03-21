@@ -15,6 +15,7 @@ import ReturnActivity from "./ReturnActivity";
 
 // Models
 import { Activity } from "@/models";
+import kanbaSocket from "@/sockets/kanba.socket";
 
 const tabs = [
   { label: "Historial", icon: "pi pi-clock" },

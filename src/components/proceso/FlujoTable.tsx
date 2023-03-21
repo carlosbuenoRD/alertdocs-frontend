@@ -10,13 +10,19 @@ import { Dropdown } from "primereact/dropdown";
 import { fetchOneFlujo } from "@/redux/reducers/flujos";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { getAreas } from "@/redux/reducers/area";
+import { MultiSelect, MultiSelectProps } from "primereact/multiselect";
+import { getUsersByArea, getUsers } from "@/redux/reducers/users";
 
 function FlujosTable(props: any) {
   const dispatch = useAppDispatch();
 
   const { flujo } = useAppSelector((state) => state.flujos);
+  const { users, loading: loadingUsers } = useAppSelector(
+    (state) => state.user
+  );
   const { areas } = useAppSelector((state) => state.area);
   const [selectedCities, setSelectedCities] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   // let activities: any[] = props.activities || flujo?.activitiesSchema;
 
@@ -35,10 +41,20 @@ function FlujosTable(props: any) {
   }, []);
 
   useEffect(() => {
+    if (props.edit) {
+      dispatch(getUsers());
+    }
+  }, [props.edit]);
+
+  useEffect(() => {
     if (props.flujo) {
       dispatch(fetchOneFlujo(props.flujo));
     }
   }, [props.flujo]);
+
+  const handleGetUsers = (area: string) => {
+    dispatch(getUsersByArea(area));
+  };
 
   return (
     <div>
@@ -66,13 +82,30 @@ function FlujosTable(props: any) {
           field="usersId"
           style={{ minWidth: "14rem" }}
           body={(data: any) => {
-            return (
+            console.log(data.usersId, "users");
+
+            return !props.edit ? (
               <Dropdown
                 className="w-full m-0"
                 options={data.usersId.map((i: any) => i.name)}
                 filter
                 placeholder={data.usersId[0].name}
               />
+            ) : (
+              <div>
+                <MultiSelect
+                  className="w-full m-0"
+                  options={users || []}
+                  optionLabel="name"
+                  optionValue="_id"
+                  filter
+                  value={data.usersId.map((i: any) => i?._id || i)}
+                  onChange={(e: MultiSelectProps) =>
+                    props.onChangeUsers(e.value, data)
+                  }
+                  display="chip"
+                />
+              </div>
             );
           }}
         />
@@ -80,6 +113,15 @@ function FlujosTable(props: any) {
           header="Descripcion"
           field="description"
           style={{ minWidth: "10rem" }}
+          body={(data) => (
+            <input
+              min={2}
+              value={data.description}
+              disabled={!props.edit}
+              className="w-full font-bold border-none outline-none bg-transparent  m-0"
+              onChange={(e) => props.onChangeDescription(e.target.value, data)}
+            />
+          )}
         />
         <Column
           header="Minutos"
@@ -91,7 +133,7 @@ function FlujosTable(props: any) {
               value={data.hours * 60}
               disabled={!props.edit}
               className="w-5rem font-bold border-none outline-none bg-transparent  m-0"
-              onChange={(e) => props.handleChange(e.target.value, data)}
+              onChange={(e) => props.onChangeHours(e.target.value, data)}
             />
           )}
         />

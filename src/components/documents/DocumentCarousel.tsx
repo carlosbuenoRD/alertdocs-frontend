@@ -4,6 +4,7 @@ import React from "react";
 import { Carousel } from "primereact/carousel";
 import DocumentCard from "./DocumentCard";
 import Card from "@/components/shared/Card";
+import { notifyMe } from "@/services/Notify";
 
 const responsiveOptions = [
   {
@@ -26,7 +27,7 @@ const responsiveOptions = [
 function DocumentCarousel() {
   const productTemplate = (product: any) => {
     return (
-      <div className="mr-4" onClick={() => console.log("working!")}>
+      <div className="mr-4" onClick={() => notifyMe()}>
         <DocumentCard border notProgress />
       </div>
     );

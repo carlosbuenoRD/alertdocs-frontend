@@ -18,7 +18,9 @@ export const getUsersByArea = createAsyncThunk(
   "auth/getUserByArea",
   async (id: string, thunkApi) => {
     try {
+      thunkApi.dispatch(setLoading(true));
       const data = await usersByArea(id);
+      thunkApi.dispatch(setLoading(false));
       thunkApi.dispatch(setUsers(data));
       return data;
     } catch (error) {
@@ -31,7 +33,9 @@ export const getUsersByDireccion = createAsyncThunk(
   "auth/getUserByDireccion",
   async (id: string, thunkApi) => {
     try {
+      thunkApi.dispatch(setLoading(true));
       const data = await usersByDireccion(id);
+      thunkApi.dispatch(setLoading(false));
       thunkApi.dispatch(setUsers(data));
       return data;
     } catch (error) {
@@ -44,7 +48,9 @@ export const getUsersByDepartment = createAsyncThunk(
   "auth/getUserByDepartment",
   async (id: string, thunkApi) => {
     try {
+      thunkApi.dispatch(setLoading(true));
       const data = await usersByDepartment(id);
+      thunkApi.dispatch(setLoading(false));
       thunkApi.dispatch(setUsers(data));
       return data;
     } catch (error) {
@@ -85,6 +91,9 @@ export const authSlice = createSlice({
     setUsers: (state, action) => {
       state.users = action.payload;
     },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
   },
   extraReducers: (builder) => {},
 });
@@ -94,6 +103,6 @@ interface InitialState {
   loading: boolean;
 }
 
-export const { setUsers } = authSlice.actions;
+export const { setUsers, setLoading } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,12 +1,26 @@
 // COMPONENTS
-import { useAppSelector } from "@/redux/store";
+import { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "@/redux/store";
 import { Accordion, AccordionTab } from "primereact/accordion";
+import { kanbaSocket } from "@/sockets";
+import { Activity } from "@/models";
+
+// Components
 import Column from "./Column";
+import { fetchDocumentActivities } from "@/redux/reducers/activity";
 
 function KanbaContainer(props: any) {
-  const { activities } = useAppSelector((state) => state.activity);
+  const dispatch = useAppDispatch();
 
-  console.log(activities, "acfadsfadsf");
+  const { activities } = useAppSelector((state) => state.activity);
+  const { user } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    kanbaSocket.emit("setup", user?._id);
+    kanbaSocket.on("changed activity", (activity: Activity) =>
+      dispatch(fetchDocumentActivities(activity.documentId))
+    );
+  }, []);
 
   return (
     <div className="">
