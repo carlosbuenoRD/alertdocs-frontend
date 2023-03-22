@@ -34,7 +34,7 @@ export default function devolucionService() {
   function createDevolucion(info: any) {
     return axios
       .post(`${API_URL}/devoluciones`, info)
-      .then((res) => res.data.data);
+      .then((res) => res.data);
   }
 
   function endDevolucion(id: string) {

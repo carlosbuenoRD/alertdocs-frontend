@@ -1,10 +1,7 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
-import cookies from "js-cookie";
 import devolucionService from "@/services/devolucion";
-import { toastConfig } from "@/utils/data";
-import { fetchActivityById, fetchDocumentActivities } from "./activity";
 import { notifySocket } from "@/sockets";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { fetchActivityById, fetchDocumentActivities } from "./activity";
 
 const {
   createDevolucion,
@@ -28,17 +25,14 @@ export const postDevolucion = createAsyncThunk(
     const state: any = thunkApi.getState();
 
     try {
-      await createDevolucion(info);
+      let devolucion = await createDevolucion(info);
+      console.log(devolucion)
       thunkApi.dispatch(fetchActivityById(state.activity.activity._id));
       thunkApi.dispatch(
         fetchDocumentActivities(state.activity.activity.documentId)
       );
-
-      let userTo = state.activities.find((i: any) => i._id === info.activityTo)
-        .usersId._id;
-      console.log(userTo, "USERTO");
-
-      notifySocket.emit("notify devolucion created", "");
+      console.log(devolucion.userTo)
+      notifySocket.emit("notify devolucion created", devolucion.userTo);
     } catch (error) {
       thunkApi.rejectWithValue(error);
     }
@@ -49,13 +43,18 @@ export const endDevoluciones = createAsyncThunk(
   "devolucion/end",
   async (id: string, thunkApi) => {
     const state: any = thunkApi.getState();
+    console.log(state)
 
     try {
       await endDevolucion(id);
       thunkApi.dispatch(fetchActivityById(state.activity.activity._id));
+      thunkApi.dispatch(fetchDevolucionByActivity());
       thunkApi.dispatch(
         fetchDocumentActivities(state.activity.activity.documentId)
       );
+
+
+      notifySocket.emit("notify devolucion ended", state.devolucion.devoluciones.find((i: any) => i._id === id).userFrom._id);
     } catch (error) {
       thunkApi.rejectWithValue(error);
     }
@@ -68,6 +67,7 @@ export const fetchDevolucionByActivity = createAsyncThunk(
     const state: any = thunkApi.getState();
     try {
       const data = await getDevolucionesByActivity(state.activity.activity._id);
+      console.log(data)
       thunkApi.dispatch(setDevoluciones(data));
     } catch (error) {
       thunkApi.rejectWithValue(error);
