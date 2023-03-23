@@ -165,6 +165,7 @@ export const activityslice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchActivityById.fulfilled, (state, action) => {
+      console.log("PAYLOAD", action.payload);
       state.loading = false;
       state.activity = action.payload;
     });

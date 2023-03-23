@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 // REDUX
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { setActivity } from "@/redux/reducers/activity";
+import { setActivity, fetchActivityById } from "@/redux/reducers/activity";
 
 // Components
 import ActivityModal from "@/components/activity/ActivityModal";
@@ -14,7 +14,7 @@ function Item(props: any) {
   const { user } = useAppSelector((state) => state.auth);
 
   const handleOpenActivity = () => {
-    dispatch(setActivity(props));
+    dispatch(fetchActivityById(props._id));
     setActivityModal(true);
   };
 

@@ -33,7 +33,9 @@ function MyAccount() {
   const [activitiesModal, setActivitiesModal] = useState(false);
   const [visitUser, setVisitUser] = useState(null);
 
-  let pending = activities?.filter((i: any) => i.state === "pending");
+  let pending = activities?.filter(
+    (i: any) => i.state === "pending" || i.state === "ready"
+  );
   let progress: any = activities?.filter((i: any) => i.state === "progress")[0];
   let completed = activities
     ?.filter((i: any) => i.state === "revision")
