@@ -1,21 +1,20 @@
 import axios from "axios";
+import { API_URL } from "@/utils/constants";
 
 export default function HistoryService() {
   function createHistory(data: any) {
-    return axios
-      .post(`http://127.0.0.1:3000/api/history`, data)
-      .then((res) => res.data);
+    return axios.post(`${API_URL}/history`, data).then((res) => res.data);
   }
 
   function getHistoryByDocument(id: string) {
     return axios
-      .get(`http://127.0.0.1:3000/api/history/document/${id}`)
+      .get(`${API_URL}/history/document/${id}`)
       .then((res) => res.data);
   }
 
   function getHistoryByActivity(id: string) {
     return axios
-      .get(`http://127.0.0.1:3000/api/history/activity/${id}`)
+      .get(`${API_URL}/history/activity/${id}`)
       .then((res) => res.data);
   }
 

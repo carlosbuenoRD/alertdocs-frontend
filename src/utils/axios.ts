@@ -4,7 +4,7 @@ import cookies from "js-cookie";
 let user = cookies.get("auth") ? JSON.parse(String(cookies.get("auth"))) : null;
 
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: "https://alertdocs-backend-production-22ef.up.railway.app/",
 });
 
 axiosInstance.interceptors.request.use(
