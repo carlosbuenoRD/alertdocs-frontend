@@ -16,6 +16,7 @@ import {
   ReportHeader,
   UserTable,
 } from "./components";
+import { notifySocket } from "@/sockets";
 
 function Report() {
   const dispatch = useAppDispatch();
@@ -36,6 +37,16 @@ function Report() {
       dispatch(fetchOneReport(REPORT_ID));
     }
   }, [REPORT_ID, TYPE]);
+
+  useEffect(() => {
+    notifySocket.on("loaded data", () => {
+      if (TYPE) {
+        dispatch(fetchReportByArea(REPORT_ID));
+      } else {
+        dispatch(fetchOneReport(REPORT_ID));
+      }
+    });
+  }, []);
 
   return (
     <div className="relative">

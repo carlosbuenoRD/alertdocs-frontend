@@ -19,6 +19,7 @@ import ActivityCard from "@/components/activity/ActivityCard";
 import Countdown from "react-countdown";
 import AreaHeader from "@/components/area/AreaHeader";
 import ActivitiesModal from "@/components/profile/ActivitiesModal";
+import { notifySocket } from "@/sockets";
 
 function MyAccount() {
   const dispatch = useAppDispatch();
@@ -44,6 +45,12 @@ function MyAccount() {
   useEffect(() => {
     dispatch(fetchMyActivities(visitId ? visitId : authUser?._id));
   }, [visitId]);
+
+  useEffect(() => {
+    notifySocket.on("created document", () =>
+      dispatch(fetchMyActivities(visitId ? visitId : authUser?._id))
+    );
+  }, []);
 
   useEffect(() => {
     if (visitId) {

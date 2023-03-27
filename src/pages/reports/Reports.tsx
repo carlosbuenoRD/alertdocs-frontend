@@ -5,6 +5,7 @@ import { ReportsCard, ReportsHeader } from "./components";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { fetchReports } from "@/redux/reducers/reports";
 import Card from "@/components/shared/Card";
+import { notifySocket } from "@/sockets";
 
 function Reports() {
   const dispatch = useAppDispatch();
@@ -13,6 +14,10 @@ function Reports() {
 
   useEffect(() => {
     dispatch(fetchReports());
+  }, []);
+
+  useEffect(() => {
+    notifySocket.on("loaded data", () => dispatch(fetchReports()));
   }, []);
 
   return (

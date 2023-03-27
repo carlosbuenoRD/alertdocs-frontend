@@ -1,5 +1,6 @@
 import { Report } from "@/models";
 import { getReportByArea } from "@/services/reports.service";
+import { notifySocket } from "@/sockets";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -28,6 +29,10 @@ function PercentageCard(props: any) {
 
   useEffect(() => {
     getReport();
+  }, []);
+
+  useEffect(() => {
+    notifySocket.on("loaded data", () => getReport());
   }, []);
 
   const getReport = async () => {

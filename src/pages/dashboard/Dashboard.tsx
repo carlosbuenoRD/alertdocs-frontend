@@ -13,6 +13,7 @@ import { AreaSelection, Powerbi } from "./components";
 import DocumentCarousel from "@/components/documents/DocumentCarousel";
 import { getReportOfTheMonth } from "@/services/reports.service";
 import { Button } from "primereact/button";
+import { notifySocket } from "@/sockets";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -30,6 +31,10 @@ function Dashboard() {
 
   useEffect(() => {
     handleGetAreaOfTheMonth();
+  }, []);
+
+  useEffect(() => {
+    notifySocket.on("loaded data", () => handleGetAreaOfTheMonth());
   }, []);
 
   const handleGetAreaOfTheMonth = async () => {

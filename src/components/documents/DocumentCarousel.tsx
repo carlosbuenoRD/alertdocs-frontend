@@ -27,7 +27,7 @@ const responsiveOptions = [
 function DocumentCarousel() {
   const productTemplate = (product: any) => {
     return (
-      <div className="mr-4" onClick={() => notifyMe()}>
+      <div className="mr-4">
         <DocumentCard border notProgress />
       </div>
     );

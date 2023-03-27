@@ -1,4 +1,5 @@
 import { getMepydStats } from "@/services/reports.service";
+import { notifySocket } from "@/sockets";
 import React, { useEffect, useState } from "react";
 
 // Components
@@ -11,6 +12,10 @@ function MepydStats() {
 
   useEffect(() => {
     setState();
+  }, []);
+
+  useEffect(() => {
+    notifySocket.on("loaded data", () => setState());
   }, []);
 
   const setState = async () => {
