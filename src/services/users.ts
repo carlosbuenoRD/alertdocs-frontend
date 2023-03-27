@@ -25,6 +25,10 @@ export default function userService() {
     return axios.post(`api/users`, data).then((res: any) => res.data);
   }
 
+  function handleGetNotifications(id: string) {
+    return axios.get(`api/users/notifications/${id}`).then((res: any) => res.data.notifications);
+  }
+
   return {
     usersByArea,
     usersByDireccion,
@@ -32,5 +36,6 @@ export default function userService() {
     findAllUsers,
     handleCreateUsers,
     usersById,
+    handleGetNotifications
   };
 }

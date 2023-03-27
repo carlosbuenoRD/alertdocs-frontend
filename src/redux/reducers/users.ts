@@ -7,15 +7,17 @@ const {
   usersByDepartment,
   findAllUsers,
   handleCreateUsers,
+  handleGetNotifications
 } = userService();
 
 const initialState: InitialState = {
   users: [],
+  notifications: '',
   loading: false,
 };
 
 export const getUsersByArea = createAsyncThunk(
-  "auth/getUserByArea",
+  "user/getUserByArea",
   async (id: string, thunkApi) => {
     try {
       thunkApi.dispatch(setLoading(true));
@@ -30,7 +32,7 @@ export const getUsersByArea = createAsyncThunk(
 );
 
 export const getUsersByDireccion = createAsyncThunk(
-  "auth/getUserByDireccion",
+  "user/getUserByDireccion",
   async (id: string, thunkApi) => {
     try {
       thunkApi.dispatch(setLoading(true));
@@ -45,7 +47,7 @@ export const getUsersByDireccion = createAsyncThunk(
 );
 
 export const getUsersByDepartment = createAsyncThunk(
-  "auth/getUserByDepartment",
+  "user/getUserByDepartment",
   async (id: string, thunkApi) => {
     try {
       thunkApi.dispatch(setLoading(true));
@@ -60,7 +62,7 @@ export const getUsersByDepartment = createAsyncThunk(
 );
 
 export const getUsers = createAsyncThunk(
-  "auth/getUsers",
+  "user/getUsers",
   async (_, thunkApi) => {
     try {
       const data = await findAllUsers();
@@ -72,8 +74,24 @@ export const getUsers = createAsyncThunk(
   }
 );
 
+export const getNotifications = createAsyncThunk(
+  "user/getNotifications",
+  async (_, thunkApi) => {
+
+    const state: any = thunkApi.getState()
+
+    try {
+      const data = await handleGetNotifications(state.auth.user._id);
+      thunkApi.dispatch(setNotifications(data));
+      return data;
+    } catch (error) {
+      thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
 export const AddRemoveUser = createAsyncThunk(
-  "auth/add_remove_user",
+  "user/add_remove_user",
   async (data: any, thunkApi) => {
     try {
       const res = await handleCreateUsers(data);
@@ -84,25 +102,29 @@ export const AddRemoveUser = createAsyncThunk(
   }
 );
 
-export const authSlice = createSlice({
+export const userSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
     setUsers: (state, action) => {
       state.users = action.payload;
     },
+    setNotifications: (state, action) => {
+      state.notifications = action.payload;
+    },
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => { },
 });
 
 interface InitialState {
   users: [];
+  notifications: any
   loading: boolean;
 }
 
-export const { setUsers, setLoading } = authSlice.actions;
+export const { setUsers, setLoading, setNotifications } = userSlice.actions;
 
-export default authSlice.reducer;
+export default userSlice.reducer;

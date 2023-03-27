@@ -1,16 +1,16 @@
-import React, { ChangeEvent, EventHandler, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { classNames } from 'primereact/utils'
 import { BreadCrumb } from 'primereact/breadcrumb'
 import { Button } from 'primereact/button'
-import { InputText } from 'primereact/inputtext'
+import { classNames } from 'primereact/utils'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 // import DocumentCard from "../documents/DocumentCard";
-import { ProgressSpinner } from 'primereact/progressspinner'
-import { MultiSelect, MultiSelectProps } from 'primereact/multiselect'
+import { useAppDispatch, useAppSelector } from '@/redux/store'
+import { Badge } from 'primereact/badge'
 import { Calendar, CalendarProps } from 'primereact/calendar'
+import { MultiSelect, MultiSelectProps } from 'primereact/multiselect'
 import Chat from '../Chat'
 import CreateModal from '../documents/CreateModal'
-import { Badge } from 'primereact/badge'
+import { getNotifications } from '@/redux/reducers/users'
 
 const cities = [
   { name: 'New York', code: 'NY' },
@@ -21,6 +21,9 @@ const cities = [
 ]
 
 const AppBreadcrumb = (props: any) => {
+  const dispatch = useAppDispatch()
+  const { notifications } = useAppSelector((state) => state.user)
+
   const [search, setSearch] = useState('')
   const [selectedCities, setSelectedCities] = useState([])
   const [dates2, setDates2] = useState<any>('')
@@ -31,6 +34,10 @@ const AppBreadcrumb = (props: any) => {
   const location = useLocation()
 
   let items
+
+  useEffect(() => {
+    dispatch(getNotifications())
+  }, [])
 
   if (location.pathname === '/dashboard') {
     items = [{ label: 'Dashboard' }]
@@ -191,7 +198,13 @@ const AppBreadcrumb = (props: any) => {
             className='p-overlay-badge layout-rightmenu-button p-button-secondary h-full overflow-visible'
             onClick={props.onRightMenuButtonClick}
           >
-            <Badge value='2' severity='danger' className='text-xs'></Badge>
+            {notifications?.length > 0 && (
+              <Badge
+                value={notifications?.length || 0}
+                severity='danger'
+                className='text-xs'
+              ></Badge>
+            )}
           </Button>
         </span>
 

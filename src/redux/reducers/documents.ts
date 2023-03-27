@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import documentService from "@/services/documents";
 import { toast } from "react-toastify";
 import { toastConfig } from "@/utils/data";
+import { notifySocket } from "@/sockets";
 
 const {
   addDocument,
@@ -127,8 +128,9 @@ export const createdocument = createAsyncThunk(
   "documents/createOne",
   async (document: any, thunkApi) => {
     try {
-      await addDocument(document);
+      let doc = await addDocument(document);
       toast.success("Has creado un documento!", toastConfig);
+      notifySocket.emit('create document', doc)
     } catch (error: any) {
       toast.success(error.message, toastConfig);
       thunkApi.rejectWithValue(error);

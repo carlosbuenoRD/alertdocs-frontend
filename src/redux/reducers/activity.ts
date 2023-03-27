@@ -155,6 +155,7 @@ export const activityslice = createSlice({
             "notify ready activity",
             state.activities[nextUserInActivity].usersId._id
           );
+          notifySocket.emit('load data')
         }
       }
     },
