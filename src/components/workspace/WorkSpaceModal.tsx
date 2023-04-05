@@ -18,17 +18,16 @@ import {
   setHistoryDocumentsList,
 } from "@/redux/reducers/documents";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
+import kanbaSocket from "@/sockets/kanba.socket";
+import { Button } from "primereact/button";
+import { Calendar } from "primereact/calendar";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { TabMenu } from "primereact/tabmenu";
 import { useLocation } from "react-router-dom";
 import DocumentCard from "../documents/DocumentCard";
-import SectionPicker from "./SectionPicker";
-import { Button } from "primereact/button";
-import { Calendar } from "primereact/calendar";
 import { fetchCompletedDocumentsByArea } from "./../../redux/reducers/documents";
-import kanbaSocket from "@/sockets/kanba.socket";
-import { Activity } from "@/models";
+import SectionPicker from "./SectionPicker";
 
 function WorkSpaceModal(props: any) {
   const dispatch = useAppDispatch();
@@ -69,7 +68,6 @@ function WorkSpaceModal(props: any) {
     if (props.fromActivity) {
       dispatch(fetchOneDocument(props.fromActivity));
       dispatch(fetchDocumentActivities(props.fromActivity));
-      console.log(document, "BEFORE LIST");
     }
   }, [props.fromActivity]);
 
@@ -161,9 +159,9 @@ function WorkSpaceModal(props: any) {
           <hr />
 
           <div className={`${history && "grid-col-2"}`}>
-            {documents?.map((i) => (
+            {documents?.map((i, index: number) => (
               <div
-                key={i._id}
+                key={index}
                 onClick={() => handleSelectDocument(i)}
                 className={
                   document._id === i._id

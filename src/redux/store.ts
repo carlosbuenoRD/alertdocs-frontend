@@ -15,6 +15,7 @@ import filesReducer from "./reducers/files";
 import commentsReducer from "./reducers/comments";
 import devolucionReducer from "./reducers/devolucion";
 import reportsReducer from "./reducers/reports";
+import chatsReducer from "./reducers/chats";
 
 // Store
 export const store = configureStore({
@@ -30,6 +31,7 @@ export const store = configureStore({
     comments: commentsReducer,
     devolucion: devolucionReducer,
     reports: reportsReducer,
+    chat: chatsReducer,
   },
 });
 

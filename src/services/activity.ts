@@ -18,6 +18,7 @@ export default function activityService() {
   }
 
   async function getActivitiesByDocument(id: any) {
+    console.log("DOCUMENT ID: ", id);
     const { data } = await axios.get(`${API_URL}/activities/document/${id}`);
     return data;
   }

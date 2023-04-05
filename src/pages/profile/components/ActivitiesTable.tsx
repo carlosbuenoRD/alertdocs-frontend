@@ -7,13 +7,8 @@ import { getEficiencia } from "@/utils/formula";
 // Components
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import ActivityModal from "../activity/ActivityModal";
-
-const checkColor = (eficiencia: number) => {
-  if (eficiencia > 120) return "bg-green-400";
-  if (eficiencia < 120 && eficiencia >= 100) return "bg-yellow-400";
-  if (eficiencia < 100) return "bg-pink-400";
-};
+import ActivityModal from "@/components/activity/ActivityModal";
+import { checkColor } from "@/utils/checkColor";
 
 function ActivitiesTable(props: any) {
   const [activity, setActivity] = useState<any>({});

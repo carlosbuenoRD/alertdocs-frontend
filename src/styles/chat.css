@@ -1,3 +1,7 @@
+body::-webkit-scrollbar {
+    display: none;
+}
+
 .chat_container {
     background-color: white;
     position: fixed;
@@ -29,15 +33,15 @@
     background-color: white;
     width: 100%;
     margin-top: 14px;
-    border: none;
 }
 
 
 .chat_option {
     padding: 14px;
-    border-bottom: 1px solid gray;
+    background: rgba(179, 179, 179, 0.3);
     cursor: pointer;
     font-size: 16px;
+    transition: all 0.3s ease;
 }
 
 .chat_option:last-child {
@@ -55,6 +59,11 @@
 .chat_messages {
     padding: 12px 0;
     overflow: scroll;
+    flex: 1;
+}
+
+.chat_messages form {
+    height: 100%;
 }
 
 .chat_message {

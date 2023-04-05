@@ -3,6 +3,7 @@ import documentService from "@/services/documents";
 import { toast } from "react-toastify";
 import { toastConfig } from "@/utils/data";
 import { notifySocket } from "@/sockets";
+import { createGroupChat } from "@/services/chats.service";
 
 const {
   addDocument,
@@ -130,7 +131,11 @@ export const createdocument = createAsyncThunk(
     try {
       let doc = await addDocument(document);
       toast.success("Has creado un documento!", toastConfig);
-      notifySocket.emit('create document', doc)
+      notifySocket.emit("create document", doc);
+      await createGroupChat({
+        name: document.description,
+        users: document.participants,
+      });
     } catch (error: any) {
       toast.success(error.message, toastConfig);
       thunkApi.rejectWithValue(error);

@@ -5,6 +5,12 @@ export default function userService() {
     return axios.get(`api/users/${id}`).then((res: any) => res.data);
   }
 
+  function userBySearch(search: string) {
+    return axios
+      .get(`api/users/find/search?search=${search}`)
+      .then((res: any) => res.data);
+  }
+
   function usersByArea(id: string) {
     return axios.get(`api/users/area/${id}`).then((res: any) => res.data);
   }
@@ -26,16 +32,19 @@ export default function userService() {
   }
 
   function handleGetNotifications(id: string) {
-    return axios.get(`api/users/notifications/${id}`).then((res: any) => res.data.notifications);
+    return axios
+      .get(`api/users/notifications/${id}`)
+      .then((res: any) => res.data.notifications);
   }
 
   return {
+    userBySearch,
     usersByArea,
     usersByDireccion,
     usersByDepartment,
     findAllUsers,
     handleCreateUsers,
     usersById,
-    handleGetNotifications
+    handleGetNotifications,
   };
 }

@@ -1,48 +1,56 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
 // Components
-import { Dialog } from 'primereact/dialog'
+import { Dialog } from "primereact/dialog";
 
-import { useAppDispatch, useAppSelector } from '@/redux/store'
-import WorkSpaceModal from '../workspace/WorkSpaceModal'
-import ActivityHeader from './ActivityHeader'
-import SectionPicker from './SectionPicker'
-import { fetchActivityById } from '@/redux/reducers/activity'
-import { notifySocket } from '@/sockets'
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import WorkSpaceModal from "../workspace/WorkSpaceModal";
+import ActivityHeader from "./ActivityHeader";
+import SectionPicker from "./SectionPicker";
+import { fetchActivityById } from "@/redux/reducers/activity";
+import { notifySocket } from "@/sockets";
+import { fetchOneDocument } from "@/redux/reducers/documents";
 
 function ActivityModal(props: any) {
-  const dispatch = useAppDispatch()
-  const [workSpace, setWorkSpace] = useState(false)
+  const dispatch = useAppDispatch();
+  const [workSpace, setWorkSpace] = useState(false);
 
-  const [activeIndex, setActiveIndex] = useState(0)
-  const { activity } = useAppSelector((state) => state.activity)
+  const [activeIndex, setActiveIndex] = useState(0);
+  const { activity } = useAppSelector((state) => state.activity);
 
   useEffect(() => {
     if (props._id) {
-      dispatch(fetchActivityById(props._id))
+      dispatch(fetchActivityById(props._id));
     }
-  }, [props._id])
+  }, [props._id]);
 
   useEffect(() => {
-    notifySocket.on('devolucion ended', () => {
-      dispatch(fetchActivityById(activity._id))
-    })
-  })
+    if (!props.noDocument) {
+      console.log("in");
+      dispatch(fetchOneDocument(props.documentId || activity.documentId));
+    }
+  }, [props.noDocument, props.documentId, activity.documentId]);
+
+  useEffect(() => {
+    notifySocket.on("devolucion ended", () => {
+      dispatch(fetchActivityById(activity._id));
+    });
+  });
 
   return (
     <Dialog
       header={`#${activity?.step} ---  ${activity?.usersId?.name} ---  ${activity?.description}`}
-      headerStyle={{ fontSize: '4rem' }}
+      headerStyle={{ fontSize: "4rem" }}
       visible={props.visible}
-      contentClassName='pb-3'
+      contentClassName="pb-3"
       onHide={props.onHide}
-      style={{ width: '70vw' }}
+      style={{ width: "70vw" }}
       footer={
         !props.noDocument ? (
-          <div className='flex justify-content-center w-full border-top-1 border-100'>
+          <div className="flex justify-content-center w-full border-top-1 border-100">
             <button
               onClick={() => setWorkSpace(true)}
-              className='p-button w-full flex justify-content-center'
+              className="p-button w-full flex justify-content-center"
             >
               Ver documento
             </button>
@@ -50,7 +58,7 @@ function ActivityModal(props: any) {
         ) : null
       }
     >
-      <div className='card shadow-1 mb-2'>
+      <div className="card shadow-1 mb-2">
         <ActivityHeader
           active={activeIndex}
           setActive={setActiveIndex}
@@ -58,7 +66,7 @@ function ActivityModal(props: any) {
         />
       </div>
 
-      <div className='card shadow-1 mb-0'>
+      <div className="card shadow-1 mb-0">
         <SectionPicker active={activeIndex} />
       </div>
       {workSpace && (
@@ -69,7 +77,7 @@ function ActivityModal(props: any) {
         />
       )}
     </Dialog>
-  )
+  );
 }
 
-export default ActivityModal
+export default ActivityModal;

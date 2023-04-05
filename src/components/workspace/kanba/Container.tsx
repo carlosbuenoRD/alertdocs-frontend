@@ -13,18 +13,20 @@ function KanbaContainer(props: any) {
   const dispatch = useAppDispatch();
 
   const { activities } = useAppSelector((state) => state.activity);
-  const { user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    kanbaSocket.emit("setup", user?._id);
-    kanbaSocket.on("changed activity", (activity: Activity) =>
-      dispatch(fetchDocumentActivities(activity.documentId))
+    kanbaSocket.on("changed activity", (document: string) =>
+      dispatch(fetchDocumentActivities(document))
     );
   }, []);
 
+  useEffect(() => {
+    console.log("Activities: ", activities);
+  }, [activities]);
+
   return (
     <div className="">
-      {activities.length > 0 && (
+      {activities?.length > 0 && (
         <>
           {props.multiple ? (
             <Accordion>

@@ -7,6 +7,11 @@ export default function devolucionService() {
       .get(`${API_URL}/devoluciones/activity/${id}`)
       .then((res) => res.data);
   }
+  function getDevolucionesByUser(id: string) {
+    return axios
+      .get(`${API_URL}/devoluciones/user/${id}`)
+      .then((res) => res.data);
+  }
   function getDevolucionesByArea(id: string) {
     return axios
       .get(`${API_URL}/devoluciones/area/${id}`)
@@ -32,9 +37,7 @@ export default function devolucionService() {
   }
 
   function createDevolucion(info: any) {
-    return axios
-      .post(`${API_URL}/devoluciones`, info)
-      .then((res) => res.data);
+    return axios.post(`${API_URL}/devoluciones`, info).then((res) => res.data);
   }
 
   function endDevolucion(id: string) {
@@ -44,6 +47,7 @@ export default function devolucionService() {
   }
 
   return {
+    getDevolucionesByUser,
     getDevolucionesByActivity,
     getDevolucionesByArea,
     getDevolucionesByDireccion,

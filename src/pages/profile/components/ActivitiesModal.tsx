@@ -6,18 +6,17 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { MultiSelect } from "primereact/multiselect";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import Card from "../shared/Card";
+import Card from "../../../components/shared/Card";
 import { dateFormat } from "@/utils/dateFormat";
-import StopWatch from "../stopWatch/StopWatch";
+import StopWatch from "../../../components/stopWatch/StopWatch";
 import { getEficiencia } from "@/utils/formula";
 import { Calendar } from "primereact/calendar";
 import { CalendarProps } from "primereact/calendar";
 import ActivitiesTable from "./ActivitiesTable";
+import { ProfileState } from "../context/ProfileContext";
 
 function ActivitiesModal(props: any) {
-  const dispatch = useAppDispatch();
-
-  const { activities } = useAppSelector((state) => state.activity);
+  const { activities } = ProfileState();
 
   const [date, setDate] = useState<any>("");
 

@@ -90,14 +90,12 @@ export const changeActivity = createAsyncThunk(
   async (info: any, thunkApi) => {
     try {
       const state: any = thunkApi.getState();
-
       await changeState(info.id, info.state);
       thunkApi.dispatch(updateActivityState(info.state));
-      thunkApi.dispatch(fetchMyActivities(state.auth.user._id));
       thunkApi.dispatch(
         fetchDocumentActivities(state.activity.activity.documentId)
       );
-      // thunkApi.dispatch(addActivityHistory(info.state));
+      kanbaSocket.emit("change activity", state.document.document);
     } catch (error) {
       thunkApi.rejectWithValue(error);
     }
@@ -126,6 +124,7 @@ export const activityslice = createSlice({
   initialState: initialState,
   reducers: {
     setActivity: (state, action) => {
+      console.log("ACTION", action);
       state.activity = action.payload;
     },
     clearActivities: (state, action) => {
@@ -136,12 +135,12 @@ export const activityslice = createSlice({
         ...state.activity,
         state: action.payload.state,
         startedAt: Date.now(),
+        // endedAt: action.payload.state === "revision" ? Date.now() : undefined,
       };
 
       let nextUserInActivity =
         state.activities.findIndex((i) => i._id === state.activity._id) + 1;
 
-      kanbaSocket.emit("change activity", state.activity);
       if (state.activities[nextUserInActivity]) {
         if (action.payload.state === "progress") {
           notifySocket.emit(
@@ -155,7 +154,7 @@ export const activityslice = createSlice({
             "notify ready activity",
             state.activities[nextUserInActivity].usersId._id
           );
-          notifySocket.emit('load data')
+          notifySocket.emit("load data");
         }
       }
     },

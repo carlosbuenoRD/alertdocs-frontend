@@ -6,6 +6,7 @@ import { fetchActivityById, fetchDocumentActivities } from "./activity";
 const {
   createDevolucion,
   getDevolucionesByActivity,
+  getDevolucionesByUser,
   endDevolucion,
   getDevolucionesByArea,
   getDevolucionesByDepartment,
@@ -14,6 +15,7 @@ const {
 
 const initialState: InitialState = {
   devoluciones: [],
+  userDevoluciones: [],
   devolucionesModal: [],
   devolucion: {},
   loading: false,
@@ -26,12 +28,12 @@ export const postDevolucion = createAsyncThunk(
 
     try {
       let devolucion = await createDevolucion(info);
-      console.log(devolucion)
+      console.log(devolucion);
       thunkApi.dispatch(fetchActivityById(state.activity.activity._id));
       thunkApi.dispatch(
         fetchDocumentActivities(state.activity.activity.documentId)
       );
-      console.log(devolucion.userTo)
+      console.log(devolucion.userTo);
       notifySocket.emit("notify devolucion created", devolucion.userTo);
     } catch (error) {
       thunkApi.rejectWithValue(error);
@@ -43,7 +45,6 @@ export const endDevoluciones = createAsyncThunk(
   "devolucion/end",
   async (id: string, thunkApi) => {
     const state: any = thunkApi.getState();
-    console.log(state)
 
     try {
       await endDevolucion(id);
@@ -53,8 +54,11 @@ export const endDevoluciones = createAsyncThunk(
         fetchDocumentActivities(state.activity.activity.documentId)
       );
 
-
-      notifySocket.emit("notify devolucion ended", state.devolucion.devoluciones.find((i: any) => i._id === id).userFrom._id);
+      notifySocket.emit(
+        "notify devolucion ended",
+        state.devolucion.devoluciones.find((i: any) => i._id === id).userFrom
+          ._id
+      );
     } catch (error) {
       thunkApi.rejectWithValue(error);
     }
@@ -67,8 +71,20 @@ export const fetchDevolucionByActivity = createAsyncThunk(
     const state: any = thunkApi.getState();
     try {
       const data = await getDevolucionesByActivity(state.activity.activity._id);
-      console.log(data)
       thunkApi.dispatch(setDevoluciones(data));
+    } catch (error) {
+      thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchDevolucionByUser = createAsyncThunk(
+  "devolucion/byUser",
+  async (_, thunkApi) => {
+    const state: any = thunkApi.getState();
+    try {
+      const data = await getDevolucionesByUser(state.auth.user._id);
+      thunkApi.dispatch(setUserDevoluciones(data));
     } catch (error) {
       thunkApi.rejectWithValue(error);
     }
@@ -121,34 +137,24 @@ export const devolucionSlice = createSlice({
     setDevoluciones: (state, action) => {
       state.devoluciones = action.payload;
     },
+    setUserDevoluciones: (state, action) => {
+      state.userDevoluciones = action.payload;
+    },
     setDevolucionesModal: (state, action) => {
       state.devolucionesModal = action.payload;
     },
-  },
-  extraReducers: (builder) => {
-    // // BY ACTIVITY
-    // builder.addCase(fetchDevolucionByActivity.pending, (state) => {
-    //   state.loading = true;
-    // });
-    // builder.addCase(fetchDevolucionByActivity.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   console.log(action.payload);
-    //   state.devoluciones = action.payload;
-    // });
-    // builder.addCase(fetchDevolucionByActivity.rejected, (state, action) => {
-    //   state.loading = false;
-    // });
   },
 });
 
 interface InitialState {
   devoluciones: any[];
+  userDevoluciones: any[];
   devolucionesModal: [];
   devolucion: {};
   loading: boolean;
 }
 
-export const { setDevoluciones, setDevolucionesModal } =
+export const { setDevoluciones, setDevolucionesModal, setUserDevoluciones } =
   devolucionSlice.actions;
 
 export default devolucionSlice.reducer;
