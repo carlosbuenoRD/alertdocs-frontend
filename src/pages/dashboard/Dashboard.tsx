@@ -14,12 +14,14 @@ import DocumentCarousel from "@/components/documents/DocumentCarousel";
 import { getReportOfTheMonth } from "@/services/reports.service";
 import { Button } from "primereact/button";
 import { notifySocket } from "@/sockets";
+import BarChart from "@/components/charts/BarVertical";
 
 function Dashboard() {
   const navigate = useNavigate();
 
   const [areaOfTheMonth, setAreaOfTheMonth] = useState<Report | any>({});
   const [selectModal, setSelectModal] = useState(false);
+  const [graph, setGraph] = useState("bar");
 
   const [selectedAreas, setSelectedAreas] = useState<any[]>(
     localStorage.getItem("dashboard_areas")
@@ -64,8 +66,27 @@ function Dashboard() {
       </div>
 
       <div className="grid-3-1 mt-4">
-        <Card title="Ultimos 6 meses" height="fit">
-          <LineChart />
+        <Card
+          title="Ultimos 6 meses"
+          height="fit"
+          headerButtons={
+            <div className="flex">
+              <Button
+                className="border-circle  border-none mr-2"
+                icon="pi pi-chart-line"
+                aria-label="Search"
+                onClick={() => setGraph("line")}
+              />
+              <Button
+                className="border-circle  border-none"
+                icon="pi pi-chart-bar"
+                aria-label="Search"
+                onClick={() => setGraph("bar")}
+              />
+            </div>
+          }
+        >
+          {graph === "bar" ? <BarChart /> : <LineChart />}
         </Card>
         <Card title="Area del mes" height="">
           <PercentageCircle

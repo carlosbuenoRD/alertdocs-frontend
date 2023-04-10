@@ -7,12 +7,12 @@ const {
   usersByDepartment,
   findAllUsers,
   handleCreateUsers,
-  handleGetNotifications
+  handleGetNotifications,
 } = userService();
 
 const initialState: InitialState = {
   users: [],
-  notifications: '',
+  notifications: [],
   loading: false,
 };
 
@@ -77,8 +77,7 @@ export const getUsers = createAsyncThunk(
 export const getNotifications = createAsyncThunk(
   "user/getNotifications",
   async (_, thunkApi) => {
-
-    const state: any = thunkApi.getState()
+    const state: any = thunkApi.getState();
 
     try {
       const data = await handleGetNotifications(state.auth.user._id);
@@ -116,12 +115,12 @@ export const userSlice = createSlice({
       state.loading = action.payload;
     },
   },
-  extraReducers: (builder) => { },
+  extraReducers: (builder) => {},
 });
 
 interface InitialState {
   users: [];
-  notifications: any
+  notifications: any[];
   loading: boolean;
 }
 

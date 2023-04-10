@@ -129,10 +129,7 @@ function WorkSpaceModal(props: any) {
             !history ? "w-28rem" : "w-12"
           } transition-all transition-duration-500 card border-right-1 border-300`}
         >
-          <div
-            className="flex justify-content-between
-          "
-          >
+          <div className="flex justify-content-between">
             <span className="p-input-icon-left p-float-label w-11 mr-2">
               <i className="pi pi-search" />
               <InputText

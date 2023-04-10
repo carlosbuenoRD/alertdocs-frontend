@@ -28,6 +28,7 @@ function CreateModal(props: any) {
   const [transcode, setTranscode] = useState("");
   const [libramiento, setLibramiento] = useState("");
   const [description, setDescription] = useState("");
+  const [selectedDescription, setSelectedDescription] = useState("");
   const [filteredCountries, setFilteredCountries] = useState<any>(null);
   const [flujo, setFlujo] = useState<any>("");
 
@@ -76,7 +77,8 @@ function CreateModal(props: any) {
         transcode,
         libramiento,
         participants,
-        description,
+        description: flujoState.description,
+        subprocess: selectedDescription,
         flujoId: flujoState._id,
         activities: flujoState.activitiesSchema,
         areas,
@@ -146,28 +148,32 @@ function CreateModal(props: any) {
             />
           </Card>
 
-          <Card title="Descripcion" height="" className="relative">
+          <Card title="Seleccione el flujo" height="" className="relative">
             <SectionStep number="2" />
-            <InputText
-              id="email2"
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
+            <div className="formgrid grid">
+              <div className="field col">
+                <Dropdown
+                  filter
+                  value={flujo}
+                  onChange={(e: any) => setFlujo(e.target.value)}
+                  options={flujos}
+                  optionLabel="description"
+                  optionValue="_id"
+                />
+              </div>
+            </div>
           </Card>
         </div>
       </div>
-      <Card title="Seleccione el flujo" height="" className="relative p-fluid">
+      <Card title="Descripcion" height="" className="relative p-fluid">
         <SectionStep number="3" />
         <div className="formgrid grid">
           <div className="field col">
             <Dropdown
               filter
-              value={flujo}
-              onChange={(e: any) => setFlujo(e.target.value)}
-              options={flujos}
-              optionLabel="description"
-              optionValue="_id"
+              value={selectedDescription}
+              onChange={(e: any) => setSelectedDescription(e.target.value)}
+              options={flujoState.descriptions || []}
             />
           </div>
         </div>

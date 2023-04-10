@@ -1,6 +1,8 @@
-import React from "react";
+import React, { ReactNode, ReactElement } from "react";
 
 function Card(props: Props) {
+  console.log(props.headerButtons && props.headerButtons);
+
   return (
     <div
       className={`card w-full h-${props.height} shadow-1  ${
@@ -12,9 +14,12 @@ function Card(props: Props) {
     >
       {props.title && (
         <>
-          <h6 className="uppercase text-sm text-overflow-ellipsis white-space-nowrap overflow-hidden w-full">
-            {props.title}
-          </h6>
+          <div className="flex justify-content-between align-items-center">
+            <h6 className="uppercase text-sm text-overflow-ellipsis white-space-nowrap overflow-hidden w-full mb-0">
+              {props.title}
+            </h6>
+            {props.headerButtons && props.headerButtons}
+          </div>
           <hr />
         </>
       )}
@@ -29,6 +34,7 @@ interface Props {
   hover?: boolean;
   className?: string;
   children?: any;
+  headerButtons?: ReactElement;
   onClick?: any;
 }
 

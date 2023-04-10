@@ -64,7 +64,7 @@ const LineChart = memo(function LineChart(props: any) {
     let basicOptions = {
       maintainAspectRatio: false,
       aspectRatio: props.aspectRatio || 1.12,
-      animation: false,
+      animation: true,
       plugins: {
         legend: {
           display: false,

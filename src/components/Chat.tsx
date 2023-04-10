@@ -12,26 +12,31 @@ import {
 } from "@/redux/reducers/chats";
 
 import { toastConfig } from "@/utils/data";
-
-// Components
-import userService from "@/services/users";
-import { dateFormat } from "@/utils/dateFormat";
 import {
   getSender,
   isSameSenderMargin,
   isSameUser,
 } from "@/utils/messageUtils";
+
+// Components
+import userService from "@/services/users";
+import { dateFormat } from "@/utils/dateFormat";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { toast } from "react-toastify";
 import chatSocket from "./../sockets/chat.socket";
+import { setNotifications } from "@/redux/reducers/users";
+import { notifyMe } from "@/services/Notify";
 
 const { userBySearch } = userService();
+
+let selectedChatCompare: any;
 
 function Chat(props: any) {
   const dispatch = useAppDispatch();
 
   const { chat, chats, messages } = useAppSelector((state) => state.chat);
+  const { notifications } = useAppSelector((state) => state.user);
   const { user } = useAppSelector((state) => state.auth);
 
   const [content, setContent] = useState("");
@@ -48,17 +53,33 @@ function Chat(props: any) {
   }, [user]);
 
   useEffect(() => {
-    chatSocket.on("message recieved", (message) => {
-      dispatch(setMessages([...messages, message]));
-      dispatch(getChats());
+    chatSocket.on("message recieved", (message: any) => {
+      if (
+        !selectedChatCompare ||
+        selectedChatCompare?._id !== message.chat._id
+      ) {
+        dispatch(setNotifications([message, ...notifications]));
+        dispatch(getChats());
+        if (!message.chat.isGroupChat) {
+          notifyMe("Has recibido un mensaje!");
+          return;
+        }
+        return;
+      } else {
+        dispatch(setMessages([...messages, message]));
+        dispatch(getChats());
+      }
     });
     chatSocket.on("typing", () => setIsTyping(true));
     chatSocket.on("stop typing", () => setIsTyping(false));
   });
 
   useEffect(() => {
+    console.log("SUPER CHAT", chat);
+
     if (chat) {
       dispatch(getChatMessages());
+      selectedChatCompare = chat;
       chatSocket.emit("join chat", chat?._id);
     }
   }, [chat]);
@@ -127,6 +148,11 @@ function Chat(props: any) {
     chatMessages?.scroll(0, chatMessages.scrollHeight);
   };
 
+  const handleClose = () => {
+    dispatch(setChat(null));
+    props.onClose();
+  };
+
   return (
     <div className={`chat_container ${props.open && "active"}`}>
       <div className="chat_users py-6">
@@ -150,31 +176,33 @@ function Chat(props: any) {
           </ul>
         )}
         <ul>
-          {chats?.map((chat) => (
+          {chats?.map((chatItem) => (
             <li
-              key={chat._id}
+              key={chatItem._id}
               className={`chat_option mb-2 border-round-lg ${
-                chat.isGroupChat
+                chatItem.isGroupChat
                   ? "hover:bg-green-100 hover:text-green-800"
                   : "hover:bg-blue-100 hover:text-blue-500"
-              } `}
-              onClick={() => dispatch(setChat(chat))}
+              } ${chatItem._id === chat?._id ? "bg-blue-100" : ""}`}
+              onClick={() => dispatch(setChat(chatItem))}
             >
               <div className="mb-3 flex align-items-center justify-content-between">
                 <p className="font-medium text-sm m-0">
-                  {chat.isGroupChat
-                    ? chat.chatName
-                    : getSender(user, chat.users)}
+                  {chatItem.isGroupChat
+                    ? chatItem.chatName
+                    : getSender(user, chatItem.users)}
                 </p>
-                {chat.isGroupChat && (
+                {chatItem.isGroupChat && (
                   <div className="h-1rem w-1rem bg-green-300 border-circle"></div>
                 )}
               </div>
-              {chat.latestMessage && (
+              {chatItem.latestMessage && (
                 <div className="flex align-items-center justify-content-between">
-                  <span className="text-sm">{chat.latestMessage?.content}</span>
                   <span className="text-sm">
-                    {dateFormat(chat.latestMessage?.createdAt, "time")}
+                    {chatItem.latestMessage?.content}
+                  </span>
+                  <span className="text-sm">
+                    {dateFormat(chatItem.latestMessage?.createdAt, "time")}
                   </span>
                 </div>
               )}
@@ -190,7 +218,7 @@ function Chat(props: any) {
               icon="pi pi-times"
               className="p-button-rounded p-button-danger"
               aria-label="Cancel"
-              onClick={props.onClose}
+              onClick={handleClose}
             />
             <img
               src="assets/images/undraw_begin_chat.svg"
@@ -215,7 +243,7 @@ function Chat(props: any) {
                 icon="pi pi-times"
                 className="p-button-rounded p-button-danger"
                 aria-label="Cancel"
-                onClick={props.onClose}
+                onClick={handleClose}
               />
             </div>
             <div className="chat_messages" id="chat_messages">

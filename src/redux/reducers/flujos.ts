@@ -132,6 +132,7 @@ interface InitialState {
     _id?: string;
     activitiesSchema?: [];
     description?: string;
+    descriptions?: string[];
     participants?: [];
     areas?: [];
   };

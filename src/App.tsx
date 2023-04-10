@@ -41,6 +41,7 @@ import { notifyMe } from "./services/Notify";
 import { getNotifications } from "./redux/reducers/users";
 import { toast } from "react-toastify";
 import { kanbaSocket } from "./sockets";
+import { getChats } from "./redux/reducers/chats";
 
 function App(props: any) {
   const dispatch = useAppDispatch();
@@ -125,6 +126,7 @@ function App(props: any) {
         notifyMe(message);
         toast(message, toastConfig);
         dispatch(getNotifications());
+        dispatch(getChats());
       });
     }
   }, [user]);

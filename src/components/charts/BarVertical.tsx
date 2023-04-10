@@ -2,6 +2,37 @@ import React, { useState, memo } from "react";
 import { Chart } from "primereact/chart";
 import { barData } from "./../../utils/data";
 
+const long = {
+  labels: ["January", "February", "March", "April", "May", "June", "July"],
+  datasets: [
+    {
+      label: "DIRECCIÓN FINANCIERA",
+      data: [65, 59, 80, 81, 56, 55, 40],
+      fill: true,
+      borderColor: "#6184AA",
+      backgroundColor: "#6184AA",
+      tension: 0.4,
+    },
+    {
+      label: "DIRECCIÓN ADMINISTRATIVA",
+      data: [28, 48, 40, 19, 86, 27, 90],
+      fill: true,
+      borderColor: "#FDD87D",
+      backgroundColor: "#FDD87D",
+      tension: 0.4,
+    },
+
+    {
+      label: "RECURSOS HUMANO",
+      data: [10, 80, 40, 110, 69, 35, 29],
+      fill: true,
+      borderColor: "#90CD93",
+      backgroundColor: "#90CD93",
+      tension: 0.4,
+    },
+  ],
+};
+
 const BarChart = memo(function BarVertical(props: any) {
   const getLightTheme = () => {
     let basicOptions = {
@@ -34,142 +65,13 @@ const BarChart = memo(function BarVertical(props: any) {
       },
     };
 
-    let horizontalOptions = {
-      indexAxis: "y",
-      maintainAspectRatio: false,
-      aspectRatio: 0.8,
-      plugins: {
-        legend: {
-          labels: {
-            color: "#495057",
-          },
-        },
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: "#495057",
-          },
-          grid: {
-            color: "transparent",
-          },
-        },
-        y: {
-          ticks: {
-            color: "#495057",
-          },
-          grid: {
-            color: "transparent",
-          },
-        },
-      },
-    };
-
-    let stackedOptions = {
-      maintainAspectRatio: false,
-      aspectRatio: 0.8,
-      plugins: {
-        tooltips: {
-          mode: "index",
-          intersect: false,
-        },
-        legend: {
-          labels: {
-            color: "#495057",
-          },
-        },
-      },
-      scales: {
-        x: {
-          stacked: true,
-          ticks: {
-            color: "#495057",
-          },
-          grid: {
-            color: "#ebedef",
-          },
-        },
-        y: {
-          stacked: true,
-          ticks: {
-            color: "#495057",
-          },
-          grid: {
-            color: "#ebedef",
-          },
-        },
-      },
-    };
-
-    let multiAxisOptions = {
-      maintainAspectRatio: false,
-      aspectRatio: 0.8,
-      plugins: {
-        legend: {
-          labels: {
-            color: "#495057",
-          },
-        },
-        tooltips: {
-          mode: "index",
-          intersect: true,
-        },
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: "#495057",
-          },
-          grid: {
-            color: "#ebedef",
-          },
-        },
-        y: {
-          type: "linear",
-          display: true,
-          position: "left",
-          ticks: {
-            min: 0,
-            max: 100,
-            color: "#495057",
-          },
-          grid: {
-            color: "#ebedef",
-          },
-        },
-        y1: {
-          type: "linear",
-          display: true,
-          position: "right",
-          grid: {
-            drawOnChartArea: false,
-            color: "#ebedef",
-          },
-          ticks: {
-            min: 0,
-            max: 100,
-            color: "#495057",
-          },
-        },
-      },
-    };
-
     return {
       basicOptions,
-      horizontalOptions,
-      stackedOptions,
-      multiAxisOptions,
     };
   };
 
-  const { basicOptions, horizontalOptions, multiAxisOptions, stackedOptions } =
-    getLightTheme();
-  return (
-    <div className="card-dark">
-      <h5>{props.title}</h5>
-      <Chart type="bar" data={barData} options={basicOptions} />
-    </div>
-  );
+  const { basicOptions } = getLightTheme();
+  return <Chart type="bar" data={long} options={basicOptions} />;
 });
 
 export default BarChart;

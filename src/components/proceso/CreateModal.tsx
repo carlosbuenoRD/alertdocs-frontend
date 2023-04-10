@@ -20,6 +20,7 @@ import {
   getUsersByDireccion,
   getUsersByDepartment,
 } from "@/redux/reducers/users";
+import { Chip } from "primereact/chip";
 import DetailTable from "./DetailTable";
 import SectionStep from "../shared/SectionStep";
 import Card from "@/components/shared/Card";
@@ -38,6 +39,8 @@ function CreateModal(props: any) {
   const [step, setStep] = useState<any>(1);
   const [owner, setOwner] = useState<boolean>(false);
   const [description, setDescription] = useState("");
+  const [descriptions, setDescriptions] = useState<string[]>([]);
+  const [subprocess, setSubprocess] = useState<string>("");
   const [area, setArea] = useState("");
   const [department, setDepartment] = useState("");
   const [direccion, setDireccion] = useState("");
@@ -94,6 +97,7 @@ function CreateModal(props: any) {
     dispatch(
       createFlujo({
         description,
+        descriptions,
         activitiesSchema: activities.map((i: any) => ({
           ...i,
           usersId: i.usersId.map((u: any) => u._id),
@@ -158,6 +162,11 @@ function CreateModal(props: any) {
     }
   }, [department]);
 
+  const handleAddDescription = () => {
+    setDescriptions([...descriptions, subprocess]);
+    setSubprocess("");
+  };
+
   return (
     <Dialog
       header="Crear nuevo flujo"
@@ -172,7 +181,7 @@ function CreateModal(props: any) {
         <div className="p-fluid">
           <div className="formgrid grid">
             <div className="field col-6">
-              <label htmlFor="name2">Descripcion de flujo</label>
+              <label htmlFor="name2">Nombre de flujo</label>
               <InputText
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -191,10 +200,49 @@ function CreateModal(props: any) {
               />
             </div>
           </div>
+          <div className="p-fluid">
+            <div className="formgrid grid">
+              <div className="field col-10">
+                <label htmlFor="name2">Descripciones del flujo</label>
+                <InputText
+                  value={subprocess}
+                  onChange={(e) => setSubprocess(e.target.value)}
+                  aria-label="Countries"
+                />
+              </div>
+              <div className="field col-2 align-self-end">
+                <Button className="inline" onClick={handleAddDescription}>
+                  Añadir
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className="text-center p-3 bg-white shadow-1 border-round-lg mt-2">
+            {descriptions.length === 0 ? (
+              <p className="text-sm uppercase font-medium">
+                Agrega un subproceso del flujo
+              </p>
+            ) : (
+              <>
+                {descriptions.map((d) => (
+                  <Chip
+                    className="m-1"
+                    label={d}
+                    removable
+                    onRemove={() => {
+                      setDescriptions((prev: any) =>
+                        prev.filter((item: any) => item !== d)
+                      );
+                    }}
+                  />
+                ))}
+              </>
+            )}
+          </div>
         </div>
       </Card>
       <Card title={"Actividad"} height="" className="relative">
-        <SectionStep number={2} />
+        <SectionStep number={3} />
         <div className="p-fluid">
           <div className="formgrid grid">
             <div className="field col">
@@ -283,7 +331,7 @@ function CreateModal(props: any) {
         </div>
       </Card>
       <Card title="Revision" height="" className="relative">
-        <SectionStep number={3} />
+        <SectionStep number={4} />
         <DetailTable activities={activities} />
       </Card>
     </Dialog>
